@@ -1,0 +1,14 @@
+{
+  "output": "/path dove si vuole salvare/complexity-report-ordergateway.md",
+  "format": "markdown",
+  "allfiles": false,
+  "ignoreerrors": true,
+  "filepattern": "\\.js$",
+  "excludepattern": "(node_modules)",
+  "silent": false,
+  "logicalor": false,
+  "switchcase": false,
+  "forin": false,
+  "trycatch": false,
+  "newmi": false
+}

@@ -1,0 +1,43 @@
+{
+  "name": "order-gateway",
+  "version": "0.1.0",
+  "description": "Bubble & Eat backend.",
+  "main": "index.js",
+  "scripts": {
+    "admin": "node test-clients/admin.js",
+    "client": "node test-clients/client.js",
+    "compile": "echo \"Order Gateway does not need to compile\" && exit 0",
+    "cook": "node test-clients/cook.js",
+    "coverage": "nyc --reporter=html --reporter=text --reporter=lcov mocha src --recursive",
+    "lint": "eslint src/",
+    "start": "node index.js",
+    "test": "mocha src --recursive"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://tommasorosso1@bitbucket.org/tommasorosso1/order-gateway.git"
+  },
+  "author": "Or-Bit",
+  "license": "MIT",
+  "homepage": "https://bitbucket.org/tommasorosso1/order-gateway#readme",
+  "dependencies": {
+    "monolith-backend": "^0.5.0",
+    "redux": "^3.6.0",
+    "socket.io-client": "^2.0.1"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-datetime": "^1.4.1",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-chai-friendly": "^0.3.6",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.3",
+    "jsinspect": "^0.12.4",
+    "mocha": "^3.2.0",
+    "nyc": "^10.2.0",
+    "sinon": "^2.3.2",
+    "sinon-chai": "^2.10.0"
+  }
+}

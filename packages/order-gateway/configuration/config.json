@@ -1,0 +1,12 @@
+{
+  "production" : {
+    "port" : 3333,
+    "url" : "http://localhost",
+    "mongoUrl" : "mongodb://localhost:27017/test"
+  },
+  "test" : {
+    "port" : 3343,
+    "url" : "http://localhost",
+    "mongoUrl" : "mongodb://localhost:27017/test"
+  }
+}

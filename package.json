@@ -1,0 +1,28 @@
+{
+  "name": "bubble-and-eat",
+  "version": "1.0.0",
+  "description": "Bubble & Eat - Monolith framework demo",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "clean": "lerna clean --yes",
+    "coverage": "lerna run coverage",
+    "compile": "lerna run compile",
+    "lerna": "lerna",
+    "init": "lerna init",
+    "lint": "lerna run lint",
+    "postinstall": "lerna bootstrap",
+    "test": "lerna run test"
+  },
+  "keywords": [
+    "monolith-framework",
+    "eat",
+    "food"
+  ],
+  "author": "Or-Bit",
+  "license": "MIT",
+  "devDependencies": {
+    "lerna": "^2.0.0-rc.5"
+  }
+}

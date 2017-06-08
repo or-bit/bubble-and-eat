@@ -1,0 +1,17 @@
+{
+  "extends": "airbnb",
+  "rules": {
+    "func-names": ["error", "never"],
+    "linebreak-style": 0,
+    "max-len": ["error", { "ignoreComments": true }],
+    "no-unused-expressions": 0,
+    "chai-friendly/no-unused-expressions": 2,
+    "no-underscore-dangle": ["error", { "allow": ["_id"] }]
+  },
+  "plugins": [
+    "chai-friendly"
+  ],
+  "env": {
+    "mocha":true
+  }
+}
