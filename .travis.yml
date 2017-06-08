@@ -21,3 +21,5 @@ after_success:
   - ./scripts/merge-coverage-reports.sh
   - codecov --file coverage/lcov.info --disable search
 
+notifications:
+    slack: or-bitteam:b9eHJWbLycKMhMtI1Nyd7NHe
