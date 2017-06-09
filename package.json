@@ -7,8 +7,8 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "clean": "lerna clean --yes",
-    "coverage": "lerna run coverage",
     "compile": "lerna run compile",
+    "coverage": "lerna run coverage",
     "lerna": "lerna",
     "init": "lerna init",
     "lint": "lerna run lint",
