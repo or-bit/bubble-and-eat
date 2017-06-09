@@ -1,0 +1,22 @@
+{
+  "extends": "airbnb",
+  "env":{
+    "node":true,
+    "es6":true,
+    "browser": true,
+    "jest": true
+  },
+  "plugins": [
+    "react"
+  ],
+  "rules": {
+    "semi":2,
+    "no-console":0,
+    "linebreak-style":0,
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error",
+    "react/jsx-filename-extension": "off",
+    "react/jsx-indent": ["error", 4],
+    "indent":["error", 4]
+    }
+}
