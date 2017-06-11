@@ -1,0 +1,27 @@
+{
+  "name": "bubble-and-eat-consts",
+  "version": "1.0.0",
+  "description": "Project created to share common constants between order-gateway and bubble-and-eat-frontend",
+  "main": "dist/index.js",
+  "private": true,
+  "scripts": {
+    "coverage": "echo \"Coverage not available for consts module.\" && exit 0",
+    "lint": "eslint index.js",
+    "test": "echo \"Error: no test specified\" && exit 0"
+  },
+  "keywords": [
+    "bubble-and-eat"
+  ],
+  "author": "Or-bit",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.3"
+  },
+  "dependencies": {
+    "dotenv": "^4.0.0"
+  }
+}
