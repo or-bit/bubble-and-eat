@@ -65,3 +65,6 @@ typings/
 
 # report directory
 report
+
+# Visual Studio Code
+.vscode/
