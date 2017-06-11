@@ -4,14 +4,13 @@ import {
     BrowserRouter as Router,
     Route,
 } from 'react-router-dom';
+import { GenericBubble, WebNotification } from 'monolith-frontend';
 
 import StarterPage from './components/StarterPage';
-import GenericBubble from './framework/controller/GenericBubble';
 import CookBubble from './components/ChefBubble/CookBubble';
 import ClientBubble from './components/ClientBubble/ClientBubble';
 import AdminBubble from './components/AdminBubble/AdminBubble';
 import TodoBubble from './components/TodoBubble/TodoBubble';
-import { WebNotification } from 'monolith-frontend';
 
 const rootEl = document.getElementById('root');
 

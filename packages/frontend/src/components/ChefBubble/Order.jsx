@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-export default class Ordination extends React.Component {
+export default class Order extends React.Component {
     constructor(props) {
         super(props);
-        this.socket = this.props.socket;
-        //this.markOrdinationCompleted = this.markOrdinationCompleted.bind(this);
+        this.socket = props.socket;
+        // this.markOrdinationCompleted = this.markOrdinationCompleted.bind(this);
     }
 
     markOrdinationCompleted() {
@@ -41,3 +42,13 @@ export default class Ordination extends React.Component {
         );
     }
 }
+
+Order.propTypes = {
+    socket: PropTypes.object.isRequired,
+    markOrdinationCompleted: PropTypes.function.isRequired,
+};
+
+Order.defaultProps = {
+    class: '',
+    text: '',
+};

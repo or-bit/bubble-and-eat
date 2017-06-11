@@ -1,8 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import React from 'react';
-import Ordination from './ordination';
-
 import { WebNotification } from 'monolith-frontend';
+import io from 'socket.io-client';
+import Order from './Order';
 
 export default class CookBubble extends React.Component {
 
@@ -17,7 +17,7 @@ export default class CookBubble extends React.Component {
         this.connect();
     }
     connect() {
-        this.socket = require('socket.io-client')('http://localhost:3333');
+        this.socket = io('http://localhost:3333');
         this.socket.emit('auth', { type: 'cook' });
         this.fetchOrders();
         this.setState({ ordinations: [] });
@@ -68,7 +68,7 @@ export default class CookBubble extends React.Component {
                     </div>
                 </div>
                 {this.state.ordinations.map(element => (
-                    <Ordination
+                    <Order
                       key={element._id} markOrdinationCompleted={this.markOrdinationCompleted}
                       socket={this.socket} element={element}
                     />
