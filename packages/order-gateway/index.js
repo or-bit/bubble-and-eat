@@ -1,5 +1,5 @@
 // import configuration
-const config = require('./configuration/config');
+const config = require('bubble-and-eat-consts');
 
 const server = require('monolith-backend').Server.create();
 const StoreProvider = require('monolith-backend').StoreProvider;
@@ -21,7 +21,7 @@ const orders = new Orders();
 // increase concurrent operations limit
 orders.setMaxListeners(500);
 
-const mongoUrl = config.production.mongoUrl;
+const mongoUrl = config.getDBURL();
 
 const db = new DataBase(mongoUrl);
 
@@ -62,7 +62,7 @@ db.findOne('state', {}).then((state) => {
 
 // run server
 // server.listen(config.production.port);
-server.open(config.production.port);
+server.open(config.getServerPort());
 console.log('Server is running');
 
 

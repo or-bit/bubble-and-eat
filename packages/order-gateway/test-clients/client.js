@@ -1,4 +1,4 @@
-const config = require('../configuration/config');
+const config = require('bubble-and-eat-consts');
 const socketImport = require('socket.io-client');
 
 let socket = socketImport(config.getServerURL());

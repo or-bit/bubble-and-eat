@@ -2,11 +2,12 @@ const server = require('monolith-backend').Server.create();
 const DataBase = require('monolith-backend').DataBase;
 const adminHandler = require('./adminHandler').adminHandler;
 const assert = require('assert');
-const config = require('../../configuration/config');
+const config = require('bubble-and-eat-consts');
 const socketClient = require('socket.io-client');
 const sinon = require('sinon');
 
-const serverUrl = config.getTestServerURL();
+const serverUrl = config.getServerURL();
+const serverPort = config.getServerPort();
 const io = server.getSocket();
 
 const fakeDish = {
@@ -56,7 +57,7 @@ describe('admin handler responses to events', () => {
   })();
 
   before(() => {
-    server.open(config.test.port);
+    server.open(serverPort);
   });
 
   after(() => {
@@ -196,7 +197,7 @@ describe('adminHandler edge cases', () => {
     })();
 
     before(() => {
-      server.open(config.test.port);
+      server.open(serverPort);
     });
 
     after(() => {
@@ -228,7 +229,7 @@ describe('adminHandler edge cases', () => {
     })();
 
     before(() => {
-      server.open(config.test.port);
+      server.open(serverPort);
     });
 
     after(() => {

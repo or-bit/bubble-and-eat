@@ -1,0 +1,25 @@
+{
+  "extends": "airbnb",
+  "env":{
+    "node": true,
+    "es6": true,
+    "mocha": true
+  },
+  "plugins": [
+    "mocha"
+  ],
+  "rules": {
+    "comma-dangle": ["error", {
+      "arrays": "always-multiline",
+      "objects": "always-multiline",
+      "imports": "always-multiline",
+      "exports": "always-multiline",
+      "functions": "ignore"
+    }],
+    "semi": 2,
+    "no-console": 0,
+    "linebreak-style": 0,
+    "indent": ["error", 4],
+    "max-len": ["error", { "ignoreComments": true }]
+    }
+}
