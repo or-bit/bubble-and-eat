@@ -2,7 +2,7 @@ const server = require('monolith-backend').Server.create();
 
 // local requires
 const chefHandler = require('./chefHandler').chefHandler;
-const config = require('../../configuration/config');
+const config = require('bubble-and-eat-consts');
 
 // requires for client
 const assert = require('chai').assert;
@@ -12,7 +12,8 @@ const socketClient = require('socket.io-client');
 class Orders extends EventEmitter {}
 const orders = new Orders();
 
-const serverUrl = config.getTestServerURL();
+const serverUrl = config.getServerURL();
+const serverPort = config.getServerPort();
 const socketServer = server.getSocket();
 
 const response = {};
@@ -52,7 +53,7 @@ describe('chefHandler', () => {
     let client;
 
     beforeEach((done) => {
-      server.open(config.test.port);
+      server.open(serverPort);
       done();
     });
 
@@ -96,7 +97,7 @@ describe('chefHandler', () => {
     };
 
     beforeEach((done) => {
-      server.open(config.test.port);
+      server.open(serverPort);
       client = socketClient(serverUrl);
       socketServer.on('connection', (socket) => {
         chefHandler(socket, store, orders, fakeDBWriteFunction);
@@ -125,7 +126,7 @@ describe('chefHandler', () => {
   describe('responses to events', () => {
     let client;
     beforeEach((done) => {
-      server.open(config.test.port);
+      server.open(serverPort);
       client = socketClient(serverUrl);
       socketServer.on('connection', (socket) => {
         chefHandler(socket, store, orders);

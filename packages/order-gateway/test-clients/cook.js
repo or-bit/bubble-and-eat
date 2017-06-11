@@ -1,5 +1,5 @@
 const readline = require('readline');
-const config = require('../configuration/config');
+const config = require('bubble-and-eat-consts');
 
 const socket = require('socket.io-client')(config.getServerURL());
 

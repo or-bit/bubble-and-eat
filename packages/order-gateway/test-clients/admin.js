@@ -1,5 +1,4 @@
-// TODO: forse vale la pena creare un "ConnectionProvider" che ritorna il socket correttamente a chi lo richiede invece di mantenere codice uguale in giro
-const config = require('../configuration/config');
+const config = require('bubble-and-eat-consts');
 const socket = require('socket.io-client')(config.getServerURL());
 
 const main = () => {

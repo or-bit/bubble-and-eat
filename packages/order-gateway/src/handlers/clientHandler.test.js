@@ -3,7 +3,7 @@ const server = require('monolith-backend').Server.create();
 
 // local requires
 const clientHandler = require('./clientHandler').clientHandler;
-const config = require('../../configuration/config');
+const config = require('bubble-and-eat-consts');
 
 // requires for client
 const assert = require('chai').assert;
@@ -13,8 +13,9 @@ const socketClient = require('socket.io-client');
 class Orders extends EventEmitter {}
 const orders = new Orders();
 
-const serverUrl = config.getTestServerURL();
+const serverUrl = config.getServerURL();
 const socketServer = server.getSocket();
+const serverPort = config.getServerPort();
 
 const store = {
   getState: () => ({
@@ -37,7 +38,7 @@ describe('clientHandler', () => {
     let client;
 
     beforeEach((done) => {
-      server.open(config.test.port);
+      server.open(serverPort);
       client = socketClient.connect(serverUrl, { transports: ['websocket'] });
       socketServer.on('connection', (socket) => {
         clientHandler(socket, store, orders);
@@ -110,7 +111,7 @@ describe('clientHandler', () => {
     let client;
 
     beforeEach((done) => {
-      server.open(config.test.port);
+      server.open(serverPort);
       client = socketClient.connect(serverUrl, {
         reconnection: true,
         reconnectionDelay: 500,
