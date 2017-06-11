@@ -30,11 +30,12 @@
   "dependencies": {
     "axios": "^0.16.1",
     "bootstrap": "^3.3.7",
+    "bubble-and-eat-consts": "^1.0.0",
     "flux": "^3.1.2",
     "hoist-non-react-statics": "^1.2.0",
     "immutable": "^3.8.1",
     "mongodb": "^2.2.25",
-    "monolith-frontend": "^0.2.0",
+    "monolith-frontend": "^0.3.0",
     "prop-types": "latest",
     "react": "^15.3.0",
     "react-bootstrap": "latest",
@@ -45,7 +46,8 @@
     "react-tools": "^0.13.3",
     "recharts": "^0.22.3",
     "redux": "^3.5.2",
-    "socket.io": "^1.7.3"
+    "socket.io": "^2.0.2",
+    "socket.io-client": "^2.0.2"
   },
   "scripts": {
     "start": "react-scripts start",
