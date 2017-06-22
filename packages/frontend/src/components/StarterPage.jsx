@@ -16,7 +16,7 @@ export default function StarterPage() {
                     <a href="/client">/client</a> per il cliente
                 </li>
                 <li>
-                    <a href="/admin">/admin</a> per l'amministratore
+                    <a href="/admin">/admin</a>{" per l'amministratore"}
                 </li>
                 <li>
                     <a href="/notify">/notify</a> per giocare con le notifiche

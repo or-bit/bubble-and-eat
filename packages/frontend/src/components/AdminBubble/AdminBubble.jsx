@@ -1,10 +1,10 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
+import io from 'socket.io-client';
 import './adminBubble.css';
 
 
 export default class AdminBubble extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -20,13 +20,12 @@ export default class AdminBubble extends React.Component {
         this.socket = null;
     }
 
-    // viene lanciato da solo al caricamento della bolla
     componentDidMount() {
         this.connect();
     }
 
     connect() {
-        this.socket = require('socket.io-client')('http://localhost:3333');
+        this.socket = io('https://order-gateway.herokuapp.com');
         this.socket.emit('auth', { type: 'admin' });
         this.setState({ menu: [] });
     }
@@ -37,44 +36,41 @@ export default class AdminBubble extends React.Component {
         });
         this.socket.emit('menu');
     }
+
     addDish(dish) {
         this.socket.on('addedDish', (response) => {
             console.log('risposta all aggiunta di un piatto: ', response);
         });
         this.socket.emit('addDish', dish);
-        // esempio di piatto {name: 'pasta al ragu', price: 8, description:'pasta al ragu'}
     }
+
     removeDish(id) {
-        this.socket.on('removeDish', (id) => {
-            console.log('eliminato l elemento con id: ', id);
-        });
         this.socket.emit('removeDish', id);
-        // id e' un intero tipo
     }
+
     editDish(id, newDish) {
-        this.socket.on('editDish', (newDish) => {
-            console.log('riposta alla richiesta di modifica dell elemento ', newDish);
-        });
         this.socket.emit('editDish', { id, dish: newDish });
-        // esempio {id : 0, dish : {name: 'pasta al pomodoro', price: 4, description:'elemento cambiato'}
     }
+
     fetchAllOrders() {
         this.socket.on('allOrders', (orders) => {
-            console.log('risposta alla richiesta di visualizzare tutti gli ordini', JSON.stringify(orders));
+            console.log('All orders from backend', JSON.stringify(orders));
             this.setState({ allOrders: orders });
         });
         this.socket.emit('allOrders');
     }
-    fetchActiveOrderes() {
+
+    fetchActiveOrders() {
         this.socket.on('activeOrders', (orders) => {
-            console.log('risposta alla richiesta degli ordini attivi', orders);
+            console.log('Active orders from backend', orders);
             this.setState({ completedOrders: orders });
         });
         this.socket.emit('activeOrders');
     }
+
     fetchCompletedOrders() {
         this.socket.on('completedOrders', (orders) => {
-            console.log('risposta alla richiesta degli ordini completati', orders);
+            console.log('Completed orders from backend', orders);
             this.setState({ activeOrders: orders });
         });
         this.socket.emit('completedOrders');
@@ -82,10 +78,9 @@ export default class AdminBubble extends React.Component {
 
     deleteOrder(orderID) {
         this.socket.on('deleteOrder', (id) => {
-            console.log('confermata eliminazione dell elemento con id: ', id);
+            console.log('Deleted order from backend: ', id);
             this.fetchAllOrders();
         });
-        console.log('delete order ', orderID);
         this.socket.emit('deleteOrder', orderID);
     }
 
@@ -93,9 +88,9 @@ export default class AdminBubble extends React.Component {
         this.socket.close();
     }
 
-    // predispone il form per l' aggiunta cambiando la funzione di submit e i valori di default e lo renderizza
+    // form per l' aggiunta cambiando la funzione di submit e i valori di default e lo renderizza
     redirectToFormAdd() {
-        // imposta la funzione che viene eseguita al submit e i valori di default da visualizzare nel form
+        // funzione che viene eseguita al submit e i valori di default da visualizzare nel form
         this.setState({
             page: 'form',
             formDataPrice: 0,
@@ -113,7 +108,11 @@ export default class AdminBubble extends React.Component {
             formDataPrice: element.price,
             formDataName: element.name,
             formOnClick: () => {
-                this.editDish(element.id, { price: this.state.formDataPrice, name: this.state.formDataName });
+                const dish = {
+                    price: this.state.formDataPrice,
+                    name: this.state.formDataName,
+                };
+                this.editDish(element.id, { dish });
                 this.redirectToMenu();
             },
         });
@@ -144,7 +143,12 @@ export default class AdminBubble extends React.Component {
         const menuPage = (<div>
             <div className="row">
                 <div className="col-xs-6">
-                    <button className="btn btn-default" onClick={() => { this.redirectToHome(); }}>back</button>
+                    <button
+                      className="btn btn-default"
+                      onClick={() => this.redirectToHome()}
+                    >
+                        back
+                    </button>
                 </div>
             </div>
             <div className="row">
@@ -159,19 +163,18 @@ export default class AdminBubble extends React.Component {
                 <thead>
                     <tr>
                         <th>
-                            Name:
-                        </th>
+                        Name:
+                    </th>
                         <th>
-                            Price:
-                        </th>
-
+                        Price:
+                    </th>
                         <th className="text-right">
-                            Actions:
-                        </th>
+                        Actions:
+                    </th>
                     </tr>
                 </thead>
                 <tbody>
-                    {this.state.menu.map((element, i) => (<tr key={i}>
+                    {this.state.menu.map(element => (<tr key={element.id}>
                         <td>
                             {element.name}
                         </td>
@@ -180,8 +183,21 @@ export default class AdminBubble extends React.Component {
                             {' $ '}
                         </td>
                         <td className="text-right">
-                            <button className="btn btn-default" onClick={() => { this.redirectToFormEdit(element); }}>edit</button>
-                            <button className="btn btn-danger" onClick={() => { this.removeDish(element.id); this.showMenu(); }}>delete</button>
+                            <button
+                              className="btn btn-default"
+                              onClick={() => this.redirectToFormEdit(element)}
+                            >
+                                edit
+                            </button>
+                            <button
+                              className="btn btn-danger"
+                              onClick={() => {
+                                  this.removeDish(element.id);
+                                  this.showMenu();
+                              }}
+                            >
+                                delete
+                            </button>
                         </td>
                     </tr>))}
                 </tbody>
@@ -190,7 +206,12 @@ export default class AdminBubble extends React.Component {
 
             <div className="row">
                 <div className="col-md-12">
-                    <button className="btn btn-default center-block" onClick={() => { this.redirectToFormAdd(); }}>AddDishToMenu</button>
+                    <button
+                      className="btn btn-default center-block"
+                      onClick={() => this.redirectToFormAdd()}
+                    >
+                        AddDishToMenu
+                    </button>
                 </div>
             </div>
 
@@ -200,7 +221,12 @@ export default class AdminBubble extends React.Component {
         const ordersPage = (<div>
             <div className="row">
                 <div className="col-xs-6">
-                    <button className="btn btn-default" onClick={() => { this.redirectToHome(); }}>back</button>
+                    <button
+                      className="btn btn-default"
+                      onClick={() => this.redirectToHome()}
+                    >
+                        back
+                    </button>
                 </div>
             </div>
             <div className="row">
@@ -211,7 +237,7 @@ export default class AdminBubble extends React.Component {
                 </div>
             </div>
 
-            {this.state.allOrders.map((element, i) => (<div className="row well" key={i}>
+            {this.state.allOrders.map(element => (<div className="row well" key={element.id}>
 
                 <div className="col-sm-6">
                     <h3>Client info:</h3>
@@ -229,7 +255,14 @@ export default class AdminBubble extends React.Component {
                                 <th>{element.client.name}</th>
                                 <th>{element.client.address}</th>
                                 <th>{element.state}</th>
-                                <th><button className="btn btn-danger" onClick={() => { this.deleteOrder(element.id); }}>delete</button></th>
+                                <th>
+                                    <button
+                                      className="btn btn-danger"
+                                      onClick={() => this.deleteOrder(element._id)}
+                                    >
+                                        delete
+                                    </button>
+                                </th>
                             </tr>
                         </tbody>
                     </table>
@@ -238,7 +271,7 @@ export default class AdminBubble extends React.Component {
                 </div>
                 <div className="col-sm-6">
                     <h3>Dishes:</h3>
-                    <table className="table" key={i}>
+                    <table className="table" key={element.id}>
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -246,7 +279,7 @@ export default class AdminBubble extends React.Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {element.dishes.map((dish, i) => (<tr key={i}>
+                            {element.dishes.map(dish => (<tr key={dish.id}>
                                 <td>{dish.dish.name}</td>
                                 <td>{dish.amount}</td>
                             </tr>))}
@@ -260,35 +293,71 @@ export default class AdminBubble extends React.Component {
         const homePage = (<div>
             <div className="row bottomSpace2 topSpace1">
                 <div className="col-md-12 control-group">
-                    <button className="btn btn-default center-block" onClick={() => { this.redirectToMenu(); }}>MenuOperations</button>
+                    <button
+                      className="btn btn-default center-block"
+                      onClick={() => this.redirectToMenu()}
+                    >
+                        MenuOperations
+                    </button>
                 </div>
             </div>
             <div className="row">
                 <div className="col-md-12 control-group">
-                    <button className="btn btn-default center-block" onClick={() => { this.redirectToOrders(); }}>OrdersOperations</button>
+                    <button
+                      className="btn btn-default center-block"
+                      onClick={() => this.redirectToOrders()}
+                    >
+                        OrdersOperations
+                    </button>
                 </div>
             </div>
         </div>);
 
 
-        // pagina di form che uo servire per aggiungere oppure modificare un ordinazione a seconda di come viene chiamato
-        const form = (<div>
-            <div className="row">
-                <div className="col-xs-6">
-                    <button className="btn btn-default" onClick={() => { this.redirectToHome(); }}>back</button>
+        // pagina di form che uo servire per aggiungere oppure
+        // modificare un ordinazione a seconda di come viene chiamato
+        const form = (
+            <div>
+                <div className="row">
+                    <div className="col-xs-6">
+                        <button
+                          className="btn btn-default"
+                          onClick={() => this.redirectToHome()}
+                        >
+                            back
+                        </button>
+                    </div>
                 </div>
-            </div>
-            <div className="form-group topSpace1 margin-left-1 margin-right-1">
-                <label>Name</label>
-                <input className="form-control" id="name" type="text" value={this.state.formDataName} onChange={(event) => { this.setState({ formDataName: event.target.value }); }} />
-            </div>
-            <div className="form-group margin-left-1 margin-right-1">
-                <label>Price</label>
-                <input className="form-control" id="price" type="number" value={this.state.formDataPrice} step="0.01" onChange={(event)=>{this.setState({formDataPrice:event.target.value})}} />
-            </div>
+                <div className="form-group topSpace1 margin-left-1 margin-right-1">
+                    <label htmlFor="name">Name</label>
+                    <input
+                      className="form-control"
+                      id="name"
+                      type="text"
+                      value={this.state.formDataName}
+                      onChange={event => this.setState({ formDataName: event.target.value })}
+                    />
+                </div>
+                <div className="form-group margin-left-1 margin-right-1">
+                    <label htmlFor="price">Price</label>
+                    <input
+                      className="form-control"
+                      id="price"
+                      type="number"
+                      value={this.state.formDataPrice}
+                      step="0.01"
+                      onChange={event => this.setState({ formDataPrice: event.target.value })}
+                    />
+                </div>
 
-            <button className="btn btn-success center-block" onClick={this.state.formOnClick}>Submit</button>
-        </div>);
+                <button
+                  className="btn btn-success center-block"
+                  onClick={this.state.formOnClick}
+                >
+                    Submit
+                </button>
+            </div>
+        );
 
         // in base allo state.page renderizza una pagina diversa
         if (this.state.page === 'home') {

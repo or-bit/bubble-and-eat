@@ -7,7 +7,7 @@ import {
 import { GenericBubble, WebNotification } from 'monolith-frontend';
 
 import StarterPage from './components/StarterPage';
-import CookBubble from './components/ChefBubble/CookBubble';
+import CookBubble from './components/ChefBubble/ChefBubble';
 import ClientBubble from './components/ClientBubble/ClientBubble';
 import AdminBubble from './components/AdminBubble/AdminBubble';
 import TodoBubble from './components/TodoBubble/TodoBubble';
@@ -33,20 +33,22 @@ function notify() {
     );
 }
 
-const render = () => ReactDOM.render(
-    <Router>
-        <div>
-            <Route exact path="/" component={HomeRoute} />
-            <Route path="/bubble/" component={GenericBubble} />
-            <Route path="/cook" component={CookBubble} />
-            <Route path="/client" component={ClientBubble} />
-            <Route path="/admin" component={AdminBubble} />
-            <Route path="/todo/" component={TodoBubble} />
-            <Route path="/notify" component={notify} />
-        </div>
-    </Router>,
-  rootEl,
-);
+const render = () => {
+    ReactDOM.render(
+        <Router>
+            <div>
+                <Route exact path="/" component={HomeRoute} />
+                <Route path="/bubble/" component={GenericBubble} />
+                <Route path="/cook" component={CookBubble} />
+                <Route path="/client" component={ClientBubble} />
+                <Route path="/admin" component={AdminBubble} />
+                <Route path="/todo/" component={TodoBubble} />
+                <Route path="/notify" component={notify} />
+            </div>
+        </Router>,
+        rootEl,
+    );
+};
 
 render();
 // store.subscribe(render);

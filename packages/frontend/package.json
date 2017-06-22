@@ -54,7 +54,7 @@
     "start8000": "PORT=8000 react-scripts start",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
-    "lint": "eslint **/*.js src/**/*.js --ignore-pattern 'node_modules/'",
+    "lint": "eslint src/**/*.jsx src/**/*.js",
     "test": "jest",
     "coverage": "jest --coverage",
     "dio": "cr src"

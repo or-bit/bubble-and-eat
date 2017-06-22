@@ -1,11 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import React from 'react';
-import './clientBubble.css';
-import Button from '../../framework/view/GUI/Button/Button';
-
 import { WebNotification } from 'monolith-frontend';
-
-const notifica = new WebNotification('Order Ready', 'Your order is completed!', 'http://www.pngmart.com/files/3/Green-Tick-PNG-Photos.png');
+import io from 'socket.io-client';
+import './clientBubble.css';
 
 export default class ClientBubble extends React.Component {
 
@@ -19,6 +16,7 @@ export default class ClientBubble extends React.Component {
             orderState: 'not ordered yet',
             client: { name: '', address: '' },
             total: 0,
+            notify: null,
         };
         this.socket = null;
         this.orderId = null;
@@ -36,12 +34,12 @@ export default class ClientBubble extends React.Component {
     }
 
     connect() {
-        this.socket = require('socket.io-client')('http://localhost:3333');
+        this.socket = io('https://order-gateway.herokuapp.com');
         this.socket.emit('auth', { type: 'client' });
 
         this.socket.on('menu', (menu) => {
             const quantita =
-                Array.apply(null, new Array(menu.length)).map(Number.prototype.valueOf, 0);
+                Array(...new Array(menu.length)).map(Number.prototype.valueOf, 0);
             this.setState({ menu, quantita, total: 0 });
         });
 
@@ -54,8 +52,13 @@ export default class ClientBubble extends React.Component {
             this.orderId = id;
         });
         this.socket.on('orderReady', () => {
-            this.setState({ orderState: <p className="text-success">Ready!</p> });
-            notifica.notify();
+            this.setState({
+                orderState: <p className="text-success">Ready!</p>,
+            });
+            const title = 'Order ready!';
+            const body = 'Your order is ready! We\'ll keep it warm for you... ;)';
+            const imageUrl = 'http://www.pngmart.com/files/3/Green-Tick-PNG-Photos.png';
+            new WebNotification(title, body, imageUrl).notify();
         });
     }
 
@@ -174,24 +177,49 @@ export default class ClientBubble extends React.Component {
             <div>
                 <div className="row margin-bottom-2">
                     <div className="col-md-12">
-                        <Button className="btn btn-default center-block"
-                                function={() => {
-                                    this.redirectToMenu();
-                                }}
-                                text="Show Menu"
-                        />
+                        <button
+                          className="btn btn-default center-block"
+                          onClick={() => this.redirectToMenu()}
+                        >
+                            Back to Menu
+                        </button>
                     </div>
                 </div>
                 <div className="row">
                     <div className="col-md-12">
-                        <Button className="btn btn-default center-block"
-                                function={() => {
-                                    this.redirectToNewOrder();
-                                }}
-                                text="New Order"
-                        />
+                        <button
+                          className="btn btn-default center-block"
+                          onClick={() => { this.redirectToNewOrder(); }}
+                        >
+                            New Order!
+                        </button>
                     </div>
                 </div>
+            </div>
+        );
+
+        const emptyMenu = () => (
+            <h3 className="text-center">Empty Menu!</h3>
+        );
+
+        const fullMenu = () => (
+            <div className="row margin-left-1 margin-right-1">
+                <table className="table">
+                    <thead>
+                        <tr>
+                            <th >Name</th>
+                            <th >Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.state.menu.map(element => (
+                            <tr key={element.id}>
+                                <td>{element.name}</td>
+                                <td>{element.price}{' $ '}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </div>
         );
 
@@ -200,110 +228,98 @@ export default class ClientBubble extends React.Component {
             <div>
                 <div className="row">
                     <div className="col-xs-6">
-                        <button className="btn btn-default" onClick={() => { this.redirectToHome(); }}>back</button>
+                        <button
+                          className="btn btn-default"
+                          onClick={() => this.redirectToHome()}
+                        >
+                            Back!
+                        </button>
                     </div>
                 </div>
                 <h2 className="text-center">Menu:</h2>
-                {this.state.menu.length === 0 ? <h3 className="text-center">Empty Menu!</h3> : <div className="row margin-left-1 margin-right-1">
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th >Name</th>
-                                <th >Price</th>
+                {this.state.menu.length === 0 ? emptyMenu() : fullMenu()}
+            </div>
+        );
+
+        const ordersComponent = () => (
+            <div className="row margin-left-1 margin-right-1">
+                <table className="table">
+                    <thead>
+                        <tr>
+                            <th>Name:</th>
+                            <th>Price:</th>
+                            <th>Amount:</th>
+                            <th>Actions:</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.state.menu.map((element, i) => (
+                            <tr key={element.id}>
+                                <td>{element.name}</td>
+                                <td>{element.price}{' $ '}</td>
+                                <td>
+                                    <input
+                                      className="form-control"
+                                      name="amount" type="number"
+                                      value={this.state.quantita[i]} label=""
+                                      onChange={e => this.handleChange(e, i)}
+                                    />
+                                </td>
+                                <td>
+                                    <button
+                                      className="btn btn-default"
+                                      onClick={() => this.addDishToOrder(i)}
+                                    >
+                                        +
+                                    </button>
+                                    <button
+                                      className="btn btn-default"
+                                      onClick={() => this.removeDishToOrder(i)}
+                                    >
+                                        -
+                                    </button>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {this.state.menu.map(element => (
-                                <tr key={element.id}>
-                                    <td>{element.name}</td>
-                                    <td>{element.price}{' $ '}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                        ))}
+                    </tbody>
+                </table>
+                <p>Total: {this.state.total} $</p>
+                <div className="row">
+                    <div className="col-md-12">
+                        <button
+                          className="btn btn-success center-block"
+                          onClick={() => this.redirectToInfo()}
+                        >
+                            Insert Info
+                        </button>
+                    </div>
                 </div>
-                }
+                <div className="row margin-top-1">
+                    <div className="col-md-12">
+                        <button
+                          className="btn btn-danger center-block"
+                          onClick={() => this.redirectToNewOrder()}
+                        >
+                            Reset Order!
+                        </button>
+                    </div>
+                </div>
             </div>
         );
 
         // pagina ordine
         const orderPage = (
             <div>
-                <Button className="btn btn-default"
-                  function={() => {
+                <button
+                  className="btn btn-default"
+                  onClick={() => {
                       this.redirectToHome();
                   }}
-                  text="Back"
-                />
+                >
+                    Back!
+                </button>
                 <h2 className="text-center">New Order</h2>
-                {this.state.menu.length === 0 ? <p>Menu vuoto</p> : <div className="row margin-left-1 margin-right-1">
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>Name:</th>
-                                <th>Price:</th>
-                                <th>Amount:</th>
-                                <th>Actions:</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {this.state.menu.map((element, i) => (
-                                <tr key={element.id}>
-                                    <td>{element.name}</td>
-                                    <td>{element.price}{' $ '}</td>
-                                    <td>
-                                        <input
-                                            className="form-control"
-                                            name="amount" type="number"
-                                          value={this.state.quantita[i]} label=""
-                                          onChange={e => this.handleChange(e, i)}
-                                        />
-                                    </td>
-                                    <td>
-                                        <Button
-                                            className="btn btn-default"
-                                            function={() => {
-                                                this.addDishToOrder(i);
-                                            }}
-                                            text="+"
-                                        />
-                                        <Button
-                                            className="btn btn-default"
-                                            function={() => {
-                                                this.removeDishToOrder(i);
-                                            }}
-                                            text="-"
-                                        />
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                    <p>Total: {this.state.total} $</p>
-                    <div className="row">
-                        <div className="col-md-12">
-                            <Button
-                                className="btn btn-success center-block"
-                                function={() => {
-                                    this.redirectToInfo();
-                                }}
-                                text="Insert info"
-                            />
-                        </div>
-                    </div>
-                    <div className="row margin-top-1">
-                        <div className="col-md-12">
-                            <Button
-                                className="btn btn-danger center-block"
-                                function={() => {
-                                    this.redirectToNewOrder();
-                                }}
-                                text="Reset order"
-                            />
-                        </div>
-                    </div>
-                </div>
-                }
+                {this.state.menu.length === 0 ? emptyMenu() : ordersComponent()}
             </div>
         );
 
@@ -311,13 +327,14 @@ export default class ClientBubble extends React.Component {
             <div className="margin-left-1 margin-right-1">
                 <div className="row">
                     <div className="col-md-12">
-                        <Button
-                            className="btn btn-default"
-                            function={() => {
-                                this.redirectToOrder();
-                            }}
-                            text="Back"
-                        />
+                        <button
+                          className="btn btn-default"
+                          onClick={() => {
+                              this.redirectToOrder();
+                          }}
+                        >
+                            Back
+                        </button>
                     </div>
                 </div>
                 <div className="row">
@@ -328,27 +345,22 @@ export default class ClientBubble extends React.Component {
 
                 <div className="form-group">
                     <label htmlFor="name">Name:</label>
-                    <input className="form-control"
-                           name="name" type="text" value={this.state.client.name}
-                           onChange={e => this.updateClient(e, 'name')}
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="address">Address:</label>
                     <input
-                        className="form-control"
-                        name="address" type="text" value={this.state.client.address}
-                        onChange={e => this.updateClient(e, 'address')}
+                      className="form-control"
+                      name="name" type="text" value={this.state.client.name}
+                      onChange={e => this.updateClient(e, 'name')}
                     />
                 </div>
                 <div className="row">
                     <div className="col-md-12">
-                        <Button
-                            className="btn btn-success center-block" function={() => {
-                                this.confirmOrder();
-                            }}
-                            text="Confirm Order"
-                        />
+                        <button
+                          className="btn btn-success center-block"
+                          onClick={() => {
+                              this.confirmOrder();
+                          }}
+                        >
+                            Confirm!
+                        </button>
                     </div>
                 </div>
             </div>
@@ -358,6 +370,7 @@ export default class ClientBubble extends React.Component {
             <div>
                 <h2 className="text-center">Summary</h2>
                 <h3 className="text-center">Order state: {this.state.orderState}</h3>
+                {this.state.notify}
                 <h3 className="text-center">Total: {this.state.order.total} $</h3>
             </div>
         );

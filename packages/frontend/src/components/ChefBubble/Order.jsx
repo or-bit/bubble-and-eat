@@ -4,8 +4,7 @@ import PropTypes from 'prop-types';
 export default class Order extends React.Component {
     constructor(props) {
         super(props);
-        this.socket = props.socket;
-        // this.markOrdinationCompleted = this.markOrdinationCompleted.bind(this);
+        this.socket = this.props.socket;
     }
 
     markOrdinationCompleted() {
@@ -13,6 +12,13 @@ export default class Order extends React.Component {
     }
 
     render() {
+        const renderDish = order => (
+            <tr key={order._id}>
+                <td>{order.dish.name}</td>
+                <td className="text-right">{order.amount}</td>
+            </tr>
+        );
+
         return (
             <div className="margin-right-1 margin-left-1  well">
                 {<div >
@@ -23,19 +29,20 @@ export default class Order extends React.Component {
                                 <th className="text-right">Amount</th>
                             </tr>
                         </thead>
-                         <tbody>
-                            {this.props.element.dishes.map((element, i)=>{
-                            return <tr key={i}>
-                                <td>{element.dish.name}</td>
-                                 <td className="text-right">{element.amount}</td>
-                            </tr>})}
+                        <tbody>
+                            {this.props.element.dishes.map(dish => renderDish(dish))}
                         </tbody>
                     </table>
-                 </div>
-                 }
+                </div>
+                }
                 <div className="row">
                     <div className="row-md-12">
-                        <button className="btn btn-danger center-block" onClick={()=>this.markOrdinationCompleted()}>Mark As Complete</button>
+                        <button
+                          className="btn btn-danger center-block"
+                          onClick={() => this.markOrdinationCompleted()}
+                        >
+                            This order is ready!
+                        </button>
                     </div>
                 </div>
             </div>
@@ -43,12 +50,9 @@ export default class Order extends React.Component {
     }
 }
 
+/* eslint-disable react/forbid-prop-types */
 Order.propTypes = {
     socket: PropTypes.object.isRequired,
-    markOrdinationCompleted: PropTypes.function.isRequired,
-};
-
-Order.defaultProps = {
-    class: '',
-    text: '',
+    element: PropTypes.object.isRequired,
+    markOrdinationCompleted: PropTypes.func.isRequired,
 };
