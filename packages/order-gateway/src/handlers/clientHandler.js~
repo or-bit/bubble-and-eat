@@ -1,35 +1,13 @@
-/**
- * ClientHandler module
- * @module clientHandler
- */
-
-/** @constant
- * @type{ordereActions}
- */
 const orderActions = require('../actions/ordersActions');
 
 exports.clientHandler = (socket, store, orders) => {
   // Bubbles' requests
   console.log('Client connected');
 
-    /**
-     * @function
-     * @name soket/on
-     * @param {Event} disconnect - client disconnect event
-     * @param {Function} client_disconnect - client disconnection
-     * @desc Menage client disconnection
-     */
   // Disconnection event
   socket.on('disconnect', () => { console.log('Client disconnected'); });
 
-    /**
-     * @function
-     * @name soket/on
-     * @param {Event} orderStatus - check client's oreder status
-     * @param {Function} search_by_id - search client's order by id
-     * @desc Manages the order's status request when client disconnects and reconnects
-     */
-  // This manages the order's status request when client disconnects and reconnects
+  // // This manages the order's status request when client disconnects and reconnects
   socket.on('orderStatus', (id) => {
     // client is reconnected: retrieve its order by order id
     console.log(`Requesting order's ${id} status`);
@@ -51,20 +29,14 @@ exports.clientHandler = (socket, store, orders) => {
     } else {
       // order not found
       socket.emit('orderNotFound', id);
+      // TODO: ricerca sul database nel caso sia crashato anche il server subito dopo che il cuoco l'ha marcata completata col client crashato pure lui
     }
   });
 
-
-    /**
-     * @function
-     * @name soket/on
-     * @param {Event} order - client's order
-     * @param {Function} send_order - send client's order
-     * @desc set unique id to client's order and save it in store(orderStates) and in database then send's id back
-     * to client(in case of client's disconnection) and wait event with his specific order's id
-     */
-  // if an order comes from the client
+  // se arriva un ordinazione dal client
   socket.on('order', (order) => {
+    // TODO: pensare a cosa fare se il cuoco non c'è io ho messo che si registra comunque l' evento e glielo notifica appena si connette
+    // TODO: check che i piatti che vengono ordinati siano in menu
 
     console.log(JSON.stringify(order, null, '  '));
 
@@ -84,30 +56,21 @@ exports.clientHandler = (socket, store, orders) => {
     outputOrder.total = total;
     outputOrder.date = new Date();
 
-    // request to process the order so that it gets registered and shown as active
-    // (the chef is paying attention throught the observer to the changes made to the state and gets notified of the order)
+    // richiesta di processare l'ordine.. quindi che venga registrato nello stato degli ordini e segnato come attivo
+    // (il cuoco e' in ascolto sulle modifiche allo stato con l'observer e viene notificato dell'ordine)
     store.dispatch(orderActions.processOrder(outputOrder).asPlainObject());
 
     socket.emit('orderTotal', total);
-    // notify the client of the ID of the placed order so that it can track the state of the order
+    // notifico al client l'id dell'ordinazione presa in carico per notificare la presa in carico dell'ordinazione e permettergli di tracciarla
     socket.emit('orderId', outputOrder.id);
-    // waiting for the event corresponding to the order (this way more clients can be notified each of their own order)
+    // attesa dell'evento corrispondente alla propria ordinazione (cosi piu client vengono notificati ciascuno rispetto alla propria)
     orders.on(outputOrder.id, () => {
-      // notify the client bubble
+      // notifica alla bolla client
       socket.emit('orderReady');
     });
   });
-
-    /**
-     * @function
-     * @name soket/on
-     * @param {Event} menuRequest - menu request event
-     * @param {Function} emit_request - client emit menu request
-     * @desc manage client's menu request
-     */
-  // handle menu request
+  // gestione della richiesta del menu.. da valutare se farla con lo stato
   socket.on('menuRequest', () => {
     socket.emit('menu', store.getState().menu.dishes);
   });
 };
-

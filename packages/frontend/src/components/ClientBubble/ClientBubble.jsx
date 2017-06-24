@@ -17,6 +17,7 @@ import './clientBubble.css';
  */
 export default class ClientBubble extends React.Component {
     /**
+     *The class ClientBubble represents the Client and all it's functionalities in the application. It allows the user to interact with the application by rendering the GUI and calling the methods requested by the user.
      * @class ClientBubble -
      * @extends Component
      * @property props {Object}
