@@ -10,8 +10,7 @@ import io from 'socket.io-client';
 import Order from './Order';
 
 /**
- * This module allows you to create a class representing the Chef Bubble
- * @module bubble-and-eat/packages/frontend/src/components
+ * @class This class allows you to create a class representing the Chef Bubble
  * @param props
  * @constructor
  */
@@ -91,7 +90,7 @@ export default class CheBubble extends React.Component {
     /**
     * @function
     * @name markOrdinationCompleted
-    * @param orderID {Integer} - order to complete
+    * @param orderID {Number} - order to complete
     * @desc manage chef's request to complete an order with the specified id, emit orderCompleted event on that order
     */
     markOrdinationCompleted(id) {

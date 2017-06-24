@@ -24,7 +24,6 @@ let orderId = null;
  * @desc Menage client disconnection and eventually client reconnection to server and
  * recovery state of his order if are any active
  */
-// TODO: da fare piu pulita la riconnessione
 socket.on('disconnect', () => {
   socket.close();
   console.log('disconnected');
