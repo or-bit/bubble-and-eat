@@ -93,6 +93,7 @@ export default class AdminBubble extends GenericBubble {
 
         return (
             <WidgetsContainer>
+                <h1 className="text-center">{"Admin's Bubble"}</h1>
                 {page}
             </WidgetsContainer>
         );
