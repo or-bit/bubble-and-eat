@@ -1,7 +1,3 @@
-/**
- * client module
- * @module client
- */
 
 import 'bootstrap/dist/css/bootstrap.css';
 import React from 'react';
@@ -10,25 +6,33 @@ import io from 'socket.io-client';
 import './clientBubble.css';
 
 /**
- * @class This class allows you to create a class representing the Client Bubble
- * @param props
- * @constructor
+ * @class Represents the Client and all it's functionalities in the application.
+ * It allows the user to interact with the application by rendering the GUI and calling the methods requested by the user.
+ * @extends React.Component
+ * @property props {Object}
+ * @property state {Object}
+ * @property state.menu {Array} Restaurant's menu
+ * @property state.page {String} Page that is currently displayed to the user
+ * @property state.quantity {Array} Array containing the quantities of the different dishes
+ * @property state.order {Object} Represents the current order
+ * @property state.order.client {Client} Client associated to the order
+ * @property state.order.dishes {Array} List of dishes ordered by the client
+ * @property state.order.state {String} State of the order
+ * @property state.orderState {String} State of the current order
+ * @property state.client {Object} Client user of the bubble
+ * @property state.client.name {String} Client's name
+ * @property state.client.address {String} Client's address
+ * @property state.total {Number} Total cost of the order
+ * @property state.notify {Notification}
+ * @property socket {Socket} Socket for the connectionto the server
+ * @property orderId {Number} Id of the order once completed
  */
 export default class ClientBubble extends React.Component {
+
     /**
-     *The class ClientBubble represents the Client and all it's functionalities in the application. It allows the user to interact with the application by rendering the GUI and calling the methods requested by the user.
-     * @class ClientBubble -
-     * @extends Component
-     * @property props {Object}
-     * @property props.menu {Array} - the restaurant's menu.
-     * @property props.page {String} - the page that is currently displayed to the user.
-     * @property props.quantity {Array} - the array containing the quantities of the different dishes.
-     * @property props.order {client: {}, dishes: Array, state:String} - order represents the current order.
-     * @property props.orderState {String} - the state of the current order.
-     * @property props.client {name: String, address: String} - the current client's data.
-     * @property props.total {Number} - the current total cost of the order.
-     * @property props.notify {Notification}
-    */
+     * Create a bubble for the client
+     * @param props {Object}
+     */
     constructor(props) {
         super(props);
         this.state = {
@@ -47,28 +51,23 @@ export default class ClientBubble extends React.Component {
     }
 
     /**
-    * @function
-    * @name componentDidMount
-    * @desc This function gets called authomatically when the bubble gets loaded and call the method connect() to connect the bubble to the rest of the application.
-    */
+     * This function gets called automatically when the bubble gets loaded and call the method connect() to connect
+     * the bubble to the rest of the application.
+     */
     componentDidMount() {
         this.connect();
     }
 
     /**
-    * @function
-    * @name ccomponentWillUnmount
-    * @desc This function gets called authomatically when the bubble dies to free the resources it was occupying.
-    */
+     * This function gets called automatically when the bubble dies to free the resources it was occupying.
+     */
     componentWillUnmount() {
         this.disconnect();
     }
 
     /**
-    * @function
-    * @name connect
-    * @desc This method connects the bubble to the rest of the application through a socket.
-    */
+     * This method connects the bubble to the rest of the application through a socket.
+     */
     connect() {
         this.socket = io('https://order-gateway.herokuapp.com');
         this.socket.emit('auth', { type: 'client' });
@@ -99,19 +98,15 @@ export default class ClientBubble extends React.Component {
     }
 
     /**
-     * @function
-     * @name showMenu
-     * @desc This method requests the menu through the socket.
-     */
+      * Requests the menu through the socket.
+      */
     showMenu() {
         this.socket.emit('menuRequest');
     }
 
     /**
-     * @function
-     * @name order
-     * @desc This method orders the object that's passed to it as a parameter.
-     * @param something {Object} - The object that has to be ordered.
+     * Orders the object that's passed to it as a parameter.
+     * @param something {Object} The object that has to be ordered.
      */
     order(something) {
         this.socket.emit('order', something);
@@ -119,10 +114,8 @@ export default class ClientBubble extends React.Component {
     }
 
     /**
-     * @function
-     * @name queryFor
-     * @desc This method requests the status of an order.
-     * @param orderId {Number} - The ID of the order.
+     * Requests the status of an order.
+     * @param orderId {Number} The ID of the order.
      */
     queryFor(orderId) {
         this.socket.emit('orderStatus', orderId);
@@ -138,19 +131,14 @@ export default class ClientBubble extends React.Component {
     }
 
     /**
-     * @function
-     * @name redirectToHome
-     * @desc This method redirects the user to the home page.
+     * Redirects the user to the home page.
      */
-    // renderizza la home
     redirectToHome() {
         this.setState({ page: 'home' });
     }
 
     /**
-     * @function
-     * @name redirectToMenu
-     * @desc This method redirects the user to the menu page.
+     * Redirects the user to the menu page.
      */
     // renderizza la pagina di gestione del menu
     redirectToMenu() {
@@ -159,9 +147,7 @@ export default class ClientBubble extends React.Component {
     }
 
     /**
-     * @function
-     * @name redirectToNewOrder
-     * @desc This method redirects the user to the new order page.
+     * Redirects the user to the new order page.
      */
     redirectToNewOrder() {
         this.setState({ page: 'order' });
@@ -169,28 +155,22 @@ export default class ClientBubble extends React.Component {
     }
 
     /**
-     * @function
-     * @name redirectToOrder
-     * @desc This method redirects the user to the order page.
+     * Redirects the user to the order page.
      */
     redirectToOrder() {
         this.setState({ page: 'order' });
     }
 
     /**
-     * @function
-     * @name redirectToInfo
-     * @desc This method redirects the user to the info page.
+     * Redirects the user to the info page.
      */
     redirectToInfo() {
         this.setState({ page: 'info' });
     }
 
     /**
-     * @function
-     * @name reloadTotal
-     * @desc This method calculates and returns the total cost of all the dishes selected for the current order.
-     * @returns {Number} - The total cost of the order.
+     * Calculates and returns the total cost of all the dishes selected for the current order.
+     * @returns {Number} Total cost of the order.
      */
     reloadTotal() {
         let total = 0;
@@ -203,10 +183,8 @@ export default class ClientBubble extends React.Component {
     }
 
     /**
-     * @function
-     * @name addDishToOrder
-     * @param i {Number} - the ID of the dish.
-     * @desc This method increases by one the currently ordered quantity of the selected dish.
+     * This method increases by one the currently ordered quantity of the selected dish.
+     * @param i {Number} ID of the dish.
      */
     addDishToOrder(i) {
         this.updateAmount(this.state.quantita[i] + 1, i);
@@ -223,11 +201,10 @@ export default class ClientBubble extends React.Component {
     }
 
     /**
-     * @function
-     * @name handleChange
+     * This method handles the changes in the amount of ordered portions for the selected dish.
+     * It calls the updateAmount method after converting into an int the amount of portions.
      * @param e {Event}
-     * @param i {Number} - the ID of the dish.
-     * @desc This method handles the changes in the amount of ordered portions for the selected dish. It calls the updateAmount method after converting into an int the amount of portions.
+     * @param i {Number} ID of the dish
      */
     handleChange(e, i) {
         this.updateAmount(parseInt(e.target.value, 10), i);
@@ -235,12 +212,10 @@ export default class ClientBubble extends React.Component {
 
 
     /**
-    * @function
-    * @name updateAmount
-    * @param amount {Number} - new amount
-    * @param i {Number} - which item to update
-    * @desc This method updates a specific dish's amount of portions as well as the total cost of the order.
-    */
+     * This method updates a specific dish's amount of portions as well as the total cost of the order.
+     * @param amount {Number} New amount
+     * @param i {Number} Which item to update
+     */
     updateAmount(amount, i) {
         const quantita = this.state.quantita;
         if (amount > 0) {
@@ -253,10 +228,8 @@ export default class ClientBubble extends React.Component {
     }
 
     /**
-    * @function
-    * @name updateClient
-    * @desc This method updates the information about the client by adding it's name and address.
-    */
+     * This method updates the information about the client by adding it's name and address.
+     */
     updateClient(e, data) {
         const clientAux = this.state.client;
         switch (data) {
@@ -273,10 +246,8 @@ export default class ClientBubble extends React.Component {
     }
 
     /**
-    * @function
-    * @name confirmOrder
-    * @desc confirm order, redirects to summary page
-    */
+     * Confirm order, redirects to summary page
+     */
     confirmOrder() {
         const order = this.state.order;
         order.client = this.state.client;
@@ -295,9 +266,7 @@ export default class ClientBubble extends React.Component {
     }
 
    /**
-    * @function
-    * @name render
-    * @desc renders client's home page, menu page and order page
+    * Renders client's home page, menu page and order page
     */
     render() {
         let page = null;

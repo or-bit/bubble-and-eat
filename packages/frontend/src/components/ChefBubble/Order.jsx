@@ -1,16 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * @Class Class that renders an order for the chef
+ * @extends React.Component
+ * @property props {Object}
+ * @property props.markOrdinationComplete {function} Action to execute to mark an order completed
+ * @property props.element {Object} Order to render
+ * @property props.socket {Socket} Socket for the connection to the server
+ */
 export default class Order extends React.Component {
+    /**
+     * Create a graphic order
+     * @param props {Object}
+     */
     constructor(props) {
         super(props);
         this.socket = this.props.socket;
     }
 
+    /**
+     * Marks the current order completed
+     */
     markOrdinationCompleted() {
         this.props.markOrdinationCompleted(this.props.element._id);
     }
 
+    /**
+     * Renders the order
+     * @return {React.Component}
+     */
     render() {
         const renderDish = order => (
             <tr key={order._id}>
