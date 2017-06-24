@@ -10,8 +10,7 @@ import io from 'socket.io-client';
 import './clientBubble.css';
 
 /**
- * This module allows you to create a class representing the Client Bubble
- * @module bubble-and-eat/packages/frontend/src/components
+ * @class This class allows you to create a class representing the Client Bubble
  * @param props
  * @constructor
  */
@@ -27,7 +26,7 @@ export default class ClientBubble extends React.Component {
      * @property props.order {client: {}, dishes: Array, state:String} - order represents the current order.
      * @property props.orderState {String} - the state of the current order.
      * @property props.client {name: String, address: String} - the current client's data.
-     * @property props.total {Double} - the current total cost of the order.
+     * @property props.total {Number} - the current total cost of the order.
      * @property props.notify {Notification}
     */
     constructor(props) {
@@ -123,7 +122,7 @@ export default class ClientBubble extends React.Component {
      * @function
      * @name queryFor
      * @desc This method requests the status of an order.
-     * @param orderId {Integer} - The ID of the order.
+     * @param orderId {Number} - The ID of the order.
      */
     queryFor(orderId) {
         this.socket.emit('orderStatus', orderId);
@@ -191,7 +190,7 @@ export default class ClientBubble extends React.Component {
      * @function
      * @name reloadTotal
      * @desc This method calculates and returns the total cost of all the dishes selected for the current order.
-     * @returns {Double} - The total cost of the order.
+     * @returns {Number} - The total cost of the order.
      */
     reloadTotal() {
         let total = 0;
@@ -206,7 +205,7 @@ export default class ClientBubble extends React.Component {
     /**
      * @function
      * @name addDishToOrder
-     * @param i {Integer} - the ID of the dish.
+     * @param i {Number} - the ID of the dish.
      * @desc This method increases by one the currently ordered quantity of the selected dish.
      */
     addDishToOrder(i) {
@@ -216,7 +215,7 @@ export default class ClientBubble extends React.Component {
     /**
      * @function
      * @name removeDishToOrder
-     * @param i {Integer} - the ID of the dish.
+     * @param i {Number} - the ID of the dish.
      * @desc This method reduces by one the currently ordered quantity of the selected dish.
      */
     removeDishToOrder(i) {
@@ -227,7 +226,7 @@ export default class ClientBubble extends React.Component {
      * @function
      * @name handleChange
      * @param e {Event}
-     * @param i {Integer} - the ID of the dish.
+     * @param i {Number} - the ID of the dish.
      * @desc This method handles the changes in the amount of ordered portions for the selected dish. It calls the updateAmount method after converting into an int the amount of portions.
      */
     handleChange(e, i) {
@@ -238,8 +237,8 @@ export default class ClientBubble extends React.Component {
     /**
     * @function
     * @name updateAmount
-    * @param amount {Integer} - new amount
-    * @param i {Integer} - which item to update
+    * @param amount {Number} - new amount
+    * @param i {Number} - which item to update
     * @desc This method updates a specific dish's amount of portions as well as the total cost of the order.
     */
     updateAmount(amount, i) {
