@@ -1,34 +1,11 @@
-/**
- * client module
- * @module client
- */
-
 import 'bootstrap/dist/css/bootstrap.css';
 import React from 'react';
 import { WebNotification } from 'monolith-frontend';
 import io from 'socket.io-client';
 import './clientBubble.css';
 
-/**
- * This module allows you to create a class representing the Client Bubble
- * @module bubble-and-eat/packages/frontend/src/components
- * @param props
- * @constructor
- */
 export default class ClientBubble extends React.Component {
-    /**
-     * @class ClientBubble -
-     * @extends Component
-     * @property props {Object}
-     * @property props.menu {Array} - the restaurant's menu.
-     * @property props.page {String} - the page that is currently displayed to the user.
-     * @property props.quantity {Array} - the array containing the quantities of the different dishes.
-     * @property props.order {client: {}, dishes: Array, state:String} - order represents the current order.
-     * @property props.orderState {String} - the state of the current order.
-     * @property props.client {name: String, address: String} - the current client's data.
-     * @property props.total {Double} - the current total cost of the order.
-     * @property props.notify {Notification}
-    */
+
     constructor(props) {
         super(props);
         this.state = {
@@ -46,29 +23,16 @@ export default class ClientBubble extends React.Component {
         this.handleChange = this.handleChange.bind(this);
     }
 
-    /**
-    * @function
-    * @name componentDidMount
-    * @desc This function gets called authomatically when the bubble gets loaded and call the method connect() to connect the bubble to the rest of the application.
-    */
+    // viene lanciato da solo al caricamento della bolla
     componentDidMount() {
         this.connect();
     }
 
-    /**
-    * @function
-    * @name ccomponentWillUnmount
-    * @desc This function gets called authomatically when the bubble dies to free the resources it was occupying.
-    */
+    // viene lancialo alla chiusura della bolla per liberare risorse
     componentWillUnmount() {
         this.disconnect();
     }
 
-    /**
-    * @function
-    * @name connect
-    * @desc This method connects the bubble to the rest of the application through a socket.
-    */
     connect() {
         this.socket = io('https://order-gateway.herokuapp.com');
         this.socket.emit('auth', { type: 'client' });
@@ -98,100 +62,48 @@ export default class ClientBubble extends React.Component {
         });
     }
 
-    /**
-     * @function
-     * @name showMenu
-     * @desc This method requests the menu through the socket.
-     */
     showMenu() {
         this.socket.emit('menuRequest');
     }
 
-    /**
-     * @function
-     * @name order
-     * @desc This method orders the object that's passed to it as a parameter.
-     * @param something {Object} - The object that has to be ordered.
-     */
     order(something) {
         this.socket.emit('order', something);
         this.setState({ orderState: <p className="text-info">Waiting..</p> });
     }
 
-    /**
-     * @function
-     * @name queryFor
-     * @desc This method requests the status of an order.
-     * @param orderId {Integer} - The ID of the order.
-     */
+    // nel caso di disconnessione ci si rimette in ascolto sull' ordine/ da capire come usarlo
     queryFor(orderId) {
         this.socket.emit('orderStatus', orderId);
     }
 
-    /**
-    * @function
-    * @name disconnect
-    * @desc manage chef disconnection
-    */
     disconnect() {
         this.socket.close();
     }
 
-    /**
-     * @function
-     * @name redirectToHome
-     * @desc This method redirects the user to the home page.
-     */
     // renderizza la home
     redirectToHome() {
         this.setState({ page: 'home' });
     }
 
-    /**
-     * @function
-     * @name redirectToMenu
-     * @desc This method redirects the user to the menu page.
-     */
     // renderizza la pagina di gestione del menu
     redirectToMenu() {
         this.setState({ page: 'menu' });
         this.showMenu();
     }
 
-    /**
-     * @function
-     * @name redirectToNewOrder
-     * @desc This method redirects the user to the new order page.
-     */
     redirectToNewOrder() {
         this.setState({ page: 'order' });
         this.showMenu();
     }
 
-    /**
-     * @function
-     * @name redirectToOrder
-     * @desc This method redirects the user to the order page.
-     */
     redirectToOrder() {
         this.setState({ page: 'order' });
     }
 
-    /**
-     * @function
-     * @name redirectToInfo
-     * @desc This method redirects the user to the info page.
-     */
     redirectToInfo() {
         this.setState({ page: 'info' });
     }
 
-    /**
-     * @function
-     * @name reloadTotal
-     * @desc This method calculates and returns the total cost of all the dishes selected for the current order.
-     * @returns {Double} - The total cost of the order.
-     */
     reloadTotal() {
         let total = 0;
         for (let i = 0; i < this.state.quantita.length; i += 1) {
@@ -202,45 +114,18 @@ export default class ClientBubble extends React.Component {
         return total;
     }
 
-    /**
-     * @function
-     * @name addDishToOrder
-     * @param i {Integer} - the ID of the dish.
-     * @desc This method increases by one the currently ordered quantity of the selected dish.
-     */
     addDishToOrder(i) {
         this.updateAmount(this.state.quantita[i] + 1, i);
     }
 
-    /**
-     * @function
-     * @name removeDishToOrder
-     * @param i {Integer} - the ID of the dish.
-     * @desc This method reduces by one the currently ordered quantity of the selected dish.
-     */
     removeDishToOrder(i) {
         this.updateAmount(this.state.quantita[i] - 1, i);
     }
 
-    /**
-     * @function
-     * @name handleChange
-     * @param e {Event}
-     * @param i {Integer} - the ID of the dish.
-     * @desc This method handles the changes in the amount of ordered portions for the selected dish. It calls the updateAmount method after converting into an int the amount of portions.
-     */
     handleChange(e, i) {
         this.updateAmount(parseInt(e.target.value, 10), i);
     }
 
-
-    /**
-    * @function
-    * @name updateAmount
-    * @param amount {Integer} - new amount
-    * @param i {Integer} - which item to update
-    * @desc This method updates a specific dish's amount of portions as well as the total cost of the order.
-    */
     updateAmount(amount, i) {
         const quantita = this.state.quantita;
         if (amount > 0) {
@@ -252,11 +137,6 @@ export default class ClientBubble extends React.Component {
         this.setState({ quantita, total });
     }
 
-    /**
-    * @function
-    * @name updateClient
-    * @desc This method updates the information about the client by adding it's name and address.
-    */
     updateClient(e, data) {
         const clientAux = this.state.client;
         switch (data) {
@@ -272,11 +152,6 @@ export default class ClientBubble extends React.Component {
         this.setState({ client: clientAux });
     }
 
-    /**
-    * @function
-    * @name confirmOrder
-    * @desc confirm order, redirects to summary page
-    */
     confirmOrder() {
         const order = this.state.order;
         order.client = this.state.client;
@@ -294,15 +169,10 @@ export default class ClientBubble extends React.Component {
         console.log(JSON.stringify(this.state.order));
     }
 
-   /**
-    * @function
-    * @name render
-    * @desc renders client's home page, menu page and order page
-    */
     render() {
         let page = null;
 
-        // home page
+        // pagina home
         const homePage = (
             <div>
                 <div className="row margin-bottom-2">
@@ -353,7 +223,7 @@ export default class ClientBubble extends React.Component {
             </div>
         );
 
-        // menu page
+        // pagina menu
         const menuPage = (
             <div>
                 <div className="row">
@@ -437,7 +307,7 @@ export default class ClientBubble extends React.Component {
             </div>
         );
 
-        // order page
+        // pagina ordine
         const orderPage = (
             <div>
                 <button
