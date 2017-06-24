@@ -9,8 +9,7 @@ import io from 'socket.io-client';
 import './adminBubble.css';
 
 /**
- * This module allows you to create a class representing the Admin Bubble
- * @module bubble-and-eat/packages/frontend/src/components
+ * @class This class allows you to create a class representing the Admin Bubble
  * @param props
  * @constructor
  */
@@ -25,7 +24,7 @@ export default class AdminBubble extends React.Component {
 * @property props.activeOrders {Array} - the active orders.
 * @property props.page {String} - the page that is currently displayed to the user.
 * @property props.formDataName {String} - name input
-* @property props.formDataPrice {Double} - price input
+* @property props.formDataPrice {Number} - price input
 * @function formOnClick 
 */
     constructor(props) {
@@ -92,7 +91,7 @@ export default class AdminBubble extends React.Component {
     /**
     * @function
     * @name removeDish
-    * @param id {Integer} - id of the dish to remove
+    * @param id {Number} - id of the dish to remove
     * @desc manage admin's remove dish event to menuStates and emit the event
     */
     removeDish(id) {
@@ -103,7 +102,7 @@ export default class AdminBubble extends React.Component {
     /**
     * @function
     * @name editDish
-    * @param  id {Integer} - dish id
+    * @param  id {Number} - dish id
     * @param  newDish {dish} - changes to upload
     * @desc manage admin's edit dish to menuStates then search the dish to modify and emit the event
     */
@@ -154,7 +153,7 @@ export default class AdminBubble extends React.Component {
     /**
     * @function
     * @name deleteOrder
-    * @param orderID {Integer} - order to delete
+    * @param orderID {Number} - order to delete
     * @desc manage admin's request to delete an order with the specified id, emit delete event on that order
     */
     deleteOrder(orderID) {
