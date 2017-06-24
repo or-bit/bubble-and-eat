@@ -3,13 +3,13 @@
  * @module order-gateway/menuReducer
  */
 
+const IDGenerator = require('monolith-backend').IDGenerator;
 const menuStates = require('../states/menuStates').menuStates;
 
 // default menu object definition
 const defaultMenuState = {
   dishes: [],
   date: new Date(),
-  nextID: 0,
 };
 
 /**
@@ -23,28 +23,31 @@ exports.menuReducer = (state = defaultMenuState, action) => {
   switch (action.type) {
     case menuStates.add: {
       // action.payload = dish object
-      // TODO replace this id management with Object.Id from mongoclient
-      newAction.payload.id = state.nextID;
-      const newState = Object.assign({}, state, { nextID: state.nextID + 1 });
+      newAction.payload._id = IDGenerator.createRandomId();
+      const newState = Object.assign({}, state);
       newState.dishes.push(newAction.payload);
       return newState;
     }
     case menuStates.remove: {
       // action.payload = id of the dish that will be removed
-      const filterFunction = element => element.id !== action.payload;
+      const filterFunction = element => (
+          element._id.toString() !== action.payload
+      );
       return Object.assign({}, state, {
         dishes: state.dishes.filter(filterFunction),
       });
     }
     case menuStates.modify: {
-      // payload = {id: int, dish:{name: string, price: double, descriiption: string}}
+      // payload = {id: int, dish:{name: string, price: double, description: string}}
       // payload.id = id of the dish that will be modified,
       // payload.dish = dish object that will replace the existing one
       const mapFunction = (element) => {
-        if (element.id !== action.payload.id) return element;
-        newAction.payload.dish.id = action.payload.id;
+        console.log(element._id.toString(), action.payload.id);
+        if (element._id.toString() !== action.payload.id) return element;
+        newAction.payload.dish._id = action.payload.id;
         return newAction.payload.dish;
       };
+      console.log(state.dishes.map(mapFunction));
       return Object.assign(
         {},
         state,

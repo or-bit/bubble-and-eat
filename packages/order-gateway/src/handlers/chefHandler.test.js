@@ -90,7 +90,7 @@ describe('chefHandler', () => {
     class FakeDB extends EventEmitter {}
     const fakeDB = new FakeDB();
 
-    const orderId = 10;
+    const orderId = '11';
 
     const fakeDBWriteFunction = (data) => {
       fakeDB.emit('write', data.toString());
@@ -125,15 +125,16 @@ describe('chefHandler', () => {
 
   describe('responses to events', () => {
     let client;
+    const orderId = '10';
     beforeEach((done) => {
       server.open(serverPort);
       client = socketClient(serverUrl);
       socketServer.on('connection', (socket) => {
-        chefHandler(socket, store, orders);
+        chefHandler(socket, store, orders, () => {});
         client.on('activeOrdinations', (ordinations) => {
           response.ordinations = ordinations;
         });
-        orders.on(6, () => {
+        orders.on(orderId, () => {
           response.orderReady = true;
         });
       });
@@ -171,7 +172,6 @@ describe('chefHandler', () => {
     });
 
     it('should trigger order completion event', (done) => {
-      const orderId = 6;
       client.once('connect', () => {
         orders.once(orderId, () => {
           assert.equal(response.orderReady, true);

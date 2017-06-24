@@ -24,8 +24,8 @@ const store = {
     },
     order: {
       orders: [
-        { name: 'ordine attivo', state: 'active', id: 10 },
-        { name: 'ordine non attivo', state: 'completed', id: 11 },
+        { name: 'ordine attivo', state: 'active', _id: '10' },
+        { name: 'ordine non attivo', state: 'completed', _id: '11' },
       ],
     },
   }),
@@ -70,11 +70,11 @@ describe('clientHandler', () => {
     it('orderId assigned', (done) => {
       client.once('connect', () => {
         client.once('orderId', () => {
-          assert.equal(response.orderIdEvent, 6);
+          assert.equal(response.orderIdEvent, '6');
           done();
         });
       });
-      client.emit('order', { id: 6, zz: 'a', dishes: [] });
+      client.emit('order', { _id: '6', zz: 'a', dishes: [] });
     });
     it('should notify the order is completed on order signal', (done) => {
       client.once('connect', () => {
@@ -83,7 +83,7 @@ describe('clientHandler', () => {
           done();
         });
       });
-      client.emit('order', { id: 6, zz: 'a', dishes: [] });
+      client.emit('order', { _id: '6', zz: 'a', dishes: [] });
     });
     it('should receive the correct menu on menu request', (done) => {
       client.once('connect', () => {
@@ -136,8 +136,8 @@ describe('clientHandler', () => {
 
     it('should notify the order is completed even if client disconnected',
       (done) => {
-        client.emit('orderStatus', 11);
-        client.emit('orderStatus', 10);
+        client.emit('orderStatus', '11');
+        client.emit('orderStatus', '10');
         client.disconnect();
         setTimeout(() => {
           client.connect();

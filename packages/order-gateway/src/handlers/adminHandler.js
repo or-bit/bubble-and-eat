@@ -117,7 +117,7 @@ exports.adminHandler = (socket, store, database) => {
      */
   // looking at the active orders
   socket.on('activeOrders', () => {
-    const filterFunction = order => order.status === 'active';
+    const filterFunction = order => order.state === 'active';
     const orders = store.getState().order.orders;
     socket.emit('activeOrders', orders.filter(filterFunction));
   });

@@ -27,12 +27,16 @@ describe('orderReducer Test Suite', () => {
     const state = {
       orders: [],
     };
-    const newState = orderReducer(
+    let newState = orderReducer(
       state,
       {
         type: orderStates.process,
         payload: {},
       });
+    newState = orderReducer(newState, {
+      type: orderStates.process,
+      payload: {},
+    });
 
     it('should have marked the order as completed', () => {
       const orderId = newState.orders[0]._id;
@@ -49,12 +53,16 @@ describe('orderReducer Test Suite', () => {
     const state = {
       orders: [],
     };
-    const newState = orderReducer(
+    let newState = orderReducer(
       state,
       {
         type: orderStates.process,
         payload: {},
       });
+    newState = orderReducer(newState, {
+      type: orderStates.process,
+      payload: {},
+    });
 
     it('should have marked the order as canceled', () => {
       const orderId = newState.orders[0]._id;

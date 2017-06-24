@@ -13,6 +13,7 @@
     "init": "lerna init",
     "lint": "lerna run lint",
     "postinstall": "lerna bootstrap",
+    "refresh": "npm run clean && npm run bootstrap",
     "test": "lerna run test"
   },
   "keywords": [

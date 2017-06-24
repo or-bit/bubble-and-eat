@@ -25,7 +25,7 @@ const store = {
     order: {
       orders: [
         {
-          status: 'active',
+          state: 'active',
           id: 0,
         },
       ],
@@ -66,10 +66,10 @@ describe('admin handler responses to events', () => {
 
   it('menuEvent', (done) => {
     client = socketClient(serverUrl);
-    io.on('connection', (socket) => {
+    io.once('connection', (socket) => {
       adminHandler(socket, store, stubbedDB);
       // response from adminHandler (menuEventsHandler)
-      client.on('menu', (data) => {
+      client.once('menu', (data) => {
         assert.deepEqual(data, store.getState().menu.dishes);
         client.disconnect();
         done();
@@ -80,10 +80,10 @@ describe('admin handler responses to events', () => {
   });
   it('addDishEvent', (done) => {
     client = socketClient(serverUrl);
-    io.on('connection', (socket) => {
+    io.once('connection', (socket) => {
       adminHandler(socket, store, stubbedDB);
       // response from adminHandler (menuEventsHandler)
-      client.on('addedDish', (data) => {
+      client.once('addedDish', (data) => {
         assert.deepEqual(data, fakeDish);
         client.disconnect();
         done();
@@ -94,10 +94,10 @@ describe('admin handler responses to events', () => {
   });
   it('editDishEvent', (done) => {
     client = socketClient(serverUrl);
-    io.on('connection', (socket) => {
+    io.once('connection', (socket) => {
       adminHandler(socket, store, stubbedDB);
       // response from adminHandler (menuEventsHandler)
-      client.on('editedDish', (data) => {
+      client.once('editedDish', (data) => {
         assert.equal(data.length, 0);
         client.disconnect();
         done();
@@ -107,24 +107,25 @@ describe('admin handler responses to events', () => {
     client.emit('editDish', fakeDish);
   });
   it('removeDishEvent', (done) => {
+    const id = '0';
     client = socketClient(serverUrl);
-    io.on('connection', (socket) => {
+    io.once('connection', (socket) => {
       adminHandler(socket, store, stubbedDB);
       // response from adminHandler (menuEventsHandler)
-      client.on('removedDish', (data) => {
-        assert.equal(data, 0);
+      client.once('removedDish', (data) => {
+        assert.equal(data, id);
         client.disconnect();
         done();
       });
     });
-    client.emit('removeDish', 0);
+    client.emit('removeDish', id);
   });
   it('allOrdersEvent', (done) => {
     client = socketClient(serverUrl);
-    io.on('connection', (socket) => {
+    io.once('connection', (socket) => {
       adminHandler(socket, store, stubbedDB);
       // response from adminHandler
-      client.on('allOrders', (data) => {
+      client.once('allOrders', (data) => {
         assert.deepEqual(data, store.getState().order.orders);
         client.disconnect();
         done();
@@ -134,11 +135,11 @@ describe('admin handler responses to events', () => {
   });
   it('activeOrdersEvent', (done) => {
     client = socketClient(serverUrl);
-    io.on('connection', (socket) => {
+    io.once('connection', (socket) => {
       adminHandler(socket, store, stubbedDB);
       // response from adminHandler
-      client.on('activeOrders', (data) => {
-        assert.deepEqual(data, [{ status: 'active', id: 0 }]);
+      client.once('activeOrders', (data) => {
+        assert.deepEqual(data, [{ state: 'active', id: 0 }]);
         client.disconnect();
         done();
       });
@@ -147,10 +148,10 @@ describe('admin handler responses to events', () => {
   });
   it('completedOrdersEvent', (done) => {
     client = socketClient(serverUrl);
-    io.on('connection', (socket) => {
+    io.once('connection', (socket) => {
       adminHandler(socket, store, stubbedDB);
       // response from adminHandler
-      client.on('completedOrders', (data) => {
+      client.once('completedOrders', (data) => {
         assert.deepEqual(data, []);
         client.disconnect();
         done();
@@ -160,10 +161,10 @@ describe('admin handler responses to events', () => {
   });
   it('deleteOrderEvent', (done) => {
     client = socketClient(serverUrl);
-    io.on('connection', (socket) => {
+    io.once('connection', (socket) => {
       adminHandler(socket, store, stubbedDB);
       // response from adminHandler
-      client.on('deleteOrder', (data) => {
+      client.once('deleteOrder', (data) => {
         assert.deepEqual(data, 1);
         client.disconnect();
         done();
@@ -206,10 +207,10 @@ describe('adminHandler edge cases', () => {
 
     it('completedOrdersEvent', (done) => {
       client = socketClient(serverUrl);
-      io.on('connection', (socket) => {
+      io.once('connection', (socket) => {
         adminHandler(socket, store, stubbedDB);
         // response from adminHandler
-        client.on('completedOrders', (data) => {
+        client.once('completedOrders', (data) => {
           assert.deepEqual(data, []);
           client.disconnect();
           done();
@@ -238,11 +239,11 @@ describe('adminHandler edge cases', () => {
 
     it('allOrdersEvent', (done) => {
       client = socketClient(serverUrl);
-      io.on('connection', (socket) => {
+      io.once('connection', (socket) => {
         adminHandler(socket, store, stubbedDB);
         // response from adminHandler
-        client.on('allOrders', (data) => {
-          assert.deepEqual(data, [{ status: 'active', id: 0 }]);
+        client.once('allOrders', (data) => {
+          assert.deepEqual(data, [{ state: 'active', id: 0 }]);
           client.disconnect();
           done();
         });

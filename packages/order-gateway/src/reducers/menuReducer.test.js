@@ -13,21 +13,22 @@ describe('menuReducer', () => {
 
     it('should return the initial state', () => {
       state = menuReducer(undefined, {});
-      expect(state.nextID).to.equal(0);
       expect(state.dishes).to.deep.equal([]);
       expect(state.date).to.equalDate(new Date());
     });
 
-    it('should have raised nextID by 1', () => {
+    it('should have registered the dish', () => {
       state = menuReducer(undefined, {
         type: menuStates.add,
-        payload: {},
+        payload: {
+          dish: {
+            name: 'test',
+            price: 1,
+            _id: '0',
+          },
+        },
       });
-      expect(state.nextID).to.equal(1);
-    });
-
-    it('should have registered the dish', () => {
-      assert.equal(state.dishes[0].id, 0);
+      assert.isObject(state.dishes[0]._id);
     });
   });
 
@@ -42,24 +43,15 @@ describe('menuReducer', () => {
           payload: {},
         });
     });
-    it('should not have changed nextID', () => {
-      const newState = menuReducer(
-        state,
-        {
-          type: menuStates.remove,
-          payload: 0,
-        });
-      assert.equal(newState.nextID, 1);
-    });
 
     it('should have removed the dish', () => {
       const newState = menuReducer(
         state,
         {
           type: menuStates.remove,
-          payload: 0,
+          payload: state.dishes[0]._id.toString(),
         });
-      assert.equal(newState.dishes.length, 0);
+      assert.equal(newState.dishes.length, 1);
     });
   });
 
@@ -69,7 +61,7 @@ describe('menuReducer', () => {
     function createModifiedState() {
       return {
         type: menuStates.modify,
-        payload: { id: 0, dish: { test: 'test' } },
+        payload: { id: state.dishes[0]._id.toString(), dish: { test: 'test' } },
       };
     }
 
@@ -82,13 +74,9 @@ describe('menuReducer', () => {
         });
     });
 
-    it('should not have changed nextID', () => {
-      const newState = menuReducer(state, createModifiedState());
-      assert.equal(newState.nextID, 1);
-    });
     it('should have not changed dish id', () => {
       const newState = menuReducer(state, createModifiedState());
-      assert.equal(newState.dishes[0].id, 0);
+      assert.equal(newState.dishes[0]._id, state.dishes[0]._id);
     });
     it('should have changed dish content', () => {
       const newState = menuReducer(state, createModifiedState());

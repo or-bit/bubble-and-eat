@@ -88,13 +88,15 @@ exports.chefHandler = (socket, store, orders, addToDatadaseCompletedOrder) => {
   // The client is listening for the event with the order id:
   // when he receives the event he knows that his order is ready.
   socket.on('orderCompleted', (id) => {
-    orders.emit(id);
     store.dispatch(orderActions.completeOrder(id).asPlainObject());
     // persist completed order in db
     // id is unique -> filter can find only one order with the id -> first result is going to be the desired one
-    const completedOrder = ordersInState.filter(order => order._id === id)[0];
+    const completedOrder = ordersInState.filter(order => (
+        order._id.toString() === id
+    ))[0];
     if (typeof completedOrder !== 'undefined') {
       addToDatadaseCompletedOrder(completedOrder);
+      orders.emit(id, completedOrder);
     }
   });
 };

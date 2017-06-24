@@ -32,8 +32,8 @@ exports.clientHandler = (socket, store, orders) => {
   // This manages the order's status request when client disconnects and reconnects
   socket.on('orderStatus', (id) => {
     // client is reconnected: retrieve its order by order id
-    console.log(`Requesting order's ${id} status`);
-    const filterFunction = element => element.id === id;
+    console.log(`Requesting order's ${id} state`);
+    const filterFunction = element => element._id === id;
     let order = store.getState().order.orders.filter(filterFunction);
     order = order[0];
     if (typeof order !== 'undefined') {
@@ -65,8 +65,7 @@ exports.clientHandler = (socket, store, orders) => {
      */
   // if an order comes from the client
   socket.on('order', (order) => {
-
-    console.log(JSON.stringify(order, null, '  '));
+    console.log('Order arrived', JSON.stringify(order, null, '  '));
 
     const outputOrder = Object.assign({}, order);
     let total = 0;
@@ -90,12 +89,11 @@ exports.clientHandler = (socket, store, orders) => {
 
     socket.emit('orderTotal', total);
     // notify the client of the ID of the placed order so that it can track the state of the order
-    socket.emit('orderId', outputOrder.id);
+    socket.emit('orderId', outputOrder._id);
     // waiting for the event corresponding to the order (this way more clients can be notified each of their own order)
-    orders.on(outputOrder.id, () => {
-      // notify the client bubble
-      socket.emit('orderReady');
-    });
+    orders.on(outputOrder._id, newOrder => (
+      socket.emit('orderReady', newOrder)
+    ));
   });
 
     /**

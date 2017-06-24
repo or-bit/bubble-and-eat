@@ -2,6 +2,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import React from 'react';
 import { WebNotification } from 'monolith-frontend';
 import io from 'socket.io-client';
+import config from 'bubble-and-eat-consts';
 import Order from './Order';
 
 /**
@@ -36,7 +37,7 @@ export default class ChefBubble extends React.Component {
      * Manage chef's connection to the application url
      */
     connect() {
-        this.socket = io('https://order-gateway.herokuapp.com');
+        this.socket = io(config.getServerURL());
         this.socket.emit('auth', { type: 'cook' });
         this.fetchOrders();
         this.setState({ orders: [] });
@@ -54,7 +55,7 @@ export default class ChefBubble extends React.Component {
             let icon = '';
             if (orders.length === 0) {
                 title = 'No orders';
-                body = 'Orders list empty';
+                body = 'InternalComms list empty';
                 icon = 'https://cdn0.iconfinder.com/data/icons/iconshock-windows7-icons/256/task_completed.png';
             } else {
                 title = `You have ${orders.length} orders to do`;
@@ -77,7 +78,8 @@ export default class ChefBubble extends React.Component {
     }
 
     /**
-     * Manage chef's request to complete an order with the specified id, emit orderCompleted event on that order
+     * Manage chef's request to complete an order with
+     * the specified id, emit orderCompleted event on that order
      * @param id {Number} Id of the order to complete
      */
     markOrdinationCompleted(id) {

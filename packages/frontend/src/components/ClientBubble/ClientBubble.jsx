@@ -2,12 +2,14 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import React from 'react';
 import { WebNotification } from 'monolith-frontend';
+import config from 'bubble-and-eat-consts';
 import io from 'socket.io-client';
 import './clientBubble.css';
 
 /**
  * @class Represents the Client and all it's functionalities in the application.
- * It allows the user to interact with the application by rendering the GUI and calling the methods requested by the user.
+ * It allows the user to interact with the application by
+ * rendering the GUI and calling the methods requested by the user.
  * @extends React.Component
  * @property props {Object}
  * @property state {Object}
@@ -40,8 +42,7 @@ export default class ClientBubble extends React.Component {
             page: 'home',
             quantita: [],
             order: { client: {}, dishes: [], state: '' },
-            orderState: 'not ordered yet',
-            client: { name: '', address: '' },
+            client: { name: '' },
             total: 0,
             notify: null,
         };
@@ -51,7 +52,8 @@ export default class ClientBubble extends React.Component {
     }
 
     /**
-     * This function gets called automatically when the bubble gets loaded and call the method connect() to connect
+     * This function gets called automatically when the bubble
+     * gets loaded and call the method connect() to connect
      * the bubble to the rest of the application.
      */
     componentDidMount() {
@@ -59,7 +61,8 @@ export default class ClientBubble extends React.Component {
     }
 
     /**
-     * This function gets called automatically when the bubble dies to free the resources it was occupying.
+     * This function gets called automatically when
+     * the bubble dies to free the resources it was occupying.
      */
     componentWillUnmount() {
         this.disconnect();
@@ -69,7 +72,7 @@ export default class ClientBubble extends React.Component {
      * This method connects the bubble to the rest of the application through a socket.
      */
     connect() {
-        this.socket = io('https://order-gateway.herokuapp.com');
+        this.socket = io(config.getServerURL());
         this.socket.emit('auth', { type: 'client' });
 
         this.socket.on('menu', (menu) => {
@@ -86,10 +89,9 @@ export default class ClientBubble extends React.Component {
         this.socket.on('orderId', (id) => {
             this.orderId = id;
         });
-        this.socket.on('orderReady', () => {
-            this.setState({
-                orderState: <p className="text-success">Ready!</p>,
-            });
+        this.socket.on('orderReady', (newOrder) => {
+            console.log('ORDER COMPLETED', newOrder);
+            this.setState({ newOrder });
             const title = 'Order ready!';
             const body = 'Your order is ready! We\'ll keep it warm for you... ;)';
             const imageUrl = 'http://www.pngmart.com/files/3/Green-Tick-PNG-Photos.png';
@@ -212,7 +214,8 @@ export default class ClientBubble extends React.Component {
 
 
     /**
-     * This method updates a specific dish's amount of portions as well as the total cost of the order.
+     * This method updates a specific dish's amount
+     * of portions as well as the total cost of the order.
      * @param amount {Number} New amount
      * @param i {Number} Which item to update
      */

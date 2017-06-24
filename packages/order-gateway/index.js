@@ -4,7 +4,7 @@ const config = require('bubble-and-eat-consts');
 const server = require('monolith-backend').Server.create();
 const StoreProvider = require('monolith-backend').StoreProvider;
 const DataBase = require('monolith-backend').DataBase;
-const BubbleMemory = require('monolith-backend').BubbleMemory;
+const EventEmitter = require('events');
 
 // import various connections handlers
 const chefHandler = require('./src/handlers/chefHandler').chefHandler;
@@ -15,8 +15,8 @@ const adminHandler = require('./src/handlers/adminHandler').adminHandler;
 const reducers = require('./src/reducers/combineReducer').reducers;
 
 // create an EventEmitter used for orders
-class Orders extends BubbleMemory {}
-const orders = new Orders();
+class InternalComms extends EventEmitter {}
+const orders = new InternalComms();
 
 // increase concurrent operations limit
 orders.setMaxListeners(500);

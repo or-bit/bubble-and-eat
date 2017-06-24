@@ -6,17 +6,17 @@ require('dotenv').config(
 );
 
 module.exports = {
-    getServerPort: () => process.env.SERVER_PORT,
+    getServerPort: () => process.env.PORT || 3001,
     getServerURL: () => {
-        const protocol = process.env.SERVER_PROTOCOL;
-        const host = process.env.SERVER_HOST;
-        const port = process.env.SERVER_PORT;
+        const protocol = process.env.SERVER_PROTOCOL || 'http';
+        const host = process.env.SERVER_HOST || 'localhost';
+        const port = process.env.PORT || 3001;
         return `${protocol}://${host}:${port}`;
     },
     getDBURL: () => {
-        const host = process.env.DB_HOST;
-        const port = process.env.DB_PORT;
-        const name = process.env.DB_NAME;
+        const host = process.env.DB_HOST || 'localhost';
+        const port = process.env.DB_PORT || 27017;
+        const name = process.env.DB_NAME || 'ordergateway';
         return `mongodb://${host}:${port}/${name}`;
     },
 };

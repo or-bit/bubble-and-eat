@@ -1,6 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import io from 'socket.io-client';
+import config from 'bubble-and-eat-consts';
 import './adminBubble.css';
 
 /**
@@ -50,7 +51,7 @@ export default class AdminBubble extends React.Component {
      * Manage admin's connection to the application URL.
      */
     connect() {
-        this.socket = io('https://order-gateway.herokuapp.com');
+        this.socket = io(config.getServerURL());
         this.socket.emit('auth', { type: 'admin' });
         this.setState({ menu: [] });
     }
@@ -71,6 +72,7 @@ export default class AdminBubble extends React.Component {
      * @param dish {Object} dish to add
      */
     addDish(dish) {
+        console.log(JSON.stringify(dish, null, ' '));
         this.socket.on('addedDish', (response) => {
             console.log('risposta all aggiunta di un piatto: ', response);
         });
@@ -85,14 +87,13 @@ export default class AdminBubble extends React.Component {
         this.socket.emit('removeDish', id);
     }
 
-
     /**
      * Manage admin's edit dish to menuStates then search the dish to modify and emit the event.
      * @param id {Number} dish id
-     * @param newDish {Object} changes to upload
+     * @param dish {Object} changes to upload
      */
-    editDish(id, newDish) {
-        this.socket.emit('editDish', { id, dish: newDish });
+    editDish(id, dish) {
+        this.socket.emit('editDish', { id, dish });
     }
 
     /**
@@ -107,7 +108,8 @@ export default class AdminBubble extends React.Component {
     }
 
    /**
-    * Manage admin's request to get active orders, filter orders to get the active ones and emit the event.
+    * Manage admin's request to get active orders,
+    * filter orders to get the active ones and emit the event.
     */
     fetchActiveOrders() {
         this.socket.on('activeOrders', (orders) => {
@@ -118,7 +120,8 @@ export default class AdminBubble extends React.Component {
     }
 
     /**
-     * Manage admin's request to get completed orders, filter orders to get the completed ones and emit the event.
+     * Manage admin's request to get completed orders,
+     * filter orders to get the completed ones and emit the event.
      */
     fetchCompletedOrders() {
         this.socket.on('completedOrders', (orders) => {
@@ -129,7 +132,8 @@ export default class AdminBubble extends React.Component {
     }
 
     /**
-     * Manage admin's request to delete an order with the specified id, emit delete event on that order.
+     * Manage admin's request to delete an order
+     * with the specified id, emit delete event on that order.
      * @param orderID {Number} - order to delete
      */
     deleteOrder(orderID) {
@@ -151,8 +155,7 @@ export default class AdminBubble extends React.Component {
      * Redirect to the form in add item mode.
      */
     redirectToFormAdd() {
-        // default value
-	// on submit
+        // default value on submit
         this.setState({
             page: 'form',
             formDataPrice: 0,
@@ -217,8 +220,7 @@ export default class AdminBubble extends React.Component {
 
         let page = <p>z</p>;
 
-        // menu page
-	// also used for edits and adds
+        // menu page also used for edits and adds
         const menuPage = (<div>
             <div className="row">
                 <div className="col-xs-6">
@@ -253,12 +255,12 @@ export default class AdminBubble extends React.Component {
                     </tr>
                 </thead>
                 <tbody>
-                    {this.state.menu.map(element => (<tr key={element.id}>
+                    {this.state.menu.map(element => (<tr key={element.dish._id}>
                         <td>
-                            {element.name}
+                            {element.dish.name}
                         </td>
                         <td>
-                            {element.price}
+                            {element.dish.price}
                             {' $ '}
                         </td>
                         <td className="text-right">
