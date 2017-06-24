@@ -74,8 +74,7 @@ console.log('Server is running');
 server.onConnection((socket) => {
   socket.on('auth', (authData) => {
     const store = StoreProvider.getStore();
-    // TODO modify cook -> chef
-    if (authData.type === 'cook') {
+    if (authData.type === 'chef') {
       chefHandler(
         socket,
         store,
