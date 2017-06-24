@@ -16,65 +16,65 @@ exports.chefHandler = (socket, store, orders, addToDatabaseCompletedOrder) => {
      * @param element {Object} Order to process
      * @return {Boolean} Returns true if the order is active
      */
-    const activeFilterFunction = element => element.state === 'active';
+  const activeFilterFunction = element => element.state === 'active';
     /**
      * @property ordersInState {Array} Orders contained in the current state of the store
      */
-    let ordersInState = store.getState().order.orders;
+  let ordersInState = store.getState().order.orders;
     /**
      * @property previousOrders {Array} Orders contained in the previous state of the store
      */
-    let previousOrders = store.getState().order.orders;
+  let previousOrders = store.getState().order.orders;
 
     /**
      * @property activeOrders {Array} Orders with active state
      */
-    let activeOrders = [];
-    if (Array.isArray(ordersInState)) {
-        activeOrders = ordersInState.filter(activeFilterFunction);
-    }
+  let activeOrders = [];
+  if (Array.isArray(ordersInState)) {
+    activeOrders = ordersInState.filter(activeFilterFunction);
+  }
 
-    socket.on('ready', () => {
-        if (activeOrders.length > 0) {
-            socket.emit('activeOrdinations', activeOrders);
-        }
-    });
+  socket.on('ready', () => {
+    if (activeOrders.length > 0) {
+      socket.emit('activeOrdinations', activeOrders);
+    }
+  });
 
     // when the chef is connected we register his/her presence in the state
-    store.dispatch(chefActions.present(new Date()).asPlainObject());
-    console.log('chef connected');
+  store.dispatch(chefActions.present(new Date()).asPlainObject());
+  console.log('chef connected');
     // when the chef disconnects, register his/her absence in the state
-    socket.on('disconnect', () => {
-        store.dispatch(chefActions.absent(new Date()).asPlainObject());
-    });
+  socket.on('disconnect', () => {
+    store.dispatch(chefActions.absent(new Date()).asPlainObject());
+  });
 
     // listen the store for changes in state:
     // check if orders changed, and only if they did notify them to the frontend
-    store.subscribe(() => {
-        ordersInState = store.getState().order.orders;
-        console.log(ordersInState, previousOrders);
-        if (previousOrders !== ordersInState) {
-            previousOrders = ordersInState;
-            activeOrders = ordersInState.filter(activeFilterFunction);
+  store.subscribe(() => {
+    ordersInState = store.getState().order.orders;
+    console.log(ordersInState, previousOrders);
+    if (previousOrders !== ordersInState) {
+      previousOrders = ordersInState;
+      activeOrders = ordersInState.filter(activeFilterFunction);
             // frontend takes care of empty activeOrders
-            socket.emit('activeOrdinations', activeOrders);
-        }
-    });
+      socket.emit('activeOrdinations', activeOrders);
+    }
+  });
 
     // When the chef marks the dish as prepared, in the backend we receive the order id of the completed order.
     // In order to notify the client we emit an event with the corresponding id.
     // The client is listening for the event with the order id:
     // when he receives the event he knows that his order is ready.
-    socket.on('orderCompleted', (id) => {
-        store.dispatch(orderActions.completeOrder(id).asPlainObject());
+  socket.on('orderCompleted', (id) => {
+    store.dispatch(orderActions.completeOrder(id).asPlainObject());
         // persist completed order in db
         // id is unique -> filter can find only one order with the id -> first result is going to be the desired one
-        const completedOrder = ordersInState.filter(order => (
+    const completedOrder = ordersInState.filter(order => (
             order._id.toString() === id
         ))[0];
-        if (typeof completedOrder !== 'undefined') {
-            addToDatabaseCompletedOrder(completedOrder);
-            orders.emit(id, completedOrder);
-        }
-    });
+    if (typeof completedOrder !== 'undefined') {
+      addToDatabaseCompletedOrder(completedOrder);
+      orders.emit(id, completedOrder);
+    }
+  });
 };

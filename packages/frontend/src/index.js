@@ -4,13 +4,15 @@ import {
     BrowserRouter as Router,
     Route,
 } from 'react-router-dom';
-import { GenericBubble, WebNotification } from 'monolith-frontend';
 
-import StarterPage from './components/StarterPage';
-import CookBubble from './components/ChefBubble/ChefBubble';
-import ClientBubble from './components/ClientBubble/ClientBubble';
-import AdminBubble from './components/AdminBubble/AdminBubble';
-import TodoBubble from './components/TodoBubble/TodoBubble';
+// importing css
+import 'monolith-frontend/dist/css/main.css';
+import 'bootstrap/dist/css/bootstrap.css';
+
+import StarterPage from './StarterPage';
+import ChefBubble from './bubbles/ChefBubble/ChefBubble';
+import ClientBubble from './bubbles/ClientBubble/ClientBubble';
+import AdminBubble from './bubbles/AdminBubble/AdminBubble';
 
 const rootEl = document.getElementById('root');
 
@@ -18,32 +20,14 @@ function HomeRoute() {
     return <StarterPage />;
 }
 
-function notify() {
-    return (
-        <div>
-            <button
-              onClick={() => {
-                  setTimeout(() => {
-                      const notifica = new WebNotification('Notification title', 'notification body', 'http://pngimg.com/uploads/frog/frog_PNG3848.png');
-                      notifica.notify();
-                  }, 3000);
-              }}
-            >notify after 3 sec</button>
-        </div>
-    );
-}
-
 const render = () => {
     ReactDOM.render(
         <Router>
             <div>
                 <Route exact path="/" component={HomeRoute} />
-                <Route path="/bubble/" component={GenericBubble} />
-                <Route path="/cook" component={CookBubble} />
+                <Route path="/chef" component={ChefBubble} />
                 <Route path="/client" component={ClientBubble} />
                 <Route path="/admin" component={AdminBubble} />
-                <Route path="/todo/" component={TodoBubble} />
-                <Route path="/notify" component={notify} />
             </div>
         </Router>,
         rootEl,
@@ -51,4 +35,3 @@ const render = () => {
 };
 
 render();
-// store.subscribe(render);

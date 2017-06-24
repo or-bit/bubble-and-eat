@@ -1,0 +1,17 @@
+div {
+    text-align: center;
+}
+
+div.monolith-container {
+    padding-left: 2em;
+    padding-right: 2em;
+}
+
+button.button-danger {
+    background-color: darkred;
+}
+
+div.divider {
+    margin-top: 1em;
+    border-bottom: 1px solid grey;
+}
