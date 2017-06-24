@@ -26,18 +26,16 @@ const OrderList = (
           key={order._id}
           className={retrieveClassName(index)}
         >
-            <OrderListItem
-              order={order}
-            />
+            <OrderListItem order={order} />
             {order.state === 'active' &&
             <Button
               className="button-danger btn btn-danger"
               text="Cancel order"
               callback={() => handleDelete(order)}
             />
-                    }
+            }
         </div>
-            ));
+    ));
 
     if (orders.length > 0) {
         render = (
