@@ -1,34 +1,19 @@
-/**
- * ClientHandler module
- * @module clientHandler
- */
-
-/** @constant
- * @type{ordereActions}
- */
 const orderActions = require('../actions/ordersActions');
 
+/**
+ * Handles the request emitted from the client bubble.
+ * @module clientHandler
+ * @param socket {Socket} Socket for the connection to the server
+ * @param store {Redux.Store} Store where data are saved
+ * @param orders {Array} List of all orders
+ */
 exports.clientHandler = (socket, store, orders) => {
   // Bubbles' requests
   console.log('Client connected');
 
-    /**
-     * @function
-     * @name soket/on
-     * @param {Event} disconnect - client disconnect event
-     * @param {Function} client_disconnect - client disconnection
-     * @desc Menage client disconnection
-     */
   // Disconnection event
   socket.on('disconnect', () => { console.log('Client disconnected'); });
 
-    /**
-     * @function
-     * @name soket/on
-     * @param {Event} orderStatus - check client's oreder status
-     * @param {Function} search_by_id - search client's order by id
-     * @desc Manages the order's status request when client disconnects and reconnects
-     */
   // This manages the order's status request when client disconnects and reconnects
   socket.on('orderStatus', (id) => {
     // client is reconnected: retrieve its order by order id
@@ -54,15 +39,6 @@ exports.clientHandler = (socket, store, orders) => {
     }
   });
 
-
-    /**
-     * @function
-     * @name soket/on
-     * @param {Event} order - client's order
-     * @param {Function} send_order - send client's order
-     * @desc set unique id to client's order and save it in store(orderStates) and in database then send's id back
-     * to client(in case of client's disconnection) and wait event with his specific order's id
-     */
   // if an order comes from the client
   socket.on('order', (order) => {
     console.log('Order arrived', JSON.stringify(order, null, '  '));
@@ -96,13 +72,6 @@ exports.clientHandler = (socket, store, orders) => {
     ));
   });
 
-    /**
-     * @function
-     * @name soket/on
-     * @param {Event} menuRequest - menu request event
-     * @param {Function} emit_request - client emit menu request
-     * @desc manage client's menu request
-     */
   // handle menu request
   socket.on('menuRequest', () => {
     socket.emit('menu', store.getState().menu.dishes);

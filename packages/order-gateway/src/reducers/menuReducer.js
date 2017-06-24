@@ -1,6 +1,5 @@
 /**
- * Menu specific reducer
- * @module order-gateway/menuReducer
+ *
  */
 
 const IDGenerator = require('monolith-backend').IDGenerator;
@@ -13,10 +12,13 @@ const defaultMenuState = {
 };
 
 /**
- * Pure function that changes redux store's state based on the current state and the triggering action.
- * @param state - Current redux menu state. If redux store is not initialized: menu's state is an object <pre><code> dishes: [], date: new Date(), nextID: 0 </code></pre> .
- * @param action - Action that is triggering state changes. @see module:order-gateway/menuActions
- * @returns The new state.
+ * Menu specific reducer.
+ * Pure function that changes redux store state based on the current state and the triggering action.
+ * @module menuReducer
+ * @param state {Object} Current redux menu state. If redux store is not initialized: menu's state is an object <pre><code> dishes: [], date: new Date(), nextID: 0 </code></pre> .
+ * @param action {Action} Action that is triggering state changes.
+ * @returns {Object} The new state.
+ * @see module:menuActions
  */
 exports.menuReducer = (state = defaultMenuState, action) => {
   const newAction = Object.assign({}, action);

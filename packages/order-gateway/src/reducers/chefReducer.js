@@ -1,15 +1,13 @@
-/**
- * Chef specific reducer
- * @module order-gateway/chefReducer
- */
-
 const chefStates = require('../states/chefStates').chefStates;
 
 /**
- * Pure function that changes redux store's state based on the current state and the triggering action.
- * @param state - Current redux chef state. If redux store is not initialized: chef's state is absent.
- * @param action - Action that is triggering state changes. @see module:order-gateway/chefActions
- * @returns The new state.
+ * Chef specific reducer.
+ * Pure function that changes redux store state based on the current state and the triggering action.
+ * @module chefReducer
+ * @param state {Object} Current redux chef state. If redux store is not initialized: chef's state is absent
+ * @param action {Action} Action that is triggering state changes
+ * @returns {Object} The new state
+ * @see module:chefActions
  */
 exports.chefReducer = (state = { present: false }, action) => {
   switch (action.type) {

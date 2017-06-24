@@ -1,0 +1,26 @@
+{
+  "tags": {
+    "allowUnknownTags": true,
+    "dictionaries": ["jsdoc","closure"]
+  },
+  "source": {
+    "include": ["./packages"],
+    "exclude": ["docs", "test-clients"],
+    "includePattern": ".+\\.js(doc|x)?$",
+    "excludePattern": ".test."
+  },
+  "plugins": ["./node_modules/jsdoc-export-default-interop/dist/index"],
+  "templates": {
+    "cleverLinks": true,
+    "monospaceLinks": false,
+    "default": {
+      "outputSourceFiles": true
+    }
+  },
+  "opts": {
+    "destination": "./docs/",
+    "recurse": true,
+    "readme": "./README.md"
+  }
+}
+

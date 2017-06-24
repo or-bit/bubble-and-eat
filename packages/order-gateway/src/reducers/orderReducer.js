@@ -1,6 +1,4 @@
 /**
- * Orders specific reducer
- * @module order-gateway/orderReducer
  */
 
 const orderStates = require('../states/orderStates').orderStates;
@@ -8,10 +6,14 @@ const IDGenerator = require('monolith-backend').IDGenerator;
 
 /* eslint-disable no-underscore-dangle */
 /**
+ * Orders specific reducer.
  * Pure function that changes redux store's state based on the current state and the triggering action.
- * @param state - Current redux orders state. If redux store is not initialized: orders's state is an object <pre><code> nextID: 0, orders: [] </code></pre>.
- * @param action - Action that is triggering state changes. @see module:order-gateway/ordersActions
- * @returns The new state.
+ * @module orderReducer
+ * @param state {Object} Current redux orders state. If redux store is not initialized: orders's state is an object
+ * <pre><code> nextID: 0, orders: [] </code></pre>.
+ * @param action {Action} Action that is triggering state changes.
+ * @returns {Object} The new state.
+ * @see module:ordersActions
  */
 exports.orderReducer = (state = { orders: [] }, action) => {
   let newState = Object.assign({}, state);

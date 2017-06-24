@@ -24,6 +24,7 @@
   "author": "Or-Bit",
   "license": "MIT",
   "devDependencies": {
+    "jsdoc-export-default-interop": "^0.3.1",
     "lerna": "^2.0.0-rc.5"
   }
 }

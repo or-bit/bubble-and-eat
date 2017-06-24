@@ -1,6 +1,5 @@
 /**
- * Combine specific reducer
- * @module order-gateway/combineReducer
+
  */
 
 const menuReducer = require('./menuReducer').menuReducer;
@@ -10,6 +9,7 @@ const combineReducers = require('redux').combineReducers;
 
 /**
  * Combine menuReducer, chefReducer and orderReducer in one single reducer (pure function).
+ * @module combineReducer
  */
 exports.reducers = combineReducers({
   chef: chefReducer,
