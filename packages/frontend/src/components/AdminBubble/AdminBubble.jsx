@@ -1,8 +1,3 @@
-/**
- * admin module
- * @module admin
- */
-
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import io from 'socket.io-client';
@@ -10,23 +5,25 @@ import './adminBubble.css';
 
 /**
  * @class This class allows you to create a class representing the Admin Bubble
- * @param props
- * @constructor
+ * @extends React.Component
+ * @property props {Object}
+ * @property state {Object}
+ * @property state.menu {Array} The restaurant's menu
+ * @property state.allOrders {Array} All the orders
+ * @property state.completedOrders {Array} The completed orders
+ * @property state.activeOrders {Array} The active orders
+ * @property state.page {String} The page that is currently displayed to the user
+ * @property state.formDataName {String} Name input
+ * @property state.formDataPrice {Number} Price input
+ * @property state.formOnClick {function} Action perform on click event on the form
+ * @property socket {Socket} Socket for the connection to the server
  */
 export default class AdminBubble extends React.Component {
-/**
-* @class AdminBubble -
-* @extends Component
-* @property props {Object}
-* @property props.menu {Array} - the restaurant's menu.
-* @property props.allOrders {Array} - all the orders.
-* @property props.completedOrders {Array} - the completed orders.
-* @property props.activeOrders {Array} - the active orders.
-* @property props.page {String} - the page that is currently displayed to the user.
-* @property props.formDataName {String} - name input
-* @property props.formDataPrice {Number} - price input
-* @function formOnClick 
-*/
+
+    /**
+     * Create a bubble for the admin
+     * @param props {Object}
+     */
     constructor(props) {
         super(props);
         this.state = {
@@ -43,19 +40,15 @@ export default class AdminBubble extends React.Component {
     }
 
     /**
-    * @function
-    * @name ccomponentDidMount
-    * @desc invoked immediately after the component is mounted, calls the connect method
-    */
+     * Invoked immediately after the component is mounted, calls the connect method.
+     */
     componentDidMount() {
         this.connect();
     }
 
     /**
-    * @function
-    * @name connect
-    * @desc manage admin's connection to the application url
-    */
+     * Manage admin's connection to the application URL.
+     */
     connect() {
         this.socket = io('https://order-gateway.herokuapp.com');
         this.socket.emit('auth', { type: 'admin' });
@@ -63,10 +56,8 @@ export default class AdminBubble extends React.Component {
     }
 
     /**
-    * @function
-    * @name showMenu
-    * @desc manage admin's menu request
-    */
+     * Manage admin's menu request.
+     */
     showMenu() {
         this.socket.on('menu', (menu) => {
             this.setState({ menu });
@@ -76,11 +67,9 @@ export default class AdminBubble extends React.Component {
 
 
     /**
-    * @function
-    * @name addDish
-    * @param dish {dish} - dish to add
-    * @desc manage admin's add dish event
-    */
+     * Manage admin's add dish event.
+     * @param dish {Object} dish to add
+     */
     addDish(dish) {
         this.socket.on('addedDish', (response) => {
             console.log('risposta all aggiunta di un piatto: ', response);
@@ -89,32 +78,26 @@ export default class AdminBubble extends React.Component {
     }
 
     /**
-    * @function
-    * @name removeDish
-    * @param id {Number} - id of the dish to remove
-    * @desc manage admin's remove dish event to menuStates and emit the event
-    */
+     * Manage admin's remove dish event to menuStates and emit the event.
+     * @param id {Number} id of the dish to remove
+     */
     removeDish(id) {
         this.socket.emit('removeDish', id);
     }
 
 
     /**
-    * @function
-    * @name editDish
-    * @param  id {Number} - dish id
-    * @param  newDish {dish} - changes to upload
-    * @desc manage admin's edit dish to menuStates then search the dish to modify and emit the event
-    */
+     * Manage admin's edit dish to menuStates then search the dish to modify and emit the event.
+     * @param id {Number} dish id
+     * @param newDish {Object} changes to upload
+     */
     editDish(id, newDish) {
         this.socket.emit('editDish', { id, dish: newDish });
     }
 
     /**
-    * @function
-    * @name fetchAllOrders
-    * @desc manage admin's request to get all orders
-    */
+     * Manage admin's request to get all orders.
+     */
     fetchAllOrders() {
         this.socket.on('allOrders', (orders) => {
             console.log('All orders from backend', JSON.stringify(orders));
@@ -124,9 +107,7 @@ export default class AdminBubble extends React.Component {
     }
 
    /**
-    * @function
-    * @name fetchActiveOrders
-    * @desc manage admin's request to get active orders, filter orders to get the active ones and emit the event
+    * Manage admin's request to get active orders, filter orders to get the active ones and emit the event.
     */
     fetchActiveOrders() {
         this.socket.on('activeOrders', (orders) => {
@@ -137,11 +118,8 @@ export default class AdminBubble extends React.Component {
     }
 
     /**
-    * @function
-    * @name fetchCompletedOrders
-    * @desc manage admin's request to get completed orders, filter orders to get the completed ones and emit the event
-    */
-
+     * Manage admin's request to get completed orders, filter orders to get the completed ones and emit the event.
+     */
     fetchCompletedOrders() {
         this.socket.on('completedOrders', (orders) => {
             console.log('Completed orders from backend', orders);
@@ -151,11 +129,9 @@ export default class AdminBubble extends React.Component {
     }
 
     /**
-    * @function
-    * @name deleteOrder
-    * @param orderID {Number} - order to delete
-    * @desc manage admin's request to delete an order with the specified id, emit delete event on that order
-    */
+     * Manage admin's request to delete an order with the specified id, emit delete event on that order.
+     * @param orderID {Number} - order to delete
+     */
     deleteOrder(orderID) {
         this.socket.on('deleteOrder', (id) => {
             console.log('Deleted order from backend: ', id);
@@ -165,16 +141,15 @@ export default class AdminBubble extends React.Component {
     }
 
     /**
-    * @function
-    * @name disconnect
-    * @desc manage admin disconnection
-    */
+     * Manage admin disconnection.
+     */
     disconnect() {
         this.socket.close();
     }
 
-    // default value
-    // renders the form for adding a new item
+    /**
+     * Redirect to the form in add item mode.
+     */
     redirectToFormAdd() {
         // default value
 	// on submit
@@ -188,7 +163,11 @@ export default class AdminBubble extends React.Component {
             },
         });
     }
-    // creates and renders the form for editing menu items
+
+    /**
+     * Redirect to the form in edit item mode.
+     * @param element {Object} The element to modify
+     */
     redirectToFormEdit(element) {
         this.setState({
             page: 'form',
@@ -204,22 +183,34 @@ export default class AdminBubble extends React.Component {
             },
         });
     }
-    // home page rendering
+
+    /**
+     * Redirect to home page.
+     */
     redirectToHome() {
         this.setState({ page: 'home' });
     }
-    // menu page rendering
+
+    /**
+     * Redirect to the menu page.
+     */
     redirectToMenu() {
         this.setState({ page: 'menu' });
         this.showMenu();
     }
-    // orders page rendering
+
+    /**
+     * Redirect to the orders list page.
+     */
     redirectToOrders() {
         this.setState({ page: 'orders' });
         this.fetchAllOrders();
     }
 
-
+    /**
+     * Renders the bubble.
+     * @return {React.Component}
+     */
     render() {
         // page definition
         // default

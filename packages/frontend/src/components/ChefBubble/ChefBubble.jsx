@@ -1,8 +1,3 @@
-/**
- * chef module
- * @module chef
- */
-
 import 'bootstrap/dist/css/bootstrap.css';
 import React from 'react';
 import { WebNotification } from 'monolith-frontend';
@@ -11,17 +6,19 @@ import Order from './Order';
 
 /**
  * @class This class allows you to create a class representing the Chef Bubble
- * @param props
- * @constructor
+ * @param props {Object}
+ * @extends React.Component
+ * @property props {Object}
+ * @property state {Object}
+ * @property state.orders {Array} List of orders.
+ * @property socket {Socket} Socket for the connection to the server
  */
-export default class CheBubble extends React.Component {
-     /**
-     * @class ChefBubble -
-     * @extends Component
-     * @property props {Object}
-     * @property props.state { orders: [], notify: null } - orders state.
-     * @property props.state { socket } - connection socket.
-    */
+export default class ChefBubble extends React.Component {
+
+    /**
+     * Creates a bubble for the chef
+     * @param props {Object}
+     */
     constructor(props) {
         super(props);
         this.state = { orders: [], notify: null };
@@ -29,19 +26,15 @@ export default class CheBubble extends React.Component {
     }
 
     /**
-    * @function
-    * @name componentDidMount
-    * @desc invoked immediately after the component is mounted, calls the connect method
-    */
+     * Invoked immediately after the component is mounted, calls the connect method
+     */
     componentDidMount() {
         this.connect();
     }
 
     /**
-    * @function
-    * @name connect
-    * @desc manage chef's connection to the application url
-    */
+     * Manage chef's connection to the application url
+     */
     connect() {
         this.socket = io('https://order-gateway.herokuapp.com');
         this.socket.emit('auth', { type: 'cook' });
@@ -50,10 +43,8 @@ export default class CheBubble extends React.Component {
     }
 
     /**
-    * @function
-    * @name fetchOrders
-    * @desc manage chef's orders request
-    */
+     * Manage chef's orders request
+     */
     fetchOrders() {
         this.socket.on('activeOrdinations', (orders) => {
             console.log('ordinazioni da cucinare: ');
@@ -79,20 +70,16 @@ export default class CheBubble extends React.Component {
     }
 
     /**
-    * @function
-    * @name disconnect
-    * @desc manage chef disconnection
-    */
+     * Manage chef disconnection
+     */
     disconnect() {
         this.socket.close();
     }
 
     /**
-    * @function
-    * @name markOrdinationCompleted
-    * @param orderID {Number} - order to complete
-    * @desc manage chef's request to complete an order with the specified id, emit orderCompleted event on that order
-    */
+     * Manage chef's request to complete an order with the specified id, emit orderCompleted event on that order
+     * @param id {Number} Id of the order to complete
+     */
     markOrdinationCompleted(id) {
         if (this.socket !== null) {
             this.socket.emit('orderCompleted', id);
@@ -102,10 +89,8 @@ export default class CheBubble extends React.Component {
     }
 
     /**
-    * @function
-    * @name render
-    * @desc renders chef's empty order page
-    */
+     * Renders the bubble
+     */
     render() {
         const noOrdersRender = () => (
             <h3 className="text-center">No orders yet!</h3>
