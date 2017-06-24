@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 /**
- * @Class Class that renders an order for the chef
+ * @class Class that renders an order for the chef
  * @extends React.Component
  * @property props {Object}
  * @property props.markOrdinationComplete {function} Action to execute to mark an order completed

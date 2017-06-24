@@ -1,7 +1,3 @@
-/**
- *
- */
-
 const IDGenerator = require('monolith-backend').IDGenerator;
 const menuStates = require('../states/menuStates').menuStates;
 

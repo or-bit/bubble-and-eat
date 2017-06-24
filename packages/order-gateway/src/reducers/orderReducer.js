@@ -1,6 +1,3 @@
-/**
- */
-
 const orderStates = require('../states/orderStates').orderStates;
 const IDGenerator = require('monolith-backend').IDGenerator;
 

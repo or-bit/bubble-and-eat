@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: frontend/src/components/AdminBubble/AdminBubble.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: frontend/src/components/AdminBubble/AdminBubble.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from 'react';
+import 'bootstrap/dist/css/bootstrap.css';
+import io from 'socket.io-client';
+import config from 'bubble-and-eat-consts';
+import './adminBubble.css';
+
+/**
+ * @class This class allows you to create a class representing the Admin Bubble
+ * @extends React.Component
+ * @property props {Object}
+ * @property state {Object}
+ * @property state.menu {Array} The restaurant's menu
+ * @property state.allOrders {Array} All the orders
+ * @property state.completedOrders {Array} The completed orders
+ * @property state.activeOrders {Array} The active orders
+ * @property state.page {String} The page that is currently displayed to the user
+ * @property state.formDataName {String} Name input
+ * @property state.formDataPrice {Number} Price input
+ * @property state.formOnClick {function} Action perform on click event on the form
+ * @property socket {Socket} Socket for the connection to the server
+ */
+export default class AdminBubble extends React.Component {
+
+    /**
+     * Create a bubble for the admin
+     * @param props {Object}
+     */
+    constructor(props) {
+        super(props);
+        this.state = {
+            menu: [],
+            allOrders: [],
+            completedOrders: null,
+            activeOrders: null,
+            page: 'home',
+            formDataName: null,
+            formDataPrice: null,
+            formOnClick: () => {},
+        };
+        this.socket = null;
+    }
+
+    /**
+     * Invoked immediately after the component is mounted, calls the connect method.
+     */
+    componentDidMount() {
+        this.connect();
+    }
+
+    /**
+     * Manage admin's connection to the application URL.
+     */
+    connect() {
+        this.socket = io(config.getServerURL());
+        this.socket.emit('auth', { type: 'admin' });
+        this.setState({ menu: [] });
+    }
+
+    /**
+     * Manage admin's menu request.
+     */
+    showMenu() {
+        this.socket.on('menu', (menu) => {
+            this.setState({ menu });
+        });
+        this.socket.emit('menu');
+    }
+
+
+    /**
+     * Manage admin's add dish event.
+     * @param dish {Object} dish to add
+     */
+    addDish(dish) {
+        console.log(JSON.stringify(dish, null, ' '));
+        this.socket.on('addedDish', (response) => {
+            console.log('risposta all aggiunta di un piatto: ', response);
+        });
+        this.socket.emit('addDish', dish);
+    }
+
+    /**
+     * Manage admin's remove dish event to menuStates and emit the event.
+     * @param id {Number} id of the dish to remove
+     */
+    removeDish(id) {
+        this.socket.emit('removeDish', id);
+    }
+
+    /**
+     * Manage admin's edit dish to menuStates then search the dish to modify and emit the event.
+     * @param id {Number} dish id
+     * @param dish {Object} changes to upload
+     */
+    editDish(id, dish) {
+        this.socket.emit('editDish', { id, dish });
+    }
+
+    /**
+     * Manage admin's request to get all orders.
+     */
+    fetchAllOrders() {
+        this.socket.on('allOrders', (orders) => {
+            console.log('All orders from backend', JSON.stringify(orders));
+            this.setState({ allOrders: orders });
+        });
+        this.socket.emit('allOrders');
+    }
+
+   /**
+    * Manage admin's request to get active orders,
+    * filter orders to get the active ones and emit the event.
+    */
+    fetchActiveOrders() {
+        this.socket.on('activeOrders', (orders) => {
+            console.log('Active orders from backend', orders);
+            this.setState({ completedOrders: orders });
+        });
+        this.socket.emit('activeOrders');
+    }
+
+    /**
+     * Manage admin's request to get completed orders,
+     * filter orders to get the completed ones and emit the event.
+     */
+    fetchCompletedOrders() {
+        this.socket.on('completedOrders', (orders) => {
+            console.log('Completed orders from backend', orders);
+            this.setState({ activeOrders: orders });
+        });
+        this.socket.emit('completedOrders');
+    }
+
+    /**
+     * Manage admin's request to delete an order
+     * with the specified id, emit delete event on that order.
+     * @param orderID {Number} - order to delete
+     */
+    deleteOrder(orderID) {
+        this.socket.on('deleteOrder', (id) => {
+            console.log('Deleted order from backend: ', id);
+            this.fetchAllOrders();
+        });
+        this.socket.emit('deleteOrder', orderID);
+    }
+
+    /**
+     * Manage admin disconnection.
+     */
+    disconnect() {
+        this.socket.close();
+    }
+
+    /**
+     * Redirect to the form in add item mode.
+     */
+    redirectToFormAdd() {
+        // default value on submit
+        this.setState({
+            page: 'form',
+            formDataPrice: 0,
+            formDataName: '',
+            formOnClick: () => {
+                this.addDish({ name: this.state.formDataName, price: this.state.formDataPrice });
+                this.redirectToMenu();
+            },
+        });
+    }
+
+    /**
+     * Redirect to the form in edit item mode.
+     * @param element {Object} The element to modify
+     */
+    redirectToFormEdit(element) {
+        this.setState({
+            page: 'form',
+            formDataPrice: element.price,
+            formDataName: element.name,
+            formOnClick: () => {
+                const dish = {
+                    price: this.state.formDataPrice,
+                    name: this.state.formDataName,
+                };
+                this.editDish(element.id, { dish });
+                this.redirectToMenu();
+            },
+        });
+    }
+
+    /**
+     * Redirect to home page.
+     */
+    redirectToHome() {
+        this.setState({ page: 'home' });
+    }
+
+    /**
+     * Redirect to the menu page.
+     */
+    redirectToMenu() {
+        this.setState({ page: 'menu' });
+        this.showMenu();
+    }
+
+    /**
+     * Redirect to the orders list page.
+     */
+    redirectToOrders() {
+        this.setState({ page: 'orders' });
+        this.fetchAllOrders();
+    }
+
+    /**
+     * Renders the bubble.
+     * @return {React.Component}
+     */
+    render() {
+        // page definition
+        // default
+
+        let page = &lt;p>z&lt;/p>;
+
+        // menu page also used for edits and adds
+        const menuPage = (&lt;div>
+            &lt;div className="row">
+                &lt;div className="col-xs-6">
+                    &lt;button
+                      className="btn btn-default"
+                      onClick={() => this.redirectToHome()}
+                    >
+                        back
+                    &lt;/button>
+                &lt;/div>
+            &lt;/div>
+            &lt;div className="row">
+                &lt;div className="col-md-12">
+                    &lt;h2 className="text-center">
+                        Menu:
+                    &lt;/h2>
+                &lt;/div>
+            &lt;/div>
+            {this.state.menu.length === 0 &amp;&amp; &lt;h3 className="text-center">Menu empty&lt;/h3>}
+            {this.state.menu.length !== 0 &amp;&amp; &lt;table className="table">
+                &lt;thead>
+                    &lt;tr>
+                        &lt;th>
+                        Name:
+                    &lt;/th>
+                        &lt;th>
+                        Price:
+                    &lt;/th>
+                        &lt;th className="text-right">
+                        Actions:
+                    &lt;/th>
+                    &lt;/tr>
+                &lt;/thead>
+                &lt;tbody>
+                    {this.state.menu.map(element => (&lt;tr key={element.dish._id}>
+                        &lt;td>
+                            {element.dish.name}
+                        &lt;/td>
+                        &lt;td>
+                            {element.dish.price}
+                            {' $ '}
+                        &lt;/td>
+                        &lt;td className="text-right">
+                            &lt;button
+                              className="btn btn-default"
+                              onClick={() => this.redirectToFormEdit(element)}
+                            >
+                                edit
+                            &lt;/button>
+                            &lt;button
+                              className="btn btn-danger"
+                              onClick={() => {
+                                  this.removeDish(element.id);
+                                  this.showMenu();
+                              }}
+                            >
+                                delete
+                            &lt;/button>
+                        &lt;/td>
+                    &lt;/tr>))}
+                &lt;/tbody>
+            &lt;/table>}
+
+
+            &lt;div className="row">
+                &lt;div className="col-md-12">
+                    &lt;button
+                      className="btn btn-default center-block"
+                      onClick={() => this.redirectToFormAdd()}
+                    >
+                        AddDishToMenu
+                    &lt;/button>
+                &lt;/div>
+            &lt;/div>
+
+        &lt;/div>);
+
+        // order state page
+        const ordersPage = (&lt;div>
+            &lt;div className="row">
+                &lt;div className="col-xs-6">
+                    &lt;button
+                      className="btn btn-default"
+                      onClick={() => this.redirectToHome()}
+                    >
+                        back
+                    &lt;/button>
+                &lt;/div>
+            &lt;/div>
+            &lt;div className="row">
+                &lt;div className="col-md-12">
+                    &lt;h2 className="text-center">
+                        Orders:
+                    &lt;/h2>
+                &lt;/div>
+            &lt;/div>
+
+            {this.state.allOrders.map(element => (&lt;div className="row well" key={element.id}>
+
+                &lt;div className="col-sm-6">
+                    &lt;h3>Client info:&lt;/h3>
+                    &lt;table className="table">
+                        &lt;thead>
+                            &lt;tr>
+                                &lt;th>Name:&lt;/th>
+                                &lt;th>Address:&lt;/th>
+                                &lt;th>State:&lt;/th>
+                                &lt;th>Action:&lt;/th>
+                            &lt;/tr>
+                        &lt;/thead>
+                        &lt;tbody>
+                            &lt;tr>
+                                &lt;th>{element.client.name}&lt;/th>
+                                &lt;th>{element.client.address}&lt;/th>
+                                &lt;th>{element.state}&lt;/th>
+                                &lt;th>
+                                    &lt;button
+                                      className="btn btn-danger"
+                                      onClick={() => this.deleteOrder(element._id)}
+                                    >
+                                        delete
+                                    &lt;/button>
+                                &lt;/th>
+                            &lt;/tr>
+                        &lt;/tbody>
+                    &lt;/table>
+
+
+                &lt;/div>
+                &lt;div className="col-sm-6">
+                    &lt;h3>Dishes:&lt;/h3>
+                    &lt;table className="table" key={element.id}>
+                        &lt;thead>
+                            &lt;tr>
+                                &lt;th>Name&lt;/th>
+                                &lt;th>Amount&lt;/th>
+                            &lt;/tr>
+                        &lt;/thead>
+                        &lt;tbody>
+                            {element.dishes.map(dish => (&lt;tr key={dish.id}>
+                                &lt;td>{dish.dish.name}&lt;/td>
+                                &lt;td>{dish.amount}&lt;/td>
+                            &lt;/tr>))}
+                        &lt;/tbody>
+                    &lt;/table>
+                &lt;/div>
+            &lt;/div>))}
+        &lt;/div>);
+
+        // home page
+        const homePage = (&lt;div>
+            &lt;div className="row bottomSpace2 topSpace1">
+                &lt;div className="col-md-12 control-group">
+                    &lt;button
+                      className="btn btn-default center-block"
+                      onClick={() => this.redirectToMenu()}
+                    >
+                        MenuOperations
+                    &lt;/button>
+                &lt;/div>
+            &lt;/div>
+            &lt;div className="row">
+                &lt;div className="col-md-12 control-group">
+                    &lt;button
+                      className="btn btn-default center-block"
+                      onClick={() => this.redirectToOrders()}
+                    >
+                        OrdersOperations
+                    &lt;/button>
+                &lt;/div>
+            &lt;/div>
+        &lt;/div>);
+
+
+        // form page for adding and editing orders
+        const form = (
+            &lt;div>
+                &lt;div className="row">
+                    &lt;div className="col-xs-6">
+                        &lt;button
+                          className="btn btn-default"
+                          onClick={() => this.redirectToHome()}
+                        >
+                            back
+                        &lt;/button>
+                    &lt;/div>
+                &lt;/div>
+                &lt;div className="form-group topSpace1 margin-left-1 margin-right-1">
+                    &lt;label htmlFor="name">Name&lt;/label>
+                    &lt;input
+                      className="form-control"
+                      id="name"
+                      type="text"
+                      value={this.state.formDataName}
+                      onChange={event => this.setState({ formDataName: event.target.value })}
+                    />
+                &lt;/div>
+                &lt;div className="form-group margin-left-1 margin-right-1">
+                    &lt;label htmlFor="price">Price&lt;/label>
+                    &lt;input
+                      className="form-control"
+                      id="price"
+                      type="number"
+                      value={this.state.formDataPrice}
+                      step="0.01"
+                      onChange={event => this.setState({ formDataPrice: event.target.value })}
+                    />
+                &lt;/div>
+
+                &lt;button
+                  className="btn btn-success center-block"
+                  onClick={this.state.formOnClick}
+                >
+                    Submit
+                &lt;/button>
+            &lt;/div>
+        );
+
+        // based on state.page it renders the correct page
+        if (this.state.page === 'home') {
+            page = homePage;
+        } else if (this.state.page === 'menu') {
+            page = menuPage;
+        } else if (this.state.page === 'orders') {
+            page = ordersPage;
+        } else if (this.state.page === 'form') {
+            page = form;
+        }
+
+        return (
+            &lt;div>
+                &lt;h1 className="text-center">Admin Bubble&lt;/h1>
+                {page}
+            &lt;/div>
+        );
+    }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-adminHandler.html">adminHandler</a></li><li><a href="module-chefActions.html">chefActions</a></li><li><a href="module-chefHandler.html">chefHandler</a></li><li><a href="module-chefReducer.html">chefReducer</a></li><li><a href="module-clientHandler.html">clientHandler</a></li><li><a href="module-combineReducer.html">combineReducer</a></li><li><a href="module-menuActions.html">menuActions</a></li><li><a href="module-menuEventsHandler.html">menuEventsHandler</a></li><li><a href="module-menuReducer.html">menuReducer</a></li><li><a href="module-orderReducer.html">orderReducer</a></li><li><a href="module-ordersActions.html">ordersActions</a></li></ul><h3>Classes</h3><ul><li><a href="AdminBubble.html">AdminBubble</a></li><li><a href="ChefBubble.html">ChefBubble</a></li><li><a href="ClientBubble.html">ClientBubble</a></li><li><a href="Order.html">Order</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Sat Jun 24 2017 23:22:07 GMT+0200 (ora legale Europa occidentale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
