@@ -10,10 +10,10 @@ const DishList = ({ dishes }) => {
             <table className="table">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Ingredients</th>
-                        <th>Amount</th>
-                        <th>Unitary price</th>
+                        <th className="text-center">Name</th>
+                        <th className="text-center">Ingredients</th>
+                        <th className="text-center">Amount</th>
+                        <th className="text-center">Unitary price</th>
                     </tr>
                 </thead>
                 <tbody>
