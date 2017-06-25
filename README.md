@@ -141,14 +141,15 @@ payload : {id: 0, dish:{name:'pasta', price:5.5, description:'pasta'}}
 ```
 
 ## EXTERNAL SUPPORT FILES
-### client.js
+### bubble-and-eat/packages/order-gateway/test-clients/ 
+#### client.js
   Mock of the client bubble.
   Every time the client gets started it will authomatically login to the server specifying that it's the client. Once aithenticated a new request of viewing the menu will be made, and the menu will be sent as a js object (and should then be visible on the client.
   After visualizing the menu the client will place an order, receive it's id and wait for it's completion.
 
-### chefActions.js
+#### chefActions.js
   Mock of the chef bubble. It visualizes the active orders and allows to mark them as completed by typing their corresponding ids
 
-### admin.js
+#### admin.js
   Mock of the admin bubble, it will authenticate and then insert two dishes in the menu, modify one of them and then delete another one.
   Once it has done that it will access the oders' list and try to delete the one with id 0. If it manages to do that it will return 0 otherwise it will return an empty object.
