@@ -19,7 +19,7 @@
   "homepage": "https://bitbucket.org/tommasorosso1/order-gateway#readme",
   "dependencies": {
     "bubble-and-eat-consts": "^1.0.0",
-    "monolith-backend": "^0.8.0",
+    "monolith-backend": "^1.0.0",
     "redux": "^3.6.0",
     "socket.io-client": "^2.0.2"
   },
