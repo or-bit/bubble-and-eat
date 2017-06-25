@@ -15,18 +15,18 @@ export default class SummaryPage extends React.Component {
     }
 
     componentDidMount() {
-        this.socket.on('orderTotal', (total) => {
+        this.socket.once('orderTotal', (total) => {
             this.setState({ total });
         });
 
-        this.socket.on('orderId', (id) => {
+        this.socket.once('orderId', (id) => {
             this.socket.emit('orderStatus', id);
             this.setState({
                 orderId: id,
             });
         });
 
-        this.socket.on('orderReady', () => {
+        this.socket.once('orderReady', () => {
             const title = 'Order ready!';
             const body = 'Your order is ready! We\'ll keep it warm for you... ;)';
             const imageUrl = 'http://www.pngmart.com/files/3/Green-Tick-PNG-Photos.png';

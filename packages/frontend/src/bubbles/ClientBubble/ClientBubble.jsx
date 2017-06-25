@@ -77,30 +77,6 @@ export default class ClientBubble extends GenericBubble {
      */
     connect() {
         this.socket.emit('auth', { type: 'client' });
-
-        // this.socket.on('addedDish', () => this.showMenu());
-        // this.socket.on('menu', (menu) => {
-        //     const quantita =
-        //         Array(...new Array(menu.length)).map(Number.prototype.valueOf, 0);
-        //     this.setState({ menu, quantita, total: 0 });
-        // });
-        //
-        // this.socket.on('orderTotal', (total) => {
-        //     const order = this.state.order;
-        //     order.total = total;
-        //     this.setState({ order });
-        // });
-        // this.socket.on('orderId', (id) => {
-        //     this.orderId = id;
-        // });
-        // this.socket.on('orderReady', (newOrder) => {
-        //     console.log('ORDER COMPLETED', newOrder);
-        //     this.setState({ newOrder });
-        //     const title = 'Order ready!';
-        //     const body = 'Your order is ready! We\'ll keep it warm for you... ;)';
-        //     const imageUrl = 'http://www.pngmart.com/files/3/Green-Tick-PNG-Photos.png';
-        //     new WebNotification(title, body, imageUrl).notify();
-        // });
     }
 
     /**
