@@ -4,8 +4,6 @@ import { Button } from 'monolith-frontend';
 
 import MenuList from '../../../components/MenuList';
 
-socket: PropTypes.object.isRequired,
-    handleBack: PropTypes.func.isRequired,
 /**
  * @class This class represents a page,
  *  used in the client bubble to show the menu.
