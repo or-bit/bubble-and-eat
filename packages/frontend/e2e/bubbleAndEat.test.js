@@ -40,14 +40,13 @@ test('TI28', (done) => {
     const socket = io('http://localhost:3001');
     const clientBubble = ReactTestUtils.renderIntoDocument(<ClientBubble />);
     clientBubble.order({
-        client: { name: 'name', address: 'address' },
+        client: { name: 'name' },
         dishes: [{ dish: { id: 999, name: 'prova', price: 3 }, amount: 2 }],
         state: 'active',
     });
     socket.on('activeOrdinations', (orders) => {
         const order = orders[orders.length - 1];
         const result = order.client.name === 'name' &&
-            order.client.address === 'address' &&
             order.dishes[0].amount === 2 &&
             order.state === 'active';
         expect(result).toBe(true);
@@ -61,7 +60,6 @@ test('TI28', (done) => {
 });
 
 /*
-
 test('TI30', (done) => {
     const clientBubble = ReactTestUtils.renderIntoDocument(<ClientBubble />);
     const len1 = adminBubble.state.allOrders.length;
@@ -77,8 +75,41 @@ test('TI30', (done) => {
         done();
     }, 1000);
 });
-
 */
+
+test('TI30', (done) => {
+    let first = true;
+    let preLength = 0;
+    let postLength = 0;
+    const socket = io('http://localhost:3001/');
+    const clientBubble = ReactTestUtils.renderIntoDocument(<ClientBubble />);
+    socket.on('allOrders', (orders) => {
+        if (first) {
+            preLength = orders.length;
+            first = false;
+        } else {
+            postLength = orders.length;
+            expect(preLength).toBeLessThan(postLength);
+            socket.close();
+            done();
+        }
+    });
+    socket.emit('auth', { type: 'admin' });
+    socket.emit('addDish', { id: 999, name: 'prova', price: 3 });
+    setTimeout(() => {
+        socket.emit('allOrders');
+        setTimeout(() => {
+            clientBubble.order({
+                client: { name: 'name' },
+                dishes: [{ dish: { id: 999, name: 'prova', price: 3 }, amount: 2 }],
+                state: 'active',
+            });
+            setTimeout(() => {
+                socket.emit('allOrders');
+            }, 200);
+        }, 200);
+    }, 200);
+});
 
 test('TI32', (done) => {
     let first = true;
@@ -100,7 +131,7 @@ test('TI32', (done) => {
     socket.emit('auth', { type: 'chef' });
     socket.emit('ready');
     clientBubble.order({
-        client: { name: 'name', address: 'address' },
+        client: { name: 'name' },
         dishes: [{ dish: { id: 999, name: 'prova', price: 3 }, amount: 2 }],
         state: 'active',
     });
@@ -115,7 +146,7 @@ test('TI33', (done) => {
     let id;
     const clientBubble = ReactTestUtils.renderIntoDocument(<ClientBubble />);
     clientBubble.order({
-        client: { name: 'name2', address: 'address' },
+        client: { name: 'name2' },
         dishes: [{ dish: { id: 999, name: 'prova2', price: 3 }, amount: 2 }],
         state: 'active',
     });
@@ -148,7 +179,7 @@ test('TI42', (done) => {
     const socket2 = io('http://localhost:3001');
     const clientBubble = ReactTestUtils.renderIntoDocument(<ClientBubble />);
     clientBubble.order({
-        client: { name: 'name5', address: 'address' },
+        client: { name: 'name5' },
         dishes: [{ dish: { id: 999, name: 'prova2', price: 3 }, amount: 2 }],
         state: 'active',
     });
