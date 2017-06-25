@@ -5,9 +5,7 @@ import ClientBubble from './ClientBubble';
 
 describe('ClientBubble Unit Tests', () => {
     it('should render without errors', () => {
-        render(
-            <ClientBubble time={0} />
-        );
+        render(<ClientBubble time={0} />);
     });
 });
 

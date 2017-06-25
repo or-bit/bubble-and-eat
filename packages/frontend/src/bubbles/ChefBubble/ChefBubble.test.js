@@ -5,9 +5,7 @@ import ChefBubble from './ChefBubble';
 
 describe('ChefBubble Unit Tests', () => {
     it('should render without errors', () => {
-        render(
-            <ChefBubble time={0} />
-        );
+        render(<ChefBubble time={0} />);
     });
 });
 
