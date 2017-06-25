@@ -23,15 +23,15 @@ exports.clientHandler = (socket, store, orders, menusEvent) => {
   socket.on('orderStatus', (id) => {
     // client is reconnected: retrieve its order by order id
     console.log(`Requesting order's ${id} state`);
-    const filterFunction = element => element._id === id;
+    const filterFunction = element => element._id.toString() === id;
     let order = store.getState().order.orders.filter(filterFunction);
     order = order[0];
     if (typeof order !== 'undefined') {
       console.log('corresponding order is', order);
-      // Check if order is still active
+      // Check if order is completed
       if (order.state === 'active') {
         // if order is still active emit an event to the listening client
-        orders.on(order.id, () => {
+        orders.on(order._id.toString(), () => {
           socket.emit('orderReady');
         });
       } else {

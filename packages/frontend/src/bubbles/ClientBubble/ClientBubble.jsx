@@ -6,6 +6,7 @@ import io from 'socket.io-client';
 import HomePage from './pages/HomePage';
 import MenuPage from './pages/MenuPage';
 import OrderPage from './pages/OrderPage';
+import SummaryPage from './pages/SummaryPage';
 
 import './clientBubble.css';
 
@@ -119,14 +120,6 @@ export default class ClientBubble extends GenericBubble {
     }
 
     /**
-     * Requests the status of an order.
-     * @param orderId {Number} The ID of the order.
-     */
-    queryFor(orderId) {
-        this.socket.emit('orderStatus', orderId);
-    }
-
-    /**
      * Manage client disconnection
      */
     disconnect() {
@@ -163,21 +156,6 @@ export default class ClientBubble extends GenericBubble {
     }
 
     /**
-     * This method updates the information about the client by adding it's name and address.
-     */
-    updateClient(e, data) {
-        const clientAux = this.state.client;
-        switch (data) {
-        case 'name':
-            clientAux.name = e.target.value;
-            break;
-        default:
-            break;
-        }
-        this.setState({ client: clientAux });
-    }
-
-    /**
      * Confirms the order and redirects to the summary page
      */
     handleCompletedOrder(order) {
@@ -191,27 +169,7 @@ export default class ClientBubble extends GenericBubble {
     render() {
         let page = null;
 
-        // home page
-        const homePage = (
-            <HomePage
-              handleMenuClick={() => this.redirectToMenu()}
-              handleOrderClick={() => this.redirectToOrder()}
-            />
-        );
-
-        const summaryPage = (
-            <div>
-                <h2 className="text-center">Summary</h2>
-                <h3 className="text-center">Order state: {this.state.orderState}</h3>
-                {this.state.notify}
-                <h3 className="text-center">Total: {this.state.order.total} $</h3>
-            </div>
-        );
-
         switch (this.state.page) {
-        case 'home':
-            page = homePage;
-            break;
         case 'menu':
             page = (
                 <MenuPage
@@ -230,9 +188,20 @@ export default class ClientBubble extends GenericBubble {
             );
             break;
         case 'summary':
-            page = summaryPage;
+            page = (
+                <SummaryPage
+                  socket={this.socket}
+                  handleBack={() => this.redirectToHome()}
+                />
+            );
             break;
         default:
+            page = (
+                <HomePage
+                  handleMenuClick={() => this.redirectToMenu()}
+                  handleOrderClick={() => this.redirectToOrder()}
+                />
+            );
             break;
         }
 
