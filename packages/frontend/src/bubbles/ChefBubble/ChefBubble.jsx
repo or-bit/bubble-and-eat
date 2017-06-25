@@ -1,20 +1,26 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import React from 'react';
-import { WebNotification } from 'monolith-frontend';
+import { GenericBubble, WebNotification, WidgetsContainer } from 'monolith-frontend';
 import io from 'socket.io-client';
 import config from 'bubble-and-eat-consts';
-import Order from './Order';
+
+import MissingConnection from '../../components/MissingConnection';
+// import Order from './old/Order';
+import ChefOrderList from './components/ChefOrderList';
+
+
+import './ChefBubble.css';
 
 /**
  * @class This class allows you to create a class representing the Chef Bubble
  * @param props {Object}
- * @extends React.Component
+ * @extends GenericBubble
  * @property props {Object}
  * @property state {Object}
  * @property state.orders {Array} List of orders.
  * @property socket {Socket} Socket for the connection to the server
  */
-export default class ChefBubble extends React.Component {
+export default class ChefBubble extends GenericBubble {
 
     /**
      * Creates a bubble for the chef
@@ -22,7 +28,7 @@ export default class ChefBubble extends React.Component {
      */
     constructor(props) {
         super(props);
-        this.state = { orders: [], notify: null };
+        this.state = { orders: [], alive: true };
         this.socket = null;
     }
 
@@ -31,6 +37,12 @@ export default class ChefBubble extends React.Component {
      */
     componentDidMount() {
         this.connect();
+        this.socket.on('disconnect', () => this.setState(
+            { alive: false },
+        ));
+        this.socket.on('connect', () => this.setState(
+            { alive: true },
+        ));
     }
 
     /**
@@ -38,7 +50,7 @@ export default class ChefBubble extends React.Component {
      */
     connect() {
         this.socket = io(config.getServerURL());
-        this.socket.emit('auth', { type: 'cook' });
+        this.socket.emit('auth', { type: 'chef' });
         this.fetchOrders();
         this.setState({ orders: [] });
     }
@@ -48,24 +60,23 @@ export default class ChefBubble extends React.Component {
      */
     fetchOrders() {
         this.socket.on('activeOrdinations', (orders) => {
-            console.log('ordinazioni da cucinare: ');
-            console.log(orders);
+            console.log('Orders to fulfill:', orders);
             let title = '';
             let body = '';
             let icon = '';
             if (orders.length === 0) {
                 title = 'No orders';
-                body = 'InternalComms list empty';
+                body = 'Orders list is empty';
                 icon = 'https://cdn0.iconfinder.com/data/icons/iconshock-windows7-icons/256/task_completed.png';
             } else {
                 title = `You have ${orders.length} orders to do`;
                 body = 'Back to work';
                 icon = 'http://www.fitforafeast.com/images/recipes-cooking';
             }
-            this.setState({ orders });
-            if (orders.length > 0) {
+            if (orders.length !== this.state.orders.length) {
                 new WebNotification(title, body, icon).notify();
             }
+            this.setState({ orders });
         });
         setTimeout(() => { this.socket.emit('ready'); }, 50);
     }
@@ -83,36 +94,49 @@ export default class ChefBubble extends React.Component {
      * @param id {Number} Id of the order to complete
      */
     markOrdinationCompleted(id) {
-        if (this.socket !== null) {
-            this.socket.emit('orderCompleted', id);
-        } else {
-            alert('You are not connected!');
-        }
+        this.socket.emit('orderCompleted', id);
+        const filterFunction = order => (
+            order._id.toString() !== id
+        );
+        const newOrders = this.state.orders.filter(filterFunction);
+        this.setState({
+            orders: newOrders,
+        });
+        this.socket.on('orderCompletedCheck', () => this.socket.emit('ready'));
     }
 
     /**
-     * Renders the bubble
+     *
+     * Renders the bubble when there's no connection
+     * @returns MissingConnection
      */
-    render() {
+    // eslint-disable-next-line class-methods-use-this
+    notAliveRender() {
+        return <MissingConnection />;
+    }
+
+    /**
+     * Renders the bubble when there is connection
+     * @returns WidgetContainer
+     */
+    aliveRender() {
         const noOrdersRender = () => (
             <h3 className="text-center">No orders yet!</h3>
         );
         return (
-            <div>
+            <WidgetsContainer>
                 <h1 className="text-center">{"Chef's Bubble"}</h1>
                 <div className="row">
                     <div className="col-md-12">
                         {this.state.orders.length === 0 && noOrdersRender()}
                     </div>
                 </div>
-                {this.state.orders.map(element => (
-                    <Order
-                      key={element.id} markOrdinationCompleted={this.markOrdinationCompleted}
-                      socket={this.socket} element={element}
-                    />
-                ))}
+                <ChefOrderList
+                  orders={this.state.orders}
+                  handleOrderCompletionEvent={id => this.markOrdinationCompleted(id)}
+                />
                 {this.state.notify}
-            </div>
+            </WidgetsContainer>
         );
     }
 }
