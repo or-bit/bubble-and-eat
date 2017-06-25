@@ -1,10 +1,14 @@
 const server = require('monolith-backend').Server.create();
 const DataBase = require('monolith-backend').DataBase;
-const adminHandler = require('./adminHandler').adminHandler;
 const assert = require('assert');
 const config = require('bubble-and-eat-consts');
 const socketClient = require('socket.io-client');
 const sinon = require('sinon');
+const EventEmitter = require('events');
+
+const menusEvent = new EventEmitter();
+
+const adminHandler = require('./adminHandler').adminHandler;
 
 const serverUrl = config.getServerURL();
 const serverPort = config.getServerPort();
@@ -67,7 +71,7 @@ describe('admin handler responses to events', () => {
   it('menuEvent', (done) => {
     client = socketClient(serverUrl);
     io.once('connection', (socket) => {
-      adminHandler(socket, store, stubbedDB);
+      adminHandler(socket, store, stubbedDB, menusEvent);
       // response from adminHandler (menuEventsHandler)
       client.once('menu', (data) => {
         assert.deepEqual(data, store.getState().menu.dishes);
@@ -81,7 +85,7 @@ describe('admin handler responses to events', () => {
   it('addDishEvent', (done) => {
     client = socketClient(serverUrl);
     io.once('connection', (socket) => {
-      adminHandler(socket, store, stubbedDB);
+      adminHandler(socket, store, stubbedDB, menusEvent);
       // response from adminHandler (menuEventsHandler)
       client.once('addedDish', (data) => {
         assert.deepEqual(data, fakeDish);
@@ -95,7 +99,7 @@ describe('admin handler responses to events', () => {
   it('editDishEvent', (done) => {
     client = socketClient(serverUrl);
     io.once('connection', (socket) => {
-      adminHandler(socket, store, stubbedDB);
+      adminHandler(socket, store, stubbedDB, menusEvent);
       // response from adminHandler (menuEventsHandler)
       client.once('editedDish', (data) => {
         assert.equal(data.length, 0);
@@ -110,7 +114,7 @@ describe('admin handler responses to events', () => {
     const id = '0';
     client = socketClient(serverUrl);
     io.once('connection', (socket) => {
-      adminHandler(socket, store, stubbedDB);
+      adminHandler(socket, store, stubbedDB, menusEvent);
       // response from adminHandler (menuEventsHandler)
       client.once('removedDish', (data) => {
         assert.equal(data, id);
@@ -123,7 +127,7 @@ describe('admin handler responses to events', () => {
   it('allOrdersEvent', (done) => {
     client = socketClient(serverUrl);
     io.once('connection', (socket) => {
-      adminHandler(socket, store, stubbedDB);
+      adminHandler(socket, store, stubbedDB, menusEvent);
       // response from adminHandler
       client.once('allOrders', (data) => {
         assert.deepEqual(data, store.getState().order.orders);
@@ -136,7 +140,7 @@ describe('admin handler responses to events', () => {
   it('activeOrdersEvent', (done) => {
     client = socketClient(serverUrl);
     io.once('connection', (socket) => {
-      adminHandler(socket, store, stubbedDB);
+      adminHandler(socket, store, stubbedDB, menusEvent);
       // response from adminHandler
       client.once('activeOrders', (data) => {
         assert.deepEqual(data, [{ state: 'active', id: 0 }]);
@@ -149,7 +153,7 @@ describe('admin handler responses to events', () => {
   it('completedOrdersEvent', (done) => {
     client = socketClient(serverUrl);
     io.once('connection', (socket) => {
-      adminHandler(socket, store, stubbedDB);
+      adminHandler(socket, store, stubbedDB, menusEvent);
       // response from adminHandler
       client.once('completedOrders', (data) => {
         assert.deepEqual(data, []);
@@ -162,7 +166,7 @@ describe('admin handler responses to events', () => {
   it('deleteOrderEvent', (done) => {
     client = socketClient(serverUrl);
     io.once('connection', (socket) => {
-      adminHandler(socket, store, stubbedDB);
+      adminHandler(socket, store, stubbedDB, menusEvent);
       // response from adminHandler
       client.once('deleteOrder', (data) => {
         assert.deepEqual(data, 1);
@@ -208,7 +212,7 @@ describe('adminHandler edge cases', () => {
     it('completedOrdersEvent', (done) => {
       client = socketClient(serverUrl);
       io.once('connection', (socket) => {
-        adminHandler(socket, store, stubbedDB);
+        adminHandler(socket, store, stubbedDB, menusEvent);
         // response from adminHandler
         client.once('completedOrders', (data) => {
           assert.deepEqual(data, []);
@@ -240,7 +244,7 @@ describe('adminHandler edge cases', () => {
     it('allOrdersEvent', (done) => {
       client = socketClient(serverUrl);
       io.once('connection', (socket) => {
-        adminHandler(socket, store, stubbedDB);
+        adminHandler(socket, store, stubbedDB, menusEvent);
         // response from adminHandler
         client.once('allOrders', (data) => {
           assert.deepEqual(data, [{ state: 'active', id: 0 }]);

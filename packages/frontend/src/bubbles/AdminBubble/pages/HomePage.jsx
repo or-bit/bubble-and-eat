@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, WidgetsContainer } from 'monolith-frontend';
+import { Button } from 'monolith-frontend';
 
 /**
  * (pure function) This module represents the home page in the admin bubble.
@@ -11,7 +11,7 @@ import { Button, WidgetsContainer } from 'monolith-frontend';
  * @constructor
  */
 const HomePage = ({ handleMenuClick, handleOrdersClick }) => (
-    <WidgetsContainer>
+    <div>
         <Button
           callback={() => handleMenuClick()}
           text="Show menu"
@@ -20,7 +20,7 @@ const HomePage = ({ handleMenuClick, handleOrdersClick }) => (
           callback={() => handleOrdersClick()}
           text="Show orders"
         />
-    </WidgetsContainer>
+    </div>
     );
 
 HomePage.propTypes = {

@@ -20,7 +20,7 @@ exports.chefHandler = (socket, store, orders, addToDatabaseCompletedOrder) => {
   /**
    * @property ordersInState {Array} Orders contained in the current state of the store
    * */
-  const ordersInState = store.getState().order.orders;
+  let ordersInState = store.getState().order.orders;
 
   /**
    * @property activeOrders {Array} Orders with active state
@@ -46,6 +46,7 @@ exports.chefHandler = (socket, store, orders, addToDatabaseCompletedOrder) => {
 
   // listen the store for changes in state:
   store.subscribe(() => {
+    ordersInState = store.getState().order.orders;
     activeOrders = ordersInState.filter(activeFilterFunction);
     // frontend takes care of empty activeOrders
     socket.emit('activeOrdinations', activeOrders);
@@ -62,6 +63,7 @@ exports.chefHandler = (socket, store, orders, addToDatabaseCompletedOrder) => {
     const completedOrder = ordersInState.filter(order => (
             order._id.toString() === id
         ))[0];
+
     if (typeof completedOrder !== 'undefined') {
       addToDatabaseCompletedOrder(completedOrder);
       orders.emit(id, completedOrder);

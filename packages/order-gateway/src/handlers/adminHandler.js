@@ -6,6 +6,7 @@ const menuEvents = require('./menuEventsHandler');
  * @param socket {Socket} Socket for the connectinto to the server
  * @param store {Redux.Store} Store where data is saved
  * @param database {Database} Database instance
+ * @param menusEvent {EventEmitter} EventEmitter for changes in
  */
 
 /**
@@ -31,7 +32,7 @@ const retrieveCompletedOrders = database => new Promise((resolve, reject) => {
  */
 const disconnectionHandler = () => console.log('Admin disconnected');
 
-exports.adminHandler = (socket, store, database) => {
+exports.adminHandler = (socket, store, database, menusEvent) => {
   // GESTIONE DELLE RICHIESTE DELLA BOLLA
   console.log('Admin connected', new Date());
 
@@ -42,16 +43,22 @@ exports.adminHandler = (socket, store, database) => {
   socket.on('menu', () => menuEvents.menuEventHandler(socket, store));
 
   // add dish to the menu
-  socket.on('addDish',
-    dish => menuEvents.addDishEventHandler(socket, store, dish));
+  socket.on('addDish', (dish) => {
+    menuEvents.addDishEventHandler(socket, store, dish);
+    menusEvent.emit('menuUpdated');
+  });
 
   // remove dish from the menu
-  socket.on('removeDish',
-    id => menuEvents.removeDishEventHandler(socket, store, id));
+  socket.on('removeDish', (id) => {
+    menuEvents.removeDishEventHandler(socket, store, id);
+    menusEvent.emit('menuUpdated');
+  });
 
   // edit dish info
-  socket.on('editDish',
-    payload => menuEvents.editDishEventHandler(socket, store, payload));
+  socket.on('editDish', (payload) => {
+    menuEvents.editDishEventHandler(socket, store, payload);
+    menusEvent.emit('menuUpdated');
+  });
 
   // retrieve all orders
   socket.on('allOrders', () => {

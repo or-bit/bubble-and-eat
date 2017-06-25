@@ -7,13 +7,13 @@ export default function StarterPage() {
             <p>Questa rotta in realtà non serve.. vai su:</p>
             <ul>
                 <li>
-                    <a href="/chef">/chef</a> per il cuoco
+                    <a href="/#/chef">/chef</a> per il cuoco
                 </li>
                 <li>
-                    <a href="/client">/client</a> per il cliente
+                    <a href="/#/client">/client</a> per il cliente
                 </li>
                 <li>
-                    <a href="/admin">/admin</a>{" per l'amministratore"}
+                    <a href="/#/admin">/admin</a>{" per l'amministratore"}
                 </li>
             </ul>
         </div>

@@ -10,8 +10,8 @@ const assert = require('chai').assert;
 const EventEmitter = require('events');
 const socketClient = require('socket.io-client');
 
-class Orders extends EventEmitter {}
-const orders = new Orders();
+const orders = new EventEmitter();
+const menusEvent = new EventEmitter();
 
 const serverUrl = config.getServerURL();
 const socketServer = server.getSocket();
@@ -41,7 +41,7 @@ describe('clientHandler', () => {
       server.open(serverPort);
       client = socketClient.connect(serverUrl, { transports: ['websocket'] });
       socketServer.on('connection', (socket) => {
-        clientHandler(socket, store, orders);
+        clientHandler(socket, store, orders, menusEvent);
         // responses
         client.on('orderId', (id) => {
           response.orderIdEvent = id;
@@ -74,7 +74,15 @@ describe('clientHandler', () => {
           done();
         });
       });
-      client.emit('order', { _id: '6', zz: 'a', dishes: [] });
+      client.emit('order', {
+        _id: '6',
+        zz: 'a',
+        dishes: [{
+          dish: {
+            price: 1,
+          },
+        }],
+      });
     });
     it('should notify the order is completed on order signal', (done) => {
       client.once('connect', () => {
@@ -83,7 +91,15 @@ describe('clientHandler', () => {
           done();
         });
       });
-      client.emit('order', { _id: '6', zz: 'a', dishes: [] });
+      client.emit('order', {
+        _id: '6',
+        zz: 'a',
+        dishes: [{
+          dish: {
+            price: 1,
+          },
+        }],
+      });
     });
     it('should receive the correct menu on menu request', (done) => {
       client.once('connect', () => {
@@ -118,7 +134,7 @@ describe('clientHandler', () => {
         reconnectionAttempts: 10,
       });
       socketServer.on('connection', (socket) => {
-        clientHandler(socket, store, orders);
+        clientHandler(socket, store, orders, menusEvent);
         // responses
         client.on('orderReady', () => {
           response.ordersReadyEvents.push(true);

@@ -17,7 +17,7 @@ const MenuList = ({ menu, isAdmin, handleEditForm, handleDelete }) => {
                 Ingredients
             </th>
                 <th className="text-center">
-                Price
+                Price ($)
             </th>
                 {isAdmin &&
                 <th className="text-center">

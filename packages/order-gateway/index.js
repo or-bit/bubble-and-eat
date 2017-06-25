@@ -14,9 +14,10 @@ const adminHandler = require('./src/handlers/adminHandler').adminHandler;
 // import redux reducers
 const reducers = require('./src/reducers/combineReducer').reducers;
 
-// create an EventEmitter used for orders
+// createOrder an EventEmitter used for orders
 class InternalComms extends EventEmitter {}
 const orders = new InternalComms();
+const menusEvent = new InternalComms();
 
 // increase concurrent operations limit
 orders.setMaxListeners(500);
@@ -81,9 +82,9 @@ server.onConnection((socket) => {
         orders,
         addCompletedOrderToDB);
     } else if (authData.type === 'client') {
-      clientHandler(socket, store, orders);
+      clientHandler(socket, store, orders, menusEvent);
     } else if (authData.type === 'admin') {
-      adminHandler(socket, store, db);
+      adminHandler(socket, store, db, menusEvent);
     }
   });
 });

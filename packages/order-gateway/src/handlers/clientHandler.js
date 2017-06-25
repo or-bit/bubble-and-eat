@@ -6,10 +6,15 @@ const orderActions = require('../actions/ordersActions');
  * @param socket {Socket} Socket for the connection to the server
  * @param store {Redux.Store} Store where data is saved
  * @param orders {Array} List of all orders
+ * @param menusEvent {EventEmitter} EventEmitter for changes in menu
  */
-exports.clientHandler = (socket, store, orders) => {
+exports.clientHandler = (socket, store, orders, menusEvent) => {
   // Bubbles' requests
   console.log('Client connected');
+
+  menusEvent.on('menuUpdated', () => {
+    socket.emit('menu', store.getState().menu.dishes);
+  });
 
   // Disconnection event
   socket.on('disconnect', () => { console.log('Client disconnected'); });
@@ -46,6 +51,9 @@ exports.clientHandler = (socket, store, orders) => {
     const outputOrder = Object.assign({}, order);
     let total = 0;
     const dishes = order.dishes;
+    if (dishes.length === 0) {
+      return;
+    }
 
     dishes.every((dish) => {
       console.log(JSON.stringify(dish, null, '  '));

@@ -4,7 +4,7 @@ import { Button, InputText, Label } from 'monolith-frontend';
 
 /**
  * @class This class represents a page with a form,
- *  used in the admin bubble to create or edit dishes.
+ *  used in the admin bubble to createOrder or edit dishes.
  * @property props {Object}
  * @property props.dish [undefined] {Object} Object representing a dish
  * @property props.socket {Socket} {@link socket}

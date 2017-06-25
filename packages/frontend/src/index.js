@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {
-    BrowserRouter as Router,
+    HashRouter,
     Route,
 } from 'react-router-dom';
 
@@ -22,14 +22,14 @@ function HomeRoute() {
 
 const render = () => {
     ReactDOM.render(
-        <Router>
+        <HashRouter basename="/">
             <div>
                 <Route exact path="/" component={HomeRoute} />
                 <Route path="/chef" component={ChefBubble} />
                 <Route path="/client" component={ClientBubble} />
                 <Route path="/admin" component={AdminBubble} />
             </div>
-        </Router>,
+        </HashRouter>,
         rootEl,
     );
 };

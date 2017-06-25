@@ -47,3 +47,18 @@ button.buttonRight {
 .margin-right-1 {
     margin-right: 1em;
 }
+
+/* hide default buttons input (number) */
+input[type='number'] {
+    -moz-appearance:textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+/* center vertically cell content */
+.table > tbody > tr > td {
+    vertical-align: middle;
+}
