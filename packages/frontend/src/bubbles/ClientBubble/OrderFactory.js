@@ -1,5 +1,12 @@
 // Utility object
 
+/**
+ * Creates a new order
+ * @param amounts {Array} List of the dishes' amounts
+ * @param dishes {Array} List of dishes
+ * @param name {Array} Name of the user placing the order
+ * @return {Object} Returns an order.
+ */
 const createOrder = (amounts, dishes, name) => {
     const dishesWithAmounts = [];
     for (let i = 0; i < amounts.length; i += 1) {

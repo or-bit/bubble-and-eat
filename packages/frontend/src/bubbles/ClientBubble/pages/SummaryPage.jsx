@@ -3,6 +3,17 @@ import PropTypes from 'prop-types';
 
 import { Button, WebNotification } from 'monolith-frontend';
 
+/**
+ * @class This class represents the order's summary page in the client's bubble.
+ * @property props {Object}
+ * @property props.socket {Socket} {@link socket}
+ * @property props.handleBack {Function} Action to perform when back is clicked
+ * @property socket {Socket} Socket for the connection to the server
+ * @property state {Object}
+ * @property state.total {Number} The total cost of the order
+ * @property state.orderState {String} The state of the order
+ * @property state.orderId {Number} The order's id
+ */
 export default class SummaryPage extends React.Component {
     constructor(props) {
         super(props);
@@ -14,6 +25,10 @@ export default class SummaryPage extends React.Component {
         };
     }
 
+    /**
+     * Invoked immediately after the component is mounted,
+     * sets the connection.
+     */
     componentDidMount() {
         this.socket.once('orderTotal', (total) => {
             this.setState({ total });
@@ -37,6 +52,10 @@ export default class SummaryPage extends React.Component {
         });
     }
 
+    /**
+     * Renders the menu page.
+     * @returns {React.Component}
+     */
     render() {
         return (
             <div className="row">

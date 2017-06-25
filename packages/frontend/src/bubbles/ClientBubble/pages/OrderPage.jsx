@@ -5,6 +5,19 @@ import { Button } from 'monolith-frontend';
 import DishesList from '../components/DishesList';
 import ConfirmPage from './ConfirmPage';
 
+/**
+ * @class This class represents the order's page in the client's bubble.
+ * @property props {Object}
+ * @property props.socket {Socket} {@link socket}
+ * @property props.handleBack {Function} Action to perform when back is clicked
+ * @property props.handleCompletedOrder {Function} Action to perform when the order is signaled as complete
+ * @property socket {Socket} Socket for the connection to the server
+ * @property state {Object}
+ * @property state.amounts {Array} Array containing the different dishe's amounts
+ * @property state.menu {Array} The array containing the dishes in the menu
+ * @property state.total {Number} The order's total
+ * @property state.page {Object} The current page
+ */
 export default class OrderPage extends React.Component {
     constructor(props) {
         super(props);
@@ -20,6 +33,10 @@ export default class OrderPage extends React.Component {
         };
     }
 
+    /**
+     * Invoked immediately after the component is mounted,
+     * sets the connection.
+     */
     componentDidMount() {
         this.socket.on('menu', (menu) => {
             // initialize amounts array with 0s
@@ -29,11 +46,18 @@ export default class OrderPage extends React.Component {
         this.socket.emit('menuRequest');
     }
 
+    /**
+     * Handles the addition of a dish to the order.
+     * @param index the index of the dish whose amount has to be increased
+     */
     handleAddDish(index) {
         const dishAmount = this.state.amounts[index] + 1;
         this.updateAmount(dishAmount, index);
     }
 
+    /**
+     * Handles the reset of the order.
+     */
     handleOrderReset() {
         for (let i = 0; i < this.state.amounts.length; i += 1) {
             this.handleInputChange({ target: { value: 0 } }, i);
@@ -81,17 +105,28 @@ export default class OrderPage extends React.Component {
         this.setState({ amounts, total });
     }
 
+    /**
+     * Handles the removal from the order of a dishe's portion
+     * @param index The index of the dish that must be removed from the order
+     */
     handleRemoveDish(index) {
         const dishAmount = this.state.amounts[index] - 1;
         this.updateAmount(dishAmount, index);
     }
 
+    /**
+     * Handles the placement of the order and takes the client to the confirm page
+     */
     handleOrderNext() {
         this.setState({
             page: this.orderConfirmPage,
         });
     }
 
+    /**
+     * Renders the header.
+     * @return {React.Component}
+     */
     renderHeader() {
         return (
             <div>
@@ -101,6 +136,10 @@ export default class OrderPage extends React.Component {
         );
     }
 
+    /**
+     * Renders the home page.
+     * @return {React.Component}
+     */
     renderHomePage() {
         return (
             <DishesList
@@ -116,6 +155,10 @@ export default class OrderPage extends React.Component {
         );
     }
 
+    /**
+     * Renders the entire bubble.
+     * @returns {React.Component}
+     */
     render() {
         let page = this.renderHomePage();
 

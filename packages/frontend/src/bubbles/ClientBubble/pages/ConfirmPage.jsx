@@ -4,7 +4,17 @@ import PropTypes from 'prop-types';
 import { Button, InputText, Label } from 'monolith-frontend';
 
 import OrderFactory from '../OrderFactory';
-
+/**
+ * @class This class represents a page,
+ *  used in the client bubble to confirm an order.
+ * @property props {Object}
+ * @property props.amounts {Array} Array containing the dishe's amounts
+ * @property props.dishes {Array} Array containing the list of disges
+ * @property props.handleBack {Function} Action to perform when back is clicked
+ * @property props.handleOrderConfirm {Function} Action to perform when the order is confirmed
+ * @property state {Object}
+ * @property state.clientName {String} Client's name
+ */
 export default class ConfirmPage extends React.Component {
     constructor(props) {
         super(props);
@@ -13,12 +23,19 @@ export default class ConfirmPage extends React.Component {
         };
     }
 
+    /**
+     * Updates the client's name
+     * @param newName Name of the client
+     */
     updateClient(newName) {
         this.setState({
             clientName: newName,
         });
     }
 
+    /**
+     * Confirms the placement of the order
+     */
     orderConfirm() {
         return OrderFactory(
             this.props.amounts,
@@ -27,6 +44,10 @@ export default class ConfirmPage extends React.Component {
         );
     }
 
+    /**
+     * Renders the menu page.
+     * @returns {React.Component}
+     */
     render() {
         return (
             <div className="margin-left-1 margin-right-1">

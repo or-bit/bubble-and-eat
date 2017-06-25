@@ -2,7 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Button } from 'monolith-frontend';
-
+/**
+ * (pure function) Module that renders a single dish.
+ * @module DishesListItem
+ * @param dish {Object}
+ * @param dish.name {String} The dish's name
+ * @param dish.ingredients {String} The dishe's ingredients
+ * @param dish.price {Number} The dish's price
+ * @param index {Number} The dish's index
+ * @param amount {Number} The dish's amount
+ * @param handleInputChange {Function} Action to execute when there is an input
+ * @param handleAddDish {Function} Action to execute when a dish is added
+ * @param handleRemoveDish {Function} Action to execute when a dish is removed
+ * @constructor
+ */
 const DishesListItem = ({
                             dish,
                             index,

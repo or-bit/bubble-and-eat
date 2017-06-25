@@ -4,7 +4,19 @@ import PropTypes from 'prop-types';
 import { Button } from 'monolith-frontend';
 
 import DishesListItem from './DishesListItem';
-
+/**
+ * (pure function) Module that renders a list of dishes in an order.
+ * @module DishesList
+ * @param dishes {Array} List of dishes
+ * @param amounts {Array} The dishes' amounts
+ * @param total {Number} The total of the order
+ * @param handleOrderReset {Function} Action to execute when the order is reset
+ * @param handleOrderNext {Function} Action to execute when placing the order
+ * @param handleInputChange {Function} Action to execute when the input changes
+ * @param handleAddDish {Function} Action to execute when a dish is added
+ * @param handleRemoveDish {Function} Action to execute when a dish is removed
+ * @constructor
+ */
 const DishesList = ({
                         dishes,
                         amounts,
