@@ -30,7 +30,7 @@
     
         <h2>AdminBubble</h2>
         
-            <div class="class-description">This class allows you to create a class representing the Admin Bubble</div>
+            <div class="class-description">This class represents the Admin Bubble.</div>
         
     
 </header>
@@ -51,7 +51,7 @@
 
 
 <div class="description">
-    Create a bubble for the admin
+    Create a bubble for the admin.
 </div>
 
 
@@ -228,7 +228,7 @@
 
         <tr>
             
-                <td class="name"><code>allOrders</code></td>
+                <td class="name"><code>orders</code></td>
             
 
             <td class="type">
@@ -245,52 +245,6 @@
             
 
             <td class="description last">All the orders</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>completedOrders</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The completed orders</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>activeOrders</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The active orders</td>
         </tr>
 
     
@@ -320,13 +274,13 @@
 
         <tr>
             
-                <td class="name"><code>formDataName</code></td>
+                <td class="name"><code>alive</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type">Boolean</span>
 
 
             
@@ -336,53 +290,7 @@
 
             
 
-            <td class="description last">Name input</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>formDataPrice</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Price input</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>formOnClick</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Action perform on click event on the form</td>
+            <td class="description last">Life state of the bubble</td>
         </tr>
 
     
@@ -413,6 +321,75 @@
             
 
             <td class="description last">Socket for the connection to the server</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>menuPage</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Page to render to show menu</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>homePage</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Page to render to show home</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>ordersPage</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Page to render to show the orders</td>
         </tr>
 
     
@@ -451,7 +428,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="frontend_src_components_AdminBubble_AdminBubble.jsx.html">frontend/src/components/AdminBubble/AdminBubble.jsx</a>, <a href="frontend_src_components_AdminBubble_AdminBubble.jsx.html#line22">line 22</a>
+        <a href="frontend_src_bubbles_AdminBubble_AdminBubble.jsx.html">frontend/src/bubbles/AdminBubble/AdminBubble.jsx</a>, <a href="frontend_src_bubbles_AdminBubble_AdminBubble.jsx.html#line27">line 27</a>
     </li></ul></dd>
     
 
@@ -487,7 +464,7 @@
 
 
     <ul>
-        <li>React.Component</li>
+        <li>GenericBubble</li>
     </ul>
 
 
@@ -511,145 +488,14 @@
 
     
 
-    <h4 class="name" id="addDish"><span class="type-signature"></span>addDish<span class="signature">(dish)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="aliveRender"><span class="type-signature"></span>aliveRender<span class="signature">()</span><span class="type-signature"> &rarr; {React.Component}</span></h4>
 
     
 
 
 
 <div class="description">
-    Manage admin's add dish event.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>dish</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">dish to add</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="frontend_src_components_AdminBubble_AdminBubble.jsx.html">frontend/src/components/AdminBubble/AdminBubble.jsx</a>, <a href="frontend_src_components_AdminBubble_AdminBubble.jsx.html#line74">line 74</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="componentDidMount"><span class="type-signature"></span>componentDidMount<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Invoked immediately after the component is mounted, calls the connect method.
+    Renders the bubble in it's alive state.
 </div>
 
 
@@ -693,1374 +539,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="frontend_src_components_AdminBubble_AdminBubble.jsx.html">frontend/src/components/AdminBubble/AdminBubble.jsx</a>, <a href="frontend_src_components_AdminBubble_AdminBubble.jsx.html#line46">line 46</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="connect"><span class="type-signature"></span>connect<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Manage admin's connection to the application URL.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="frontend_src_components_AdminBubble_AdminBubble.jsx.html">frontend/src/components/AdminBubble/AdminBubble.jsx</a>, <a href="frontend_src_components_AdminBubble_AdminBubble.jsx.html#line53">line 53</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="deleteOrder"><span class="type-signature"></span>deleteOrder<span class="signature">(orderID)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Manage admin's request to delete an orderwith the specified id, emit delete event on that order.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>orderID</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">order to delete</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="frontend_src_components_AdminBubble_AdminBubble.jsx.html">frontend/src/components/AdminBubble/AdminBubble.jsx</a>, <a href="frontend_src_components_AdminBubble_AdminBubble.jsx.html#line139">line 139</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="disconnect"><span class="type-signature"></span>disconnect<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Manage admin disconnection.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="frontend_src_components_AdminBubble_AdminBubble.jsx.html">frontend/src/components/AdminBubble/AdminBubble.jsx</a>, <a href="frontend_src_components_AdminBubble_AdminBubble.jsx.html#line150">line 150</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="editDish"><span class="type-signature"></span>editDish<span class="signature">(id, dish)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Manage admin's edit dish to menuStates then search the dish to modify and emit the event.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>id</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">dish id</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>dish</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">changes to upload</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="frontend_src_components_AdminBubble_AdminBubble.jsx.html">frontend/src/components/AdminBubble/AdminBubble.jsx</a>, <a href="frontend_src_components_AdminBubble_AdminBubble.jsx.html#line95">line 95</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="fetchActiveOrders"><span class="type-signature"></span>fetchActiveOrders<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Manage admin's request to get active orders,filter orders to get the active ones and emit the event.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="frontend_src_components_AdminBubble_AdminBubble.jsx.html">frontend/src/components/AdminBubble/AdminBubble.jsx</a>, <a href="frontend_src_components_AdminBubble_AdminBubble.jsx.html#line114">line 114</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="fetchAllOrders"><span class="type-signature"></span>fetchAllOrders<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Manage admin's request to get all orders.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="frontend_src_components_AdminBubble_AdminBubble.jsx.html">frontend/src/components/AdminBubble/AdminBubble.jsx</a>, <a href="frontend_src_components_AdminBubble_AdminBubble.jsx.html#line102">line 102</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="fetchCompletedOrders"><span class="type-signature"></span>fetchCompletedOrders<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Manage admin's request to get completed orders,filter orders to get the completed ones and emit the event.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="frontend_src_components_AdminBubble_AdminBubble.jsx.html">frontend/src/components/AdminBubble/AdminBubble.jsx</a>, <a href="frontend_src_components_AdminBubble_AdminBubble.jsx.html#line126">line 126</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="redirectToFormAdd"><span class="type-signature"></span>redirectToFormAdd<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Redirect to the form in add item mode.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="frontend_src_components_AdminBubble_AdminBubble.jsx.html">frontend/src/components/AdminBubble/AdminBubble.jsx</a>, <a href="frontend_src_components_AdminBubble_AdminBubble.jsx.html#line157">line 157</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="redirectToFormEdit"><span class="type-signature"></span>redirectToFormEdit<span class="signature">(element)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Redirect to the form in edit item mode.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>element</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The element to modify</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="frontend_src_components_AdminBubble_AdminBubble.jsx.html">frontend/src/components/AdminBubble/AdminBubble.jsx</a>, <a href="frontend_src_components_AdminBubble_AdminBubble.jsx.html#line174">line 174</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="redirectToHome"><span class="type-signature"></span>redirectToHome<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Redirect to home page.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="frontend_src_components_AdminBubble_AdminBubble.jsx.html">frontend/src/components/AdminBubble/AdminBubble.jsx</a>, <a href="frontend_src_components_AdminBubble_AdminBubble.jsx.html#line193">line 193</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="redirectToMenu"><span class="type-signature"></span>redirectToMenu<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Redirect to the menu page.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="frontend_src_components_AdminBubble_AdminBubble.jsx.html">frontend/src/components/AdminBubble/AdminBubble.jsx</a>, <a href="frontend_src_components_AdminBubble_AdminBubble.jsx.html#line200">line 200</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="redirectToOrders"><span class="type-signature"></span>redirectToOrders<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Redirect to the orders list page.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="frontend_src_components_AdminBubble_AdminBubble.jsx.html">frontend/src/components/AdminBubble/AdminBubble.jsx</a>, <a href="frontend_src_components_AdminBubble_AdminBubble.jsx.html#line208">line 208</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="removeDish"><span class="type-signature"></span>removeDish<span class="signature">(id)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Manage admin's remove dish event to menuStates and emit the event.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>id</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">id of the dish to remove</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="frontend_src_components_AdminBubble_AdminBubble.jsx.html">frontend/src/components/AdminBubble/AdminBubble.jsx</a>, <a href="frontend_src_components_AdminBubble_AdminBubble.jsx.html#line86">line 86</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="render"><span class="type-signature"></span>render<span class="signature">()</span><span class="type-signature"> &rarr; {React.Component}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Renders the bubble.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="frontend_src_components_AdminBubble_AdminBubble.jsx.html">frontend/src/components/AdminBubble/AdminBubble.jsx</a>, <a href="frontend_src_components_AdminBubble_AdminBubble.jsx.html#line217">line 217</a>
+        <a href="frontend_src_bubbles_AdminBubble_AdminBubble.jsx.html">frontend/src/bubbles/AdminBubble/AdminBubble.jsx</a>, <a href="frontend_src_bubbles_AdminBubble_AdminBubble.jsx.html#line105">line 105</a>
     </li></ul></dd>
     
 
@@ -2109,14 +588,14 @@
 
     
 
-    <h4 class="name" id="showMenu"><span class="type-signature"></span>showMenu<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="componentDidMount"><span class="type-signature"></span>componentDidMount<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Manage admin's menu request.
+    Invoked immediately after the component is mounted,set the connection.
 </div>
 
 
@@ -2160,7 +639,353 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="frontend_src_components_AdminBubble_AdminBubble.jsx.html">frontend/src/components/AdminBubble/AdminBubble.jsx</a>, <a href="frontend_src_components_AdminBubble_AdminBubble.jsx.html#line62">line 62</a>
+        <a href="frontend_src_bubbles_AdminBubble_AdminBubble.jsx.html">frontend/src/bubbles/AdminBubble/AdminBubble.jsx</a>, <a href="frontend_src_bubbles_AdminBubble_AdminBubble.jsx.html#line79">line 79</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="notAliveRender"><span class="type-signature"></span>notAliveRender<span class="signature">()</span><span class="type-signature"> &rarr; {React.Component}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Renders the bubble in it's not alive state.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="frontend_src_bubbles_AdminBubble_AdminBubble.jsx.html">frontend/src/bubbles/AdminBubble/AdminBubble.jsx</a>, <a href="frontend_src_bubbles_AdminBubble_AdminBubble.jsx.html#line96">line 96</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">React.Component</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="showHome"><span class="type-signature"></span>showHome<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Manage admin's home page request.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="frontend_src_bubbles_AdminBubble_AdminBubble.jsx.html">frontend/src/bubbles/AdminBubble/AdminBubble.jsx</a>, <a href="frontend_src_bubbles_AdminBubble_AdminBubble.jsx.html#line60">line 60</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="showMenu"><span class="type-signature"></span>showMenu<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Manage admin's menu page request.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="frontend_src_bubbles_AdminBubble_AdminBubble.jsx.html">frontend/src/bubbles/AdminBubble/AdminBubble.jsx</a>, <a href="frontend_src_bubbles_AdminBubble_AdminBubble.jsx.html#line51">line 51</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="showOrders"><span class="type-signature"></span>showOrders<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Manage admin's orders page request.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="frontend_src_bubbles_AdminBubble_AdminBubble.jsx.html">frontend/src/bubbles/AdminBubble/AdminBubble.jsx</a>, <a href="frontend_src_bubbles_AdminBubble_AdminBubble.jsx.html#line69">line 69</a>
     </li></ul></dd>
     
 
@@ -2202,13 +1027,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-adminHandler.html">adminHandler</a></li><li><a href="module-chefActions.html">chefActions</a></li><li><a href="module-chefHandler.html">chefHandler</a></li><li><a href="module-chefReducer.html">chefReducer</a></li><li><a href="module-clientHandler.html">clientHandler</a></li><li><a href="module-combineReducer.html">combineReducer</a></li><li><a href="module-menuActions.html">menuActions</a></li><li><a href="module-menuEventsHandler.html">menuEventsHandler</a></li><li><a href="module-menuReducer.html">menuReducer</a></li><li><a href="module-orderReducer.html">orderReducer</a></li><li><a href="module-ordersActions.html">ordersActions</a></li></ul><h3>Classes</h3><ul><li><a href="AdminBubble.html">AdminBubble</a></li><li><a href="ChefBubble.html">ChefBubble</a></li><li><a href="ClientBubble.html">ClientBubble</a></li><li><a href="Order.html">Order</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-adminHandler.html">adminHandler</a></li><li><a href="module-chefActions.html">chefActions</a></li><li><a href="module-chefHandler.html">chefHandler</a></li><li><a href="module-chefReducer.html">chefReducer</a></li><li><a href="module-clientHandler.html">clientHandler</a></li><li><a href="module-combineReducer.html">combineReducer</a></li><li><a href="module-menuActions.html">menuActions</a></li><li><a href="module-menuEventsHandler.html">menuEventsHandler</a></li><li><a href="module-menuReducer.html">menuReducer</a></li><li><a href="module-orderReducer.html">orderReducer</a></li><li><a href="module-ordersActions.html">ordersActions</a></li></ul><h3>Classes</h3><ul><li><a href="AdminBubble.html">AdminBubble</a></li><li><a href="ChefBubble.html">ChefBubble</a></li><li><a href="ChefDishList.html">ChefDishList</a></li><li><a href="ChefDishListItem.html">ChefDishListItem</a></li><li><a href="ChefOrderList.html">ChefOrderList</a></li><li><a href="ChefOrderListItem.html">ChefOrderListItem</a></li><li><a href="ClientBubble.html">ClientBubble</a></li><li><a href="ConfirmPage.html">ConfirmPage</a></li><li><a href="createOrder.html">createOrder</a></li><li><a href="DishesList.html">DishesList</a></li><li><a href="DishesListItem.html">DishesListItem</a></li><li><a href="FormPage.html">FormPage</a></li><li><a href="HomePage.html">HomePage</a></li><li><a href="MenuPage.html">MenuPage</a></li><li><a href="OrderPage.html">OrderPage</a></li><li><a href="OrdersPage.html">OrdersPage</a></li><li><a href="SummaryPage.html">SummaryPage</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Sat Jun 24 2017 23:22:07 GMT+0200 (ora legale Europa occidentale)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Mon Jun 26 2017 01:02:15 GMT+0200 (ora legale Europa occidentale)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -1,11 +1,13 @@
 // Utility object
 
 /**
- * Creates a new order
+ * Creates a new order.
+ * @module createOrder
  * @param amounts {Array} List of the dishes' amounts
  * @param dishes {Array} List of dishes
  * @param name {Array} Name of the user placing the order
  * @return {Object} Returns an order.
+ * @constructor
  */
 const createOrder = (amounts, dishes, name) => {
     const dishesWithAmounts = [];

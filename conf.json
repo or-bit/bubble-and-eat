@@ -5,7 +5,11 @@
   },
   "source": {
     "include": ["./packages"],
-    "exclude": ["docs", "test-clients"],
+    "exclude": ["docs",
+      "test-clients",
+      "node_modules",
+      "./packages/frontend/node_modules"
+    ],
     "includePattern": ".+\\.js(doc|x)?$",
     "excludePattern": ".test."
   },

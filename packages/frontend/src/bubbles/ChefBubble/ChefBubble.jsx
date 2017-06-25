@@ -107,8 +107,8 @@ export default class ChefBubble extends GenericBubble {
     }
 
     /**
-     * @override
      * Renders the bubble when there is no connection.
+     * @override
      * @returns {React.Component}
      */
     // eslint-disable-next-line class-methods-use-this
@@ -117,8 +117,8 @@ export default class ChefBubble extends GenericBubble {
     }
 
     /**
-     * @override
      * Renders the bubble when there is a connection.
+     * @override
      * @returns {React.Component}
      */
     aliveRender() {

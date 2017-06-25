@@ -65,6 +65,7 @@ typings/
 
 # report directory
 report
+complexity-report.md
 
 # Visual Studio Code
 .vscode/

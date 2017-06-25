@@ -88,8 +88,8 @@ export default class AdminBubble extends GenericBubble {
     }
 
     /**
-     * @override
      * Renders the bubble in it's not alive state.
+     * @override
      * @returns {React.Component}
      */
     // eslint-disable-next-line class-methods-use-this
@@ -98,8 +98,8 @@ export default class AdminBubble extends GenericBubble {
     }
 
     /**
-     * @override
      * Renders the bubble in it's alive state.
+     * @override
      * @returns {React.Component}
      */
     aliveRender() {
