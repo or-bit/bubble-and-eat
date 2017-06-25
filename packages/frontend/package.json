@@ -9,7 +9,6 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-register": "^6.24.1",
-    "chai": "^3.5.0",
     "enzyme": "^2.8.0",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^14.1.0",
@@ -31,11 +30,9 @@
     "monolith-frontend": "latest",
     "prop-types": "^15.5.10",
     "react": "^15.3.0",
-    "react-bootstrap": "latest",
     "react-dom": "^15.3.0",
     "react-router-dom": "^4.0.0",
     "react-tools": "^0.13.3",
-    "recharts": "^0.22.3",
     "socket.io-client": "^2.0.2"
   },
   "scripts": {
