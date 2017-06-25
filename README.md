@@ -111,7 +111,8 @@ Interaction between the application and the database during usage of the former:
  }
 
 ```
-### Reducers 
+## Reducers 
+### bubble-and-eat/packages/order-gateway/src/reducers/
 #### `chefReducer`
 It handles the chef's state through the following events:
 * `'CHEF_PRESENT'` updates `state.chef.present` to `true`, it activates when the chef connects to the applicatio
