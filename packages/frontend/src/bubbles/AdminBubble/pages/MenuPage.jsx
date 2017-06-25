@@ -5,7 +5,21 @@ import { Button } from 'monolith-frontend';
 import MenuList from '../../../components/MenuList';
 import FormPage from './FormPage';
 
+/**
+ * @class This class represents the menu page in the admin bubble.
+ * @property props {Object}
+ * @property props.socket {Socket} {@link socket}
+ * @property props.handleBack {Function} Action to perform when back is clicked
+ * @property socket {Socket} Socket for the connection to the server
+ * @property state {Object}
+ * @property state.manu {Array} Menu of the restaurant
+ * @property state.page {String} Page currently displayed in the bubble.
+ */
 export default class MenuPage extends React.Component {
+    /**
+     * Create the menu page in its home section.
+     * @param props {Object}
+     */
     constructor(props) {
         super(props);
         this.socket = props.socket;
@@ -15,10 +29,17 @@ export default class MenuPage extends React.Component {
         };
     }
 
+    /**
+     * Invoked immediately after the component is mounted,
+     * calls {@link syncMenu()}.
+     */
     componentDidMount() {
         this.syncMenu();
     }
 
+    /**
+     * Synchronizes the menu.
+     */
     syncMenu() {
         this.socket.on('menu', (menu) => {
             this.setState({ menu });
@@ -26,12 +47,19 @@ export default class MenuPage extends React.Component {
         this.socket.emit('menu');
     }
 
+    /**
+     * Shows the form to add a new dish.
+     */
     showAddDishForm() {
         this.setState({
             page: 'menu-form-add',
         });
     }
 
+    /**
+     * Shows the form to edit a dish.
+     * @param selectedDish {Object} Dish to edit
+     */
     showEditDishForm(selectedDish) {
         this.setState({
             selectedDish,
@@ -39,12 +67,19 @@ export default class MenuPage extends React.Component {
         });
     }
 
+    /**
+     * Shows the default page (menu-home).
+     */
     showDefaultPage() {
         this.setState({
             page: 'menu-home',
         });
     }
 
+    /**
+     * Handles the completion of adding a dish.
+     * @param newDish {Object} The added dish
+     */
     handleAddFormResult(newDish) {
         this.socket.on('addedDish', () => {
             this.syncMenu();
@@ -55,6 +90,10 @@ export default class MenuPage extends React.Component {
         this.socket.emit('addDish', newDish);
     }
 
+    /**
+     * Handles the completion of editing a dish.
+     * @param newDish {Object} The edited dish
+     */
     handleEditFormResult(newDish) {
         this.socket.emit('editDish', {
             id: newDish._id,
@@ -66,11 +105,19 @@ export default class MenuPage extends React.Component {
         });
     }
 
+    /**
+     * Handles the removal of a dish.
+     * @param id {Number} Id of the dish removed
+     */
     handleDelete(id) {
         this.socket.emit('removeDish', id);
         this.syncMenu();
     }
 
+    /**
+     * Renders the default page.
+     * @returns {React.Component}
+     */
     renderDefaultPage() {
         return (
             <div className="row">
@@ -89,6 +136,10 @@ export default class MenuPage extends React.Component {
         );
     }
 
+    /**
+     * Renders the menu page.
+     * @returns {React.Component}
+     */
     render() {
         let page = this.renderDefaultPage();
 

@@ -4,7 +4,20 @@ import { Button } from 'monolith-frontend';
 
 import OrderList from '../../../components/OrderList';
 
+/**
+ * @class This class represents the orders page in the admin bubble.
+ * @property props {Object}
+ * @property props.socket {Socket} {@link socket}
+ * @property props.handleBack {Function} Action to perform when back is clicked
+ * @property socket {Socket} Socket for the connection to the server
+ * @property state {Object}
+ * @property state.orders {Array} Orders made by clients
+ */
 export default class OrdersPage extends React.Component {
+    /**
+     * Create the orders page.
+     * @param props {Object}
+     */
     constructor(props) {
         super(props);
         this.socket = props.socket;
@@ -13,15 +26,25 @@ export default class OrdersPage extends React.Component {
         };
     }
 
+    /**
+     * Invoked immediately after the component is mounted,
+     * syncs the orders.
+     */
     componentDidMount() {
         this.syncOrders();
     }
 
+    /**
+     * Synchronizes the orders.
+     */
     syncOrders() {
         this.socket.on('allOrders', orders => this.setState({ orders }));
         this.socket.emit('allOrders');
     }
 
+    /**
+     * Filter the orders and extracts the completed ones.
+     */
     filterCompletedOrders() {
         this.syncOrders();
         this.socket.on('completedOrders', orders => (
@@ -30,6 +53,9 @@ export default class OrdersPage extends React.Component {
         this.socket.emit('completedOrders');
     }
 
+    /**
+     * Filter the orders and extracts the active ones.
+     */
     filterActiveOrders() {
         this.syncOrders();
         this.socket.on('activeOrders', orders => (
@@ -38,15 +64,26 @@ export default class OrdersPage extends React.Component {
         this.socket.emit('activeOrders');
     }
 
+    /**
+     * Reset filters.
+     */
     resetFilters() {
         this.syncOrders();
     }
 
+    /**
+     * Handles the removal of an order.
+     * @param order {Object} Order removed
+     */
     handleDelete(order) {
         this.socket.on('deleteOrder', () => this.syncOrders());
         this.socket.emit('deleteOrder', order._id);
     }
 
+    /**
+     * Renders the order page.
+     * @returns {React.Component}
+     */
     render() {
         return (
             <div>
