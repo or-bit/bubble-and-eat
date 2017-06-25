@@ -31,7 +31,7 @@ exports.clientHandler = (socket, store, orders, menusEvent) => {
       // Check if order is completed
       if (order.state === 'active') {
         // if order is still active emit an event to the listening client
-        orders.on(order._id.toString(), () => {
+        orders.once(order._id.toString(), () => {
           socket.emit('orderReady');
         });
       } else {
