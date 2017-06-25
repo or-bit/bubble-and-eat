@@ -12,18 +12,19 @@ import ChefOrderList from './components/ChefOrderList';
 import './ChefBubble.css';
 
 /**
- * @class This class allows you to create a class representing the Chef Bubble
+ * @class Represents the Chef Bubble.
  * @param props {Object}
  * @extends GenericBubble
  * @property props {Object}
  * @property state {Object}
- * @property state.orders {Array} List of orders.
+ * @property state.orders {Array} List of orders
+ * @property state.alive {Boolean} Life state of the bubble
  * @property socket {Socket} Socket for the connection to the server
  */
 export default class ChefBubble extends GenericBubble {
 
     /**
-     * Creates a bubble for the chef
+     * Creates a bubble for the chef.
      * @param props {Object}
      */
     constructor(props) {
@@ -33,7 +34,7 @@ export default class ChefBubble extends GenericBubble {
     }
 
     /**
-     * Invoked immediately after the component is mounted, calls the connect method
+     * Invoked immediately after the component is mounted, calls the connect method.
      */
     componentDidMount() {
         this.connect();
@@ -46,7 +47,7 @@ export default class ChefBubble extends GenericBubble {
     }
 
     /**
-     * Manage chef's connection to the application url
+     * Manages chef's connection to the application URL.
      */
     connect() {
         this.socket = io(config.getServerURL());
@@ -56,7 +57,7 @@ export default class ChefBubble extends GenericBubble {
     }
 
     /**
-     * Manage chef's orders request
+     * Manages chef's orders request.
      */
     fetchOrders() {
         this.socket.on('activeOrdinations', (orders) => {
@@ -82,15 +83,15 @@ export default class ChefBubble extends GenericBubble {
     }
 
     /**
-     * Manage chef disconnection
+     * Manages chef disconnection.
      */
     disconnect() {
         this.socket.close();
     }
 
     /**
-     * Manage chef's request to complete an order with
-     * the specified id, emit orderCompleted event on that order
+     * Manages chef's request to complete an order with
+     * the specified id, emit orderCompleted event on that order.
      * @param id {Number} Id of the order to complete
      */
     markOrdinationCompleted(id) {
@@ -106,9 +107,9 @@ export default class ChefBubble extends GenericBubble {
     }
 
     /**
-     *
-     * Renders the bubble when there's no connection
-     * @returns MissingConnection
+     * @override
+     * Renders the bubble when there is no connection.
+     * @returns {React.Component}
      */
     // eslint-disable-next-line class-methods-use-this
     notAliveRender() {
@@ -116,8 +117,9 @@ export default class ChefBubble extends GenericBubble {
     }
 
     /**
-     * Renders the bubble when there is connection
-     * @returns WidgetContainer
+     * @override
+     * Renders the bubble when there is connection.
+     * @returns {React.Component}
      */
     aliveRender() {
         const noOrdersRender = () => (

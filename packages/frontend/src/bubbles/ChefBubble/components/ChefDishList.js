@@ -3,6 +3,12 @@ import PropTypes from 'prop-types';
 
 import ChefDishListItem from './ChefDishListItem';
 
+/**
+ * (pure function) Module that renders a list of dishes in an order.
+ * @module ChefDishList
+ * @param dishes {Array} List of dishes
+ * @constructor
+ */
 const ChefDishList = ({ dishes }) => (
     (
         <div>

@@ -5,6 +5,14 @@ import { Button } from 'monolith-frontend';
 
 import ChefDishList from './ChefDishList';
 
+/**
+ * Module that renders on order item.
+ * @module ChefOrderListItem
+ * @param order {Object} Order to render
+ * @param handleOrderCompletionEvent {Function} Action to execute when the order is set completed
+ * @returns {React.Component}
+ * @constructor
+ */
 const ChefOrderListItem = ({ order, handleOrderCompletionEvent }) => {
     const header = `Order ID: ${order._id}`;
 
