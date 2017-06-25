@@ -42,7 +42,11 @@
     "eject": "react-scripts eject",
     "lint": "eslint src/**/*.jsx src/**/*.js",
     "test": "jest",
-    "coverage": "jest --coverage",
-    "dio": "cr src"
+    "coverage": "jest --coverage"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(css|jpg|png)$": "<rootDir>jest-dummy.js"
+    }
   }
 }
