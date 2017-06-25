@@ -43,7 +43,7 @@ export default class OrdersPage extends React.Component {
     }
 
     /**
-     * Filter the orders and extracts the completed ones.
+     * Filters the orders and extracts the completed ones.
      */
     filterCompletedOrders() {
         this.syncOrders();
@@ -54,7 +54,7 @@ export default class OrdersPage extends React.Component {
     }
 
     /**
-     * Filter the orders and extracts the active ones.
+     * Filters the orders and extracts the active ones.
      */
     filterActiveOrders() {
         this.syncOrders();

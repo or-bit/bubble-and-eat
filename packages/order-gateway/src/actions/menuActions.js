@@ -10,14 +10,14 @@ const Action = require('monolith-backend').Action;
 /**
  * Returns an Action instance to use in redux dispatch.
  * @function addDish
- * @param dish {Object} Dish object to add in the menu.
+ * @param dish {Object} Dish object to be added to the menu.
  */
 exports.addDish = dish => Action.create(menuStates.add, dish);
 
 /**
  * Returns an Action instance to use in redux dispatch.
  * @function removeDish
- * @param dishId {Object} Dish id to remove from the menu.
+ * @param dishId {Object} Dish id to be removed from the menu.
  */
 exports.removeDish = dishId => Action.create(menuStates.remove, dishId);
 

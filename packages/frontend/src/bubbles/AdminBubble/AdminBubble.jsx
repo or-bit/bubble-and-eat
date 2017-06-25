@@ -27,7 +27,7 @@ import './AdminBubble.css';
 export default class AdminBubble extends GenericBubble {
 
     /**
-     * Create a bubble for the admin
+     * Create a bubble for the admin.
      * @param props {Object}
      */
     constructor(props) {

@@ -3,8 +3,8 @@ const menuEvents = require('./menuEventsHandler');
 /**
  * Handle the request emitted from the admin bubble.
  * @module adminHandler
- * @param socket {Socket} Socket for the connectinto the server
- * @param store {Redux.Store} Store where data are saved
+ * @param socket {Socket} Socket for the connectinto to the server
+ * @param store {Redux.Store} Store where data is saved
  * @param database {Database} Database instance
  */
 

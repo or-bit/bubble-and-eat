@@ -5,13 +5,13 @@ const orderActions = require('../actions/ordersActions');
  * Handles the request emitted from the chef bubble.
  * @module chefHandler
  * @param socket {Socket} Socket for the connection to the server
- * @param store {Redux.Store} Store where data are saved
+ * @param store {Redux.Store} Store where data is saved
  * @param orders {Array} List of all orders
  * @param addToDatabaseCompletedOrder {Function} Function to add completed orders to the database
  */
 exports.chefHandler = (socket, store, orders, addToDatabaseCompletedOrder) => {
   /**
-   * Check whether the order is active or not
+   * Check whether the order is active or not.
    * @function activeFilterFunction
    * @param element {Object} Order to process
    * @return {Boolean} Returns true if the order is active

@@ -53,7 +53,7 @@ export default class ClientBubble extends React.Component {
 
     /**
      * This function gets called automatically when the bubble
-     * gets loaded and call the method connect() to connect
+     * gets loaded and calls the method connect() to connect
      * the bubble to the rest of the application.
      */
     componentDidMount() {
@@ -124,7 +124,7 @@ export default class ClientBubble extends React.Component {
     }
 
     /**
-     * Manage chef disconnection
+     * Manage client disconnection
      */
     disconnect() {
         this.socket.close();
@@ -245,7 +245,7 @@ export default class ClientBubble extends React.Component {
     }
 
     /**
-     * Confirm order, redirects to summary page
+     * Confirms the order and redirects to the summary page
      */
     confirmOrder() {
         const order = this.state.order;

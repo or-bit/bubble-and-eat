@@ -7,7 +7,7 @@ import ChefOrderListItem from './ChefOrderListItem';
  * Module that renders a list of orders in the chef bubble.
  * @module ChefOrderList
  * @param orders {Array} List of orders
- * @param handleOrderCompletionEvent {Function} Action to execute when an order is set completed.
+ * @param handleOrderCompletionEvent {Function} Action to execute when an order is set completed
  * @returns {React.Component}
  * @constructor
  */
@@ -26,7 +26,7 @@ const ChefOrderList = ({ orders, handleOrderCompletionEvent }) => {
     };
 
     /**
-     * Renders the orders
+     * Renders the orders.
      * @function
      * @returns {React.Component}
      */

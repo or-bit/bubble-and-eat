@@ -47,7 +47,7 @@ export default class ChefBubble extends GenericBubble {
     }
 
     /**
-     * Manages chef's connection to the application URL.
+     * Manages the chef's connection to the application URL.
      */
     connect() {
         this.socket = io(config.getServerURL());
@@ -57,7 +57,7 @@ export default class ChefBubble extends GenericBubble {
     }
 
     /**
-     * Manages chef's orders request.
+     * Manages the chef's orders request.
      */
     fetchOrders() {
         this.socket.on('activeOrdinations', (orders) => {
@@ -90,7 +90,7 @@ export default class ChefBubble extends GenericBubble {
     }
 
     /**
-     * Manages chef's request to complete an order with
+     * Manages the chef's request to complete an order with
      * the specified id, emit orderCompleted event on that order.
      * @param id {Number} Id of the order to complete
      */
@@ -118,7 +118,7 @@ export default class ChefBubble extends GenericBubble {
 
     /**
      * @override
-     * Renders the bubble when there is connection.
+     * Renders the bubble when there is a connection.
      * @returns {React.Component}
      */
     aliveRender() {
